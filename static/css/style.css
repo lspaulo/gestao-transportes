@@ -1,0 +1,40 @@
+:root {
+
+    /* Cores da identidade */
+
+    --color-primary: #267F49;
+    --color-primary-dark: #1E653A;
+    --color-primary-light: #4FA36E;
+
+    --color-background: #F8F9FA;
+    --color-surface: #FFFFFF;
+
+    --color-text: #343A40;
+    --color-text-muted: #6C757D;
+
+    --color-warning: #FFC107;
+    --color-danger: #DC3545;
+
+}
+
+body{
+    background: var(--color-background);
+    color: var(--color-text);
+}
+
+.navbar-custom{
+    background: var(--color-primary);
+}
+
+.navbar-custom .navbar-brand,
+.navbar-custom .nav-link{
+    color:white;
+}
+
+.navbar-custom .nav-link:hover{
+    color:#EAF6EE;
+}
+
+footer{
+    background:white;
+}
