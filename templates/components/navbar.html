@@ -1,0 +1,123 @@
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+    <div class="container">
+
+        <a class="navbar-brand fw-bold" href="{% url 'home' %}">
+            Gestão de Transportes
+        </a>
+
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#menu">
+
+            <span class="navbar-toggler-icon"></span>
+
+        </button>
+
+        <div class="collapse navbar-collapse" id="menu">
+
+            <ul class="navbar-nav ms-auto">
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'home' %}">
+                        Início
+                    </a>
+                </li>
+
+                <li class="nav-item dropdown">
+
+                    <a
+                        class="nav-link dropdown-toggle"
+                        href="#"
+                        role="button"
+                        data-bs-toggle="dropdown">
+
+                        Cadastros
+
+                    </a>
+
+                    <ul class="dropdown-menu">
+
+                        <li><a class="dropdown-item" href="#">Motoristas</a></li>
+
+                        <li><a class="dropdown-item" href="#">Ajudantes</a></li>
+
+                        <li><a class="dropdown-item" href="#">Veículos</a></li>
+
+                        <li><a class="dropdown-item" href="#">Cidades</a></li>
+
+                        <li><a class="dropdown-item" href="#">CNPJ</a></li>
+
+                        <li><a class="dropdown-item" href="#">Responsáveis</a></li>
+
+                    </ul>
+
+                </li>
+
+                <li class="nav-item dropdown">
+
+                    <a
+                        class="nav-link dropdown-toggle"
+                        href="#"
+                        role="button"
+                        data-bs-toggle="dropdown">
+
+                        Prestação
+
+                    </a>
+
+                    <ul class="dropdown-menu">
+
+                        <li><a class="dropdown-item" href="#">Prestação de Contas</a></li>
+
+                    </ul>
+
+                </li>
+
+                <li class="nav-item dropdown">
+
+                    <a
+                        class="nav-link dropdown-toggle"
+                        href="#"
+                        role="button"
+                        data-bs-toggle="dropdown">
+
+                        Adiantamentos
+
+                    </a>
+
+                    <ul class="dropdown-menu">
+
+                        <li><a class="dropdown-item" href="#">Consultar</a></li>
+
+                    </ul>
+
+                </li>
+
+                <li class="nav-item dropdown">
+
+                    <a
+                        class="nav-link dropdown-toggle"
+                        href="#"
+                        role="button"
+                        data-bs-toggle="dropdown">
+
+                        Relatórios
+
+                    </a>
+
+                    <ul class="dropdown-menu">
+
+                        <li><a class="dropdown-item" href="#">Relatórios</a></li>
+
+                    </ul>
+
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+</nav>

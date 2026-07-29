@@ -35,6 +35,11 @@ body{
     color:#EAF6EE;
 }
 
-footer{
-    background:white;
+.footer-custom {
+    background-color: var(--color-primary);
+    color: #ffffff;
+}
+
+.footer-custom small {
+    font-size: 0.9rem;
 }
