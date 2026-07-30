@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Novo Funcionário{% endblock %}
+
+{% block content %}
+
+<h1>Novo Funcionário</h1>
+
+<form method="post">
+
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <button type="submit" class="btn btn-primary">
+        Salvar
+    </button>
+
+    <a href="{% url 'cadastros:funcionario_list' %}"
+       class="btn btn-secondary">
+        Cancelar
+    </a>
+
+</form>
+
+{% endblock %}
