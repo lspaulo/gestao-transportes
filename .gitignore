@@ -23,3 +23,19 @@ staticfiles/
 
 # Logs
 *.log
+
+# Arquivos do sistema
+.DS_Store
+Thumbs.db
+
+# Arquivos de log
+*.log
+
+# Pytest
+.pytest_cache/
+
+# Mypy
+.mypy_cache/
+
+# Ruff
+.ruff_cache/
