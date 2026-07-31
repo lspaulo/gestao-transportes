@@ -1,18 +1,27 @@
 from django.urls import path
 
-from . import views
+from apps.cadastros.views.funcionario import (  # type: ignore
+    funcionario_create,
+    funcionario_list,
+    funcionario_update,
+)
 
 app_name = "cadastros"
 
 urlpatterns = [
     path(
         "funcionarios/",
-        views.funcionario_list,
+        funcionario_list,
         name="funcionario_list",
     ),
     path(
         "funcionarios/novo/",
-        views.funcionario_create,
+        funcionario_create,
         name="funcionario_create",
+    ),
+    path(
+        "funcionarios/<int:pk>/editar/",
+        funcionario_update,
+        name="funcionario_update",
     ),
 ]
