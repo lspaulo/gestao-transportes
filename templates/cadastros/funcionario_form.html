@@ -1,26 +1,67 @@
 {% extends "base.html" %}
 
-{% block title %}Novo Funcionário{% endblock %}
+{% block title %}Funcionário{% endblock %}
 
 {% block content %}
 
-<h1>Novo Funcionário</h1>
+<div class="container mt-4">
 
-<form method="post">
+    <h2>Novo Funcionário</h2>
 
-    {% csrf_token %}
+    <form method="post">
 
-    {{ form.as_p }}
+        {% csrf_token %}
 
-    <button type="submit" class="btn btn-primary">
-        Salvar
-    </button>
+        <div class="row">
 
-    <a href="{% url 'cadastros:funcionario_list' %}"
-       class="btn btn-secondary">
-        Cancelar
-    </a>
+            <div class="col-md-6">
+                {% include "components/form_field.html" with field=form.nome %}
+            </div>
 
-</form>
+            <div class="col-md-3">
+                {% include "components/form_field.html" with field=form.cpf %}
+            </div>
+
+            <div class="col-md-3">
+                {% include "components/form_field.html" with field=form.numero_cnh %}
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-3">
+                {% include "components/form_field.html" with field=form.validade_cnh %}
+            </div>
+
+            <div class="col-md-3">
+                {% include "components/form_field.html" with field=form.funcao %}
+            </div>
+
+        </div>
+
+        {% include "components/form_field.html" with field=form.cursos %}
+
+        {% include "components/form_field.html" with field=form.observacao %}
+        
+
+        <div class="form-check mb-3">
+            {{ form.ativo }}
+            <label class="form-check-label">
+                {{ form.ativo.label }}
+            </label>
+        </div>
+
+        <button class="btn btn-primary">
+            Salvar
+        </button>
+
+        <a href="{% url 'cadastros:funcionario_list' %}" class="btn btn-secondary">
+            Cancelar
+        </a>
+
+    </form>
+
+</div>
 
 {% endblock %}
