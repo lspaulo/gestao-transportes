@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse
 
-from apps.cadastros.models import ClasseOperacional
+from apps.cadastros.models import ClasseOperacional, Funcao, Funcionario
 
 
 class ClasseOperacionalViewsTests(TestCase):
@@ -96,3 +96,43 @@ class ClasseOperacionalViewsTests(TestCase):
         self.assertRedirects(response, reverse("cadastros:classe_operacional_list"))
         self.classe_ativa.refresh_from_db()
         self.assertFalse(self.classe_ativa.ativo)
+
+
+class FuncionarioListagemTests(TestCase):
+    def setUp(self):
+        funcao = Funcao.objects.create(nome="Motorista")
+        self.funcionario_ativo = Funcionario.objects.create(
+            nome="Ana Ativa",
+            cpf="11111111111",
+            funcao=funcao,
+        )
+        self.funcionario_inativo = Funcionario.objects.create(
+            nome="Bruno Inativo",
+            cpf="22222222222",
+            funcao=funcao,
+            ativo=False,
+        )
+
+    def test_listagem_mostra_apenas_funcionarios_ativos_por_padrao(self):
+        response = self.client.get(reverse("cadastros:funcionario_list"))
+
+        self.assertContains(response, self.funcionario_ativo.nome)
+        self.assertNotContains(response, self.funcionario_inativo.nome)
+
+    def test_listagem_filtra_funcionarios_inativos(self):
+        response = self.client.get(
+            reverse("cadastros:funcionario_list"),
+            {"status": "inativos"},
+        )
+
+        self.assertContains(response, self.funcionario_inativo.nome)
+        self.assertNotContains(response, self.funcionario_ativo.nome)
+
+    def test_pesquisa_mantem_o_status_selecionado(self):
+        response = self.client.get(
+            reverse("cadastros:funcionario_list"),
+            {"status": "inativos", "q": "Bruno"},
+        )
+
+        self.assertContains(response, self.funcionario_inativo.nome)
+        self.assertContains(response, 'name="status" value="inativos"')

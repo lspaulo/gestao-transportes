@@ -7,8 +7,15 @@ from apps.cadastros.models import Funcionario
 
 def funcionario_list(request):
     pesquisa = request.GET.get("q", "")
+    status = request.GET.get("status", "ativos")
 
     funcionarios = Funcionario.objects.all()
+
+    if status == "ativos":
+        funcionarios = funcionarios.filter(ativo=True)
+
+    elif status == "inativos":
+        funcionarios = funcionarios.filter(ativo=False)
 
     if pesquisa:
         funcionarios = funcionarios.filter(nome__icontains=pesquisa)
@@ -23,6 +30,7 @@ def funcionario_list(request):
 
     context = {
         "page_obj": page_obj,
+        'status': status,
     }
 
     return render(
