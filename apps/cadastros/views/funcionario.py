@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, redirect, render
 
 from apps.cadastros.forms import FuncionarioForm
@@ -5,10 +6,23 @@ from apps.cadastros.models import Funcionario
 
 
 def funcionario_list(request):
-    funcionarios = Funcionario.objects.all().order_by("nome")
+    pesquisa = request.GET.get("q", "")
+
+    funcionarios = Funcionario.objects.all()
+
+    if pesquisa:
+        funcionarios = funcionarios.filter(nome__icontains=pesquisa)
+
+    funcionarios = funcionarios.order_by("nome")
+
+    paginator = Paginator(funcionarios, 10)
+
+    page_number = request.GET.get("page")
+
+    page_obj = paginator.get_page(page_number)
 
     context = {
-        "funcionarios": funcionarios,
+        "page_obj": page_obj,
     }
 
     return render(
