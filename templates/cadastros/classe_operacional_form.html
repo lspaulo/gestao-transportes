@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}{{ titulo }}{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+    <h2>{{ titulo }}</h2>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="row">
+            <div class="col-md-8">
+                {% include "components/form_field.html" with field=form.nome %}
+            </div>
+            <div class="col-md-4">
+                {% include "components/form_field.html" with field=form.ordem %}
+            </div>
+        </div>
+
+        {% include "components/form_field.html" with field=form.descricao %}
+
+        <div class="form-check mb-3">
+            {{ form.possui_placa }}
+            <label class="form-check-label" for="{{ form.possui_placa.id_for_label }}">
+                {{ form.possui_placa.label }}
+            </label>
+        </div>
+
+        <div class="form-check mb-3">
+            {{ form.ativo }}
+            <label class="form-check-label" for="{{ form.ativo.id_for_label }}">
+                {{ form.ativo.label }}
+            </label>
+        </div>
+
+        <button class="btn btn-primary">Salvar</button>
+        <a href="{% url 'cadastros:classe_operacional_list' %}" class="btn btn-secondary">
+            Cancelar
+        </a>
+    </form>
+</div>
+
+{% endblock %}
