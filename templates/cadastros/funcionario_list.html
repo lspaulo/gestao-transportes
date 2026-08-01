@@ -4,11 +4,19 @@
 
 {% block content %}
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h1>Funcionários</h1>
-
-    <a href="{% url 'cadastros:funcionario_create' %}" class="btn btn-primary">
-        Novo Funcionário
+<div class="d-flex justify-content-between align-items-start mb-4">
+    <div>
+        <h2 class="fw-semibold mb-1">
+            Funcionários
+        </h2>
+        <p class="text-muted mb-0">
+            Cadastro de funcionários da empresa.
+        </p>
+    </div>
+    <a
+        href="{% url 'cadastros:funcionario_create' %}"
+        class="btn btn-primary">
+        + Novo Funcionário
     </a>
 </div>
 
