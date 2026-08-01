@@ -53,7 +53,8 @@
                 {% endif %}
 
             </td>
-            <td>
+            <td class="text-nowrap">
+
                 <a
                     href="{% url 'cadastros:funcionario_update' funcionario.id %}"
                     class="btn btn-sm btn-outline-primary">
@@ -61,6 +62,23 @@
                     Editar
 
                 </a>
+                {% if funcionario.ativo %}
+                    <a
+                        href="{% url 'cadastros:funcionario_toggle_status' funcionario.id %}"
+                        class="btn btn-sm btn-outline-warning">
+
+                        Inativar
+
+                    </a>
+                {% else %}
+                    <a
+                        href="{% url 'cadastros:funcionario_toggle_status' funcionario.id %}"
+                        class="btn btn-sm btn-outline-success">
+
+                        Ativar
+
+                    </a>
+                {% endif %}
             </td>
         </tr>
 

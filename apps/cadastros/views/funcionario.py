@@ -60,3 +60,12 @@ def funcionario_update(request, pk):
             "titulo": "Editar Funcionário",
         },
     )
+
+
+def funcionario_toggle_status(request, pk):
+    funcionario = get_object_or_404(Funcionario, pk=pk)
+
+    funcionario.ativo = not funcionario.ativo
+    funcionario.save()
+
+    return redirect("cadastros:funcionario_list")

@@ -3,6 +3,7 @@ from django.urls import path
 from apps.cadastros.views.funcionario import (  # type: ignore
     funcionario_create,
     funcionario_list,
+    funcionario_toggle_status,
     funcionario_update,
 )
 
@@ -23,5 +24,10 @@ urlpatterns = [
         "funcionarios/<int:pk>/editar/",
         funcionario_update,
         name="funcionario_update",
+    ),
+    path(
+        "funcionarios/<int:pk>/toggle-status/",
+        funcionario_toggle_status,
+        name="funcionario_toggle_status",
     ),
 ]
