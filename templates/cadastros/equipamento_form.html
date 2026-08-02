@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block title %}Equipamento{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <h2>Novo Equipamento</h2>
+
+    <form method="post">
+
+        {% csrf_token %}
+
+        <div class="row">
+
+            <div class="col-md-2">
+                {% include "components/form_field.html" with field=form.frota %}
+            </div>
+
+            <div class="col-md-5">
+                {% include "components/form_field.html" with field=form.empresa %}
+            </div>
+
+            <div class="col-md-5">
+                {% include "components/form_field.html" with field=form.classe_operacional %}
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-3">
+                {% include "components/form_field.html" with field=form.status %}
+            </div>
+
+            <div class="col-md-3">
+                {% include "components/form_field.html" with field=form.placa %}
+            </div>
+
+            <div class="col-md-6">
+                {% include "components/form_field.html" with field=form.descricao %}
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-4">
+                {% include "components/form_field.html" with field=form.marca %}
+            </div>
+
+            <div class="col-md-4">
+                {% include "components/form_field.html" with field=form.modelo %}
+            </div>
+
+            <div class="col-md-2">
+                {% include "components/form_field.html" with field=form.ano_fabricacao %}
+            </div>
+
+            <div class="col-md-2">
+                {% include "components/form_field.html" with field=form.ano_modelo %}
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-4">
+                {% include "components/form_field.html" with field=form.renavam %}
+            </div>
+
+            <div class="col-md-4">
+                {% include "components/form_field.html" with field=form.chassi %}
+            </div>
+
+            <div class="col-md-4">
+                {% include "components/form_field.html" with field=form.cor %}
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                {% include "components/form_field.html" with field=form.observacao %}
+            </div>
+        </div>
+        
+
+        <div class="form-check mb-3">
+            {{ form.ativo }}
+            <label class="form-check-label">
+                {{ form.ativo.label }}
+            </label>
+        </div>
+
+        <button class="btn btn-primary">
+            Salvar
+        </button>
+
+        <a href="{% url 'cadastros:equipamento_list' %}" class="btn btn-secondary">
+            Cancelar
+        </a>
+
+    </form>
+
+</div>
+
+{% endblock %}

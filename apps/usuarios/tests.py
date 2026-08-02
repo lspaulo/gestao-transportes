@@ -29,8 +29,8 @@ class PerfilUsuarioTests(TestCase):
             setor=self.trafego,
         )
 
-        self.assertEqual(self.usuario.perfil, perfil)
-        self.assertEqual(self.usuario.perfil.setor, self.trafego)
+        self.assertEqual(self.usuario.perfil, perfil)  # type: ignore
+        self.assertEqual(self.usuario.perfil.setor, self.trafego)  # type: ignore
 
     def test_usuario_nao_pode_ter_dois_perfis(self):
         PerfilUsuario.objects.create(

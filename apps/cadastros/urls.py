@@ -1,10 +1,16 @@
 from django.urls import path
 
-from apps.cadastros.views.classe_operacional import (
+from apps.cadastros.views.classe_operacional import (  # type: ignore
     classe_operacional_create,
     classe_operacional_list,
     classe_operacional_toggle_status,
     classe_operacional_update,
+)
+from apps.cadastros.views.equipamento import (  # type: ignore
+    equipamento_create,
+    equipamento_list,
+    equipamento_toggle_status,
+    equipamento_update,
 )
 from apps.cadastros.views.funcionario import (  # type: ignore
     funcionario_create,
@@ -55,5 +61,25 @@ urlpatterns = [
         "funcionarios/<int:pk>/toggle-status/",
         funcionario_toggle_status,
         name="funcionario_toggle_status",
+    ),
+    path(
+        "equipamentos/",
+        equipamento_list,
+        name="equipamento_list",
+    ),
+    path(
+        "equipamentos/novo/",
+        equipamento_create,
+        name="equipamento_create",
+    ),
+    path(
+        "equipamentos/<int:pk>/editar/",
+        equipamento_update,
+        name="equipamento_update",
+    ),
+    path(
+        "equipamentos/<int:pk>/status/",
+        equipamento_toggle_status,
+        name="equipamento_toggle_status",
     ),
 ]

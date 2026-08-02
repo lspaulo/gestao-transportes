@@ -1,6 +1,10 @@
 from django import forms
 
-from .models import ClasseOperacional, Funcionario  # type: ignore
+from .models import (
+    ClasseOperacional,  # type: ignore
+    Equipamento,
+    Funcionario,
+)
 
 
 class FuncionarioForm(forms.ModelForm):
@@ -63,4 +67,44 @@ class ClasseOperacionalForm(forms.ModelForm):
                 campo.widget.attrs["class"] = "form-control"
 
         self.fields["possui_placa"].widget.attrs["class"] = "form-check-input"
+        self.fields["ativo"].widget.attrs["class"] = "form-check-input"
+
+
+class EquipamentoForm(forms.ModelForm):
+    class Meta:
+        model = Equipamento
+
+        fields = (
+            "frota",
+            "empresa",
+            "classe_operacional",
+            "status",
+            "placa",
+            "descricao",
+            "marca",
+            "modelo",
+            "ano_fabricacao",
+            "ano_modelo",
+            "renavam",
+            "chassi",
+            "cor",
+            "observacao",
+            "ativo",
+        )
+
+        widgets = {
+            "observacao": forms.Textarea(
+                attrs={
+                    "rows": 3,
+                }
+            ),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        for campo in self.fields.values():
+            if not isinstance(campo.widget, forms.CheckboxInput):
+                campo.widget.attrs["class"] = "form-control"
+
         self.fields["ativo"].widget.attrs["class"] = "form-check-input"
