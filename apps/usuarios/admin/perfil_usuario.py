@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import PerfilUsuario, Setor
+from apps.usuarios.models import PerfilUsuario, Setor
 
 
 @admin.register(Setor)
