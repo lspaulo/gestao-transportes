@@ -9,6 +9,24 @@ class Setor(models.Model):
         verbose_name="Nome",
     )
 
+    responsavel = models.ForeignKey(
+        "cadastros.Funcionario",
+        on_delete=models.PROTECT,
+        related_name="setores_responsavel",
+        verbose_name="Responsável",
+        null=True,
+        blank=True,
+    )
+
+    responsavel_substituto = models.ForeignKey(
+        "cadastros.Funcionario",
+        on_delete=models.PROTECT,
+        related_name="setores_substituto",
+        verbose_name="Responsável Substituto",
+        null=True,
+        blank=True,
+    )
+
     ativo = models.BooleanField(
         default=True,
         verbose_name="Ativo",
@@ -23,6 +41,11 @@ class Setor(models.Model):
         return self.nome
 
 
+class TipoPerfil(models.TextChoices):
+    OPERADOR = "OP", "Operador"
+    ADMINISTRADOR = "AD", "Administrador"
+
+
 class PerfilUsuario(models.Model):
     usuario = models.OneToOneField(
         settings.AUTH_USER_MODEL,
@@ -31,11 +54,19 @@ class PerfilUsuario(models.Model):
         verbose_name="Usuário",
     )
 
-    setor = models.ForeignKey(
-        Setor,
+    funcionario = models.OneToOneField(
+        "cadastros.Funcionario",
         on_delete=models.PROTECT,
-        related_name="usuarios",
-        verbose_name="Setor",
+        related_name="perfil_usuario",
+        verbose_name="Funcionário",
+        null=True,
+        blank=True,
+    )
+    perfil = models.CharField(
+        max_length=2,
+        choices=TipoPerfil.choices,
+        default=TipoPerfil.OPERADOR,
+        verbose_name="Perfil",
     )
 
     class Meta:
@@ -43,4 +74,4 @@ class PerfilUsuario(models.Model):
         verbose_name_plural = "Perfis de usuários"
 
     def __str__(self):
-        return f"{self.usuario.get_full_name() or self.usuario.username} - {self.setor}"
+        return f"{self.usuario.username} - {self.funcionario.nome}"

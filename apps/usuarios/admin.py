@@ -17,16 +17,20 @@ class SetorAdmin(admin.ModelAdmin):
 
 @admin.register(PerfilUsuario)
 class PerfilUsuarioAdmin(admin.ModelAdmin):
+    @admin.display(description="Setor")
+    def setor(self, obj):
+        return obj.funcionario.setor
+
     list_display = (
         "usuario",
+        "funcionario",
         "setor",
+        "perfil",
     )
 
-    list_filter = ("setor",)
+    list_filter = ("perfil",)
 
     search_fields = (
         "usuario__username",
-        "usuario__first_name",
-        "usuario__last_name",
-        "usuario__email",
+        "funcionario__nome",
     )

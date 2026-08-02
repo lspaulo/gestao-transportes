@@ -6,6 +6,12 @@ from apps.cadastros.views.classe_operacional import (  # type: ignore
     classe_operacional_toggle_status,
     classe_operacional_update,
 )
+from apps.cadastros.views.empresa import (  # type: ignore
+    empresa_create,
+    empresa_list,
+    empresa_toggle_status,
+    empresa_update,
+)
 from apps.cadastros.views.equipamento import (  # type: ignore
     equipamento_create,
     equipamento_list,
@@ -22,6 +28,7 @@ from apps.cadastros.views.funcionario import (  # type: ignore
 app_name = "cadastros"
 
 urlpatterns = [
+    # Classe Operacional
     path(
         "classes-operacionais/nova/",
         classe_operacional_create,
@@ -42,6 +49,7 @@ urlpatterns = [
         classe_operacional_toggle_status,
         name="classe_operacional_toggle_status",
     ),
+    # Funcionário
     path(
         "funcionarios/",
         funcionario_list,
@@ -62,6 +70,7 @@ urlpatterns = [
         funcionario_toggle_status,
         name="funcionario_toggle_status",
     ),
+    # Equipamento
     path(
         "equipamentos/",
         equipamento_list,
@@ -81,5 +90,26 @@ urlpatterns = [
         "equipamentos/<int:pk>/status/",
         equipamento_toggle_status,
         name="equipamento_toggle_status",
+    ),
+    # Empresa
+    path(
+        "empresas/",
+        empresa_list,
+        name="empresa_list",
+    ),
+    path(
+        "empresas/novo/",
+        empresa_create,
+        name="empresa_create",
+    ),
+    path(
+        "empresas/<int:pk>/editar/",
+        empresa_update,
+        name="empresa_update",
+    ),
+    path(
+        "empresas/<int:pk>/status/",
+        empresa_toggle_status,
+        name="empresa_toggle_status",
     ),
 ]

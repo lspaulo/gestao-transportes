@@ -8,3 +8,24 @@ Sistema web para gestão operacional do setor de transportes.
 - Django
 - PostgreSQL
 - Bootstrap 5
+
+## Funcionalidades implementadas
+
+### Cadastros
+
+- ✅ Funcionários
+- ✅ Classes Operacionais
+- ✅ Equipamentos
+- ✅ Empresas (em desenvolvimento)
+
+### Usuários
+
+- ✅ Setores
+- ✅ Perfil de Usuário
+
+### Infraestrutura
+
+- Django
+- PostgreSQL
+- Bootstrap 5
+- Git

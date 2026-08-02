@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}Empresa{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <h2> Nova Empresa</h2>
+
+    <form method="post">
+
+        {% csrf_token %}
+
+        <div class="row">
+
+            <div class="col-md-8">
+                {% include "components/form_field.html" with field=form.razao_social %}
+            </div>
+
+            <div class="col-md-4">
+                {% include "components/form_field.html" with field=form.cnpj %}
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-3">
+                {% include "components/form_field.html" with field=form.nome_fantasia %}
+            </div>
+
+            <div class="col-md-4">
+                {% include "components/form_field.html" with field=form.inscricao_estadual %}
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-4">
+                {% include "components/form_field.html" with field=form.telefone %}
+            </div>
+
+            <div class="col-md-8">
+                {% include "components/form_field.html" with field=form.email %}
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                {% include "components/form_field.html" with field=form.observacao %}
+            </div>
+        </div>
+        
+
+        <div class="form-check mb-3">
+            {{ form.ativo }}
+            <label class="form-check-label">
+                {{ form.ativo.label }}
+            </label>
+        </div>
+
+        <button class="btn btn-primary">
+            Salvar
+        </button>
+
+        <a href="{% url 'cadastros:empresa_list' %}" class="btn btn-secondary">
+            Cancelar
+        </a>
+
+    </form>
+
+</div>
+
+{% endblock %}
