@@ -43,10 +43,23 @@ class Setor(models.Model):
 
 class TipoPerfil(models.TextChoices):
     OPERADOR = "OP", "Operador"
+    GESTOR = "GE", "Gestor"
     ADMINISTRADOR = "AD", "Administrador"
 
 
 class PerfilUsuario(models.Model):
+    @property
+    def is_admin(self):
+        return self.perfil == TipoPerfil.ADMINISTRADOR
+
+    @property
+    def is_gestor(self):
+        return self.perfil == TipoPerfil.GESTOR
+
+    @property
+    def is_operador(self):
+        return self.perfil == TipoPerfil.OPERADOR
+
     usuario = models.OneToOneField(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
