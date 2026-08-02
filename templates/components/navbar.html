@@ -44,15 +44,13 @@
                                 Funcionários
                             </a>
                         </li>
-
                         <li>
-                            <a class="dropdown-item" href="{% url 'cadastros:classe_operacional_list' %}">
-                                Classes Operacionais
+                            <a
+                                class="dropdown-item"
+                                href="{% url 'cadastros:empresa_list' %}">
+                                Empresas
                             </a>
                         </li>
-
-                        <li><a class="dropdown-item" href="#">Ajudantes</a></li>
-
                         <li>
                             <a
                                 class="dropdown-item"
@@ -61,11 +59,15 @@
                             </a>
                         </li>
 
-                        <li><a class="dropdown-item" href="#">Cidades</a></li>
-
-                        <li><a class="dropdown-item" href="#">CNPJ</a></li>
-
+                        <li>
+                            <a class="dropdown-item" href="{% url 'cadastros:classe_operacional_list' %}">
+                                Classes Operacionais
+                            </a>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="#">Responsáveis</a></li>
+                        <li><a class="dropdown-item" href="#">Cidades</a></li>
+                        <li><a class="dropdown-item" href="#">Regras de Diárias</a></li>
 
                     </ul>
 
@@ -79,33 +81,14 @@
                         role="button"
                         data-bs-toggle="dropdown">
 
-                        Prestação
+                        Financeiro
 
                     </a>
 
                     <ul class="dropdown-menu">
 
+                        <li><a class="dropdown-item" href="#">Adiantamentos</a></li>
                         <li><a class="dropdown-item" href="#">Prestação de Contas</a></li>
-
-                    </ul>
-
-                </li>
-
-                <li class="nav-item dropdown">
-
-                    <a
-                        class="nav-link dropdown-toggle"
-                        href="#"
-                        role="button"
-                        data-bs-toggle="dropdown">
-
-                        Adiantamentos
-
-                    </a>
-
-                    <ul class="dropdown-menu">
-
-                        <li><a class="dropdown-item" href="#">Consultar</a></li>
 
                     </ul>
 
