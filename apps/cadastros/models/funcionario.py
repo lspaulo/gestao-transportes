@@ -7,6 +7,16 @@ from .funcao import Funcao
 class Funcionario(BaseModel):
     nome = models.CharField(max_length=200, verbose_name="Nome")
     cpf = models.CharField(max_length=14, unique=True, verbose_name="CPF")
+    email = models.EmailField(
+        blank=True,
+        verbose_name="E-mail",
+    )
+
+    telefone = models.CharField(
+        max_length=20,
+        blank=True,
+        verbose_name="Telefone",
+    )
     numero_cnh = models.CharField(
         max_length=30, blank=True, verbose_name="Número da CNH"
     )

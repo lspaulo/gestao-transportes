@@ -25,4 +25,8 @@ urlpatterns = [
         "cadastros/",
         include("apps.cadastros.urls"),
     ),
+    path(
+        "usuarios/",
+        include("apps.usuarios.urls"),
+    ),
 ]

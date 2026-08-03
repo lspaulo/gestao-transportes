@@ -14,7 +14,7 @@
 
         <div class="row">
 
-            <div class="col-md-6">
+            <div class="col-md-5">
                 {% include "components/form_field.html" with field=form.nome %}
             </div>
 
@@ -22,13 +22,21 @@
                 {% include "components/form_field.html" with field=form.cpf %}
             </div>
 
-            <div class="col-md-3">
-                {% include "components/form_field.html" with field=form.numero_cnh %}
+            <div class="col-md-4">
+                {% include "components/form_field.html" with field=form.email %}
             </div>
 
         </div>
 
         <div class="row">
+
+            <div class="col-md-3">
+                {% include "components/form_field.html" with field=form.telefone %}
+            </div>
+
+            <div class="col-md-3">
+                {% include "components/form_field.html" with field=form.numero_cnh %}
+            </div>
 
             <div class="col-md-3">
                 {% include "components/form_field.html" with field=form.validade_cnh %}
@@ -40,9 +48,29 @@
 
         </div>
 
-        {% include "components/form_field.html" with field=form.cursos %}
+        <div class="row">
 
-        {% include "components/form_field.html" with field=form.observacao %}
+            <div class="col-md-6">
+                {% include "components/form_field.html" with field=form.setor %}
+            </div>
+
+            <div class="col-md-6">
+                {% include "components/form_field.html" with field=form.ativo %}
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-6">
+                {% include "components/form_field.html" with field=form.cursos %}
+            </div>
+
+            <div class="col-md-6">
+                {% include "components/form_field.html" with field=form.observacao %}
+            </div>
+
+        </div>
         
 
         <div class="form-check mb-3">

@@ -1,6 +1,11 @@
 {% extends "base.html" %}
 
-{% block title %}Funcionários{% endblock %}
+{% include "components/page_header.html" with
+    titulo="Funcionários"
+    subtitulo="Cadastro de funcionários da empresa"
+    botao_url=novo_url
+    botao_texto="Novo Funcionário"
+%}
 
 {% block content %}
 

@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block title %}Novo Usuário{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <h2>Novo Usuário</h2>
+
+    <form method="post">
+
+        {% csrf_token %}
+
+        <div class="card mb-4">
+
+            <div class="card-header">
+                Dados de Login
+            </div>
+
+            <div class="card-body">
+
+                <div class="row">
+
+                    <div class="col-md-4">
+                        {% include "components/form_field.html" with field=user_form.username %}
+                    </div>
+
+                    <div class="col-md-4">
+                        {% include "components/form_field.html" with field=user_form.password %}
+                    </div>
+
+                    <div class="col-md-4">
+                        {% include "components/form_field.html" with field=user_form.email %}
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-6">
+                        {% include "components/form_field.html" with field=user_form.first_name %}
+                    </div>
+
+                    <div class="col-md-6">
+                        {% include "components/form_field.html" with field=user_form.last_name %}
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="card">
+
+            <div class="card-header">
+                Perfil
+            </div>
+
+            <div class="card-body">
+
+                <div class="row">
+
+                    <div class="col-md-8">
+                        {% include "components/form_field.html" with field=perfil_form.funcionario %}
+                    </div>
+
+                    <div class="col-md-4">
+                        {% include "components/form_field.html" with field=perfil_form.perfil %}
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <br>
+
+        <button class="btn btn-primary">
+            Salvar
+        </button>
+
+        <a href="{% url 'home' %}" class="btn btn-secondary">
+            Cancelar
+        </a>
+
+    </form>
+
+</div>
+
+{% endblock %}

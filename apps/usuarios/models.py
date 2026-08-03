@@ -87,4 +87,4 @@ class PerfilUsuario(models.Model):
         verbose_name_plural = "Perfis de usuários"
 
     def __str__(self):
-        return f"{self.usuario.username} - {self.funcionario.nome}"
+        return f"{self.usuario.username} - {self.funcionario.nome}"  # type: ignore
