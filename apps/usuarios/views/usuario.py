@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render
 
-from .forms import PerfilUsuarioForm, UserForm  # type: ignore
+from apps.usuarios.forms import PerfilUsuarioForm, UserForm  # type: ignore
 
 
 def usuario_create(request):
