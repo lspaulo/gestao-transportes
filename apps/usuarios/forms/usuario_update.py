@@ -2,12 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 
 
-class UserForm(forms.ModelForm):
-    password = forms.CharField(
-        label="Senha",
-        widget=forms.PasswordInput(),
-    )
-
+class UserUpdateForm(forms.ModelForm):
     class Meta:
         model = User
 
@@ -16,7 +11,6 @@ class UserForm(forms.ModelForm):
             "first_name",
             "last_name",
             "email",
-            "password",
         )
 
         labels = {
@@ -24,7 +18,6 @@ class UserForm(forms.ModelForm):
             "first_name": "Primeiro Nome",
             "last_name": "Sobrenome",
             "email": "E-mail",
-            "password": "Senha",
         }
 
     def __init__(self, *args, **kwargs):
@@ -35,7 +28,6 @@ class UserForm(forms.ModelForm):
             "first_name": "Informe o primeiro nome",
             "last_name": "Informe o sobrenome",
             "email": "nome@empresa.com",
-            "password": "Informe a senha",
         }
 
         for nome, campo in self.fields.items():

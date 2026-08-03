@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% block title %}Usuários{% endblock %}
+
+{% block content %}
+
+{% include "components/page_header.html" with titulo="Usuários" descricao="Cadastro de usuários do sistema." %}
+
+<div class="d-flex justify-content-end mb-4">
+
+    <a
+        href="{% url 'usuarios:usuario_create' %}"
+        class="btn btn-primary">
+
+        <i class="bi bi-plus-circle"></i>
+
+        Novo Usuário
+
+    </a>
+
+</div>
+
+<div class="card shadow-sm">
+
+    <div class="table-responsive">
+
+        <table class="table table-hover align-middle mb-0">
+
+            <thead>
+
+                <tr>
+
+                    <th>Usuário</th>
+
+                    <th>Funcionário</th>
+
+                    <th>Perfil</th>
+
+                    <th width="140">Ações</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for usuario in usuarios %}
+
+                <tr>
+
+                    <td>
+
+                        {{ usuario.username }}
+
+                    </td>
+
+                    <td>
+
+                        {% if usuario.perfil.funcionario %}
+                            {{ usuario.perfil.funcionario }}
+                        {% else %}
+                            <span class="text-muted">Não vinculado</span>
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+
+                        {% if usuario.perfil %}
+
+                            {{ usuario.perfil.get_perfil_display }}
+
+                        {% else %}
+
+                            —
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+
+                        <a
+                            href="{% url 'usuarios:usuario_update' usuario.id %}"
+                            class="btn btn-sm btn-outline-secondary"
+                            title="Editar">
+
+                            <i class="bi bi-pencil"></i>
+
+                        </a>
+
+                    </td>
+
+                </tr>
+
+                {% empty %}
+
+                <tr>
+
+                    <td colspan="4" class="text-center py-4">
+
+                        Nenhum usuário encontrado.
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

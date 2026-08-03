@@ -18,7 +18,7 @@ def usuario_create(request):
             perfil.usuario = usuario
             perfil.save()
 
-            return redirect("home")
+            return redirect("usuarios:usuario_list")
 
     else:
         user_form = UserForm()
