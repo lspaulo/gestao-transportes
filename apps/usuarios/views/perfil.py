@@ -3,5 +3,8 @@ from django.shortcuts import render
 
 
 @login_required
-def home(request):
-    return render(request, "core/home.html")
+def meu_perfil(request):
+    return render(
+        request,
+        "usuarios/meu_perfil.html",
+    )

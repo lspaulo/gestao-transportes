@@ -19,12 +19,6 @@
 
             <ul class="navbar-nav ms-auto">
 
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'home' %}">
-                        Início
-                    </a>
-                </li>
-
                 <li class="nav-item dropdown">
 
                     <a
@@ -92,7 +86,6 @@
                     </ul>
 
                 </li>
-
                 <li class="nav-item dropdown">
 
                     <a
@@ -107,11 +100,67 @@
 
                     <ul class="dropdown-menu">
 
-                        <li><a class="dropdown-item" href="#">Relatórios</a></li>
+                        <li>
+                            <a class="dropdown-item" href="#">
+                                Relatórios
+                            </a>
+                        </li>
 
                     </ul>
 
                 </li>
+
+                <li class="nav-item dropdown">
+
+                    <a
+                        class="nav-link dropdown-toggle"
+                        href="#"
+                        role="button"
+                        data-bs-toggle="dropdown">
+
+                        👤 {{ request.user.first_name|default:request.user.username }}
+
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-menu-end">
+
+                        <li>
+                            <a class="dropdown-item" href="{% url 'usuarios:meu_perfil' %}">
+                                Meu Perfil
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item" href="#">
+                                Alterar Senha
+                            </a>
+                        </li>
+
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+
+                        <li>
+
+                            <form method="post" action="{% url 'logout' %}">
+                                {% csrf_token %}
+
+                                <button
+                                    type="submit"
+                                    class="dropdown-item">
+
+                                    Sair
+
+                                </button>
+
+                            </form>
+
+                        </li>
+
+                    </ul>
+
+                </li>
+                
 
             </ul>
 

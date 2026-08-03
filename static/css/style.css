@@ -43,3 +43,24 @@ body{
 .footer-custom small {
     font-size: 0.9rem;
 }
+
+/* ===== Usuário na Navbar ===== */
+
+.navbar-custom .dropdown-toggle {
+    color: #ffffff !important;
+}
+
+.navbar-custom .dropdown-toggle:hover {
+    color: #EAF6EE !important;
+}
+
+.navbar-custom .dropdown-toggle:focus,
+.navbar-custom .dropdown-toggle.show {
+    color: #ffffff !important;
+}
+
+.card-body{
+
+    padding:2rem;
+
+}

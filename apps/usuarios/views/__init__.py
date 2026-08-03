@@ -1,1 +1,3 @@
-from .usuario import *  # type: ignore
+from .autenticacao import *
+from .perfil import *
+from .usuario import *

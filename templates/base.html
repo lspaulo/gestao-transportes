@@ -4,6 +4,8 @@
 <html lang="pt-br">
 
 <head>
+    <link rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     <meta charset="UTF-8">
 
@@ -27,9 +29,15 @@
 
 <body class="d-flex flex-column min-vh-100">
 
-    {% include "components/navbar.html" %}
+    {% if user.is_authenticated %}
+        {% include "components/navbar.html" %}
+    {% endif %}
 
-    <main class="container mt-4 flex-grow-1">
+    {% if user.is_authenticated %}
+        <main class="container mt-4 flex-grow-1">
+    {% else %}
+        <main class="container flex-grow-1 d-flex align-items-center justify-content-center">
+    {% endif %}
 
 
         {% include "components/messages.html" %}
