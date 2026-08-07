@@ -1,23 +1,11 @@
 {% extends "base.html" %}
 
-{% include "components/page_header.html" with
-    titulo="Funcionários"
-    subtitulo="Cadastro de funcionários da empresa"
-    botao_url=novo_url
-    botao_texto="Novo Funcionário"
-%}
+{% block title %}Funcionários{% endblock %}
 
 {% block content %}
 
 <div class="d-flex justify-content-between align-items-start mb-4">
-    <div>
-        <h2 class="fw-semibold mb-1">
-            Funcionários
-        </h2>
-        <p class="text-muted mb-0">
-            Cadastro de funcionários da empresa.
-        </p>
-    </div>
+    {% include "components/page_header.html" with icone="bi-people" titulo="Funcionários" descricao="Cadastro de funcionários da empresa." %}
     <a
         href="{% url 'cadastros:funcionario_create' %}"
         class="btn btn-primary">

@@ -64,3 +64,22 @@ body{
     padding:2rem;
 
 }
+/* Ícones de ações das tabelas */
+
+.action-icon {
+
+    color: var(--color-text-muted);
+
+    text-decoration: none;
+
+    transition: all .2s ease-in-out;
+
+}
+
+.action-icon:hover {
+
+    color: var(--color-primary);
+
+    transform: scale(1.15);
+
+}

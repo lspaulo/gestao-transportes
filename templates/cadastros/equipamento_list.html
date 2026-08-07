@@ -6,12 +6,7 @@
 
 <div class="d-flex justify-content-between align-items-center mb-4">
 
-    <div>
-        <h2>Equipamentos</h2>
-        <p class="text-muted">
-            Cadastro de equipamentos da empresa.
-        </p>
-    </div>
+    {% include "components/page_header.html" with icone="bi-truck" titulo="Equipamentos" descricao="Cadastro de equipamentos." %}
 
     <a href="{% url 'cadastros:equipamento_create' %}"
        class="btn btn-primary">

@@ -4,7 +4,7 @@
 
 {% block content %}
 
-{% include "components/page_header.html" with titulo="Meu Perfil" descricao="Informações da sua conta." %}
+{% include "components/page_header.html" with icone="bi-person-circle" titulo="Meu Perfil" descricao="Informações da sua conta." %}
 <div class="row">
 
     <div class="col-lg-6 mb-4">
@@ -116,7 +116,7 @@
 
                 <a
                     class="dropdown-item"
-                    href="#">
+                    href="{% url 'usuarios:alterar_senha' %}">
 
                     <i class="bi bi-key me-2"></i>
 

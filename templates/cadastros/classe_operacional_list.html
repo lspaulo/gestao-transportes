@@ -5,12 +5,7 @@
 {% block content %}
 
 <div class="d-flex justify-content-between align-items-start mb-4">
-    <div>
-        <h2 class="fw-semibold mb-1">Classes Operacionais</h2>
-        <p class="text-muted mb-0">
-            Classificações utilizadas para organizar os equipamentos da operação.
-        </p>
-    </div>
+   {% include "components/page_header.html" with icone="bi-diagram-3" titulo="Classes Operacionais" descricao="Cadastro de classes operacionais." %}
     <a href="{% url 'cadastros:classe_operacional_create' %}" class="btn btn-primary">
         + Nova Classe Operacional
     </a>

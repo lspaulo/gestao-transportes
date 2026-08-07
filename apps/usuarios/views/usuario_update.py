@@ -15,6 +15,14 @@ def usuario_update(request, pk):
 
     perfil, _ = PerfilUsuario.objects.get_or_create(usuario=usuario)
 
+    if not usuario.is_active:
+        messages.warning(
+            request,
+            "Não é possível editar um usuário inativo.",
+        )
+
+        return redirect("usuarios:usuario_list")
+
     if request.method == "POST":
         user_form = UserUpdateForm(
             request.POST,

@@ -4,7 +4,7 @@
 
 {% block content %}
 
-{% include "components/page_header.html" with titulo="Usuários" descricao="Cadastro de usuários do sistema." %}
+{% include "components/page_header.html" with icone="bi-people" titulo="Usuários" descricao="Cadastro de usuários." %}
 
 <div class="d-flex justify-content-end mb-4">
 
@@ -27,19 +27,13 @@
         <table class="table table-hover align-middle mb-0">
 
             <thead>
-
                 <tr>
-
                     <th>Usuário</th>
-
                     <th>Funcionário</th>
-
                     <th>Perfil</th>
-
-                    <th width="140">Ações</th>
-
+                    <th>Status</th>
+                    <th width="90">Ações</th>
                 </tr>
-
             </thead>
 
             <tbody>
@@ -72,25 +66,44 @@
 
                         {% else %}
 
-                            —
+                            Não Definido
 
                         {% endif %}
 
                     </td>
-
                     <td>
-
-                        <a
-                            href="{% url 'usuarios:usuario_update' usuario.id %}"
-                            class="btn btn-sm btn-outline-secondary"
-                            title="Editar">
-
-                            <i class="bi bi-pencil"></i>
-
-                        </a>
-
+                        {% if usuario.is_active %}
+                            <span class="badge bg-success">
+                                Ativo
+                            </span>
+                        {% else %}
+                            <span class="badge bg-secondary">
+                                Inativo
+                            </span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <div class="d-flex justify-content-center align-items-center gap-3">
+                            <a href="{% url 'usuarios:usuario_update' usuario.id %}" class="action-icon" title="Editar usuário">
+                                <i class="bi bi-pencil-square fs-5"></i>
+                            </a>
+                            <a href="{% url 'usuarios:redefinir_senha' usuario.id %}" class="action-icon" title="Redefinir senha">
+                                <i class="bi bi-key fs-5"></i>
+                            </a>
+                            <form method="post" action="{% url 'usuarios:usuario_toggle_status' usuario.id %}" class="m-0">
+                                {% csrf_token %}
+                                <button type="submit" class="action-icon border-0 bg-transparent p-0" title="{% if usuario.is_active %}Inativar usuário{% else %}Ativar usuário{% endif %}">
+                                    {% if usuario.is_active %}
+                                        <i class="bi bi-person-x fs-5"></i>
+                                    {% else %}
+                                        <i class="bi bi-person-check fs-5"></i>
+                                    {% endif %}
+                                </button>
+                            </form>
+                        </div>
                     </td>
 
+                    
                 </tr>
 
                 {% empty %}
