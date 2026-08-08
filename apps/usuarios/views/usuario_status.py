@@ -6,14 +6,34 @@ from django.shortcuts import (
     redirect,
 )
 
+from apps.usuarios.decorators import perfil_required
+from apps.usuarios.models import TipoPerfil
+from apps.usuarios.permissions import (
+    pode_editar_usuario,
+)
+
 
 @login_required
+@perfil_required(
+    TipoPerfil.ADMINISTRADOR,
+    TipoPerfil.GESTOR,
+)
 def usuario_toggle_status(request, pk):
 
     usuario = get_object_or_404(
         User,
         pk=pk,
     )
+    if not pode_editar_usuario(
+        request.user,
+        usuario,
+    ):
+        messages.error(
+            request,
+            "Você não possui permissão para alterar este usuário.",
+        )
+
+        return redirect("usuarios:usuario_list")
 
     # Impede que o usuário desative a própria conta
     if usuario == request.user:
