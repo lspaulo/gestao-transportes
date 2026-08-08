@@ -104,3 +104,17 @@ def pode_cadastrar_classes_operacionais(usuario):
 def pode_ver_relatorios(usuario):
 
     return usuario.perfil.is_admin or usuario.perfil.is_gestor
+
+
+def permissoes_interface(usuario):
+
+    return {
+        "pode_gerenciar_usuarios": pode_gerenciar_usuarios(usuario),
+        "pode_cadastrar_funcionarios": pode_cadastrar_funcionarios(usuario),
+        "pode_cadastrar_empresas": pode_cadastrar_empresas(usuario),
+        "pode_cadastrar_equipamentos": pode_cadastrar_equipamentos(usuario),
+        "pode_cadastrar_classes_operacionais": pode_cadastrar_classes_operacionais(
+            usuario
+        ),
+        "pode_ver_relatorios": pode_ver_relatorios(usuario),
+    }

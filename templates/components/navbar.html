@@ -63,9 +63,10 @@
                                 <a
                                     class="dropdown-item"
                                     href="{% url 'cadastros:equipamento_list' %}">
-                                Equipamentos
-                            </a>
-                        </li>
+                                    Equipamentos
+                                </a>
+                            </li>
+                        {% endif %}
                         {% if pode_cadastrar_classes_operacionais %}
                             <li>
                                 <a class="dropdown-item" href="{% url 'cadastros:classe_operacional_list' %}">
@@ -74,6 +75,7 @@
                             </li>
                         {% endif %}
                         <li><hr class="dropdown-divider"></li>
+
                         <li><a class="dropdown-item" href="#">Cidades</a></li>
                         <li><a class="dropdown-item" href="#">Regras de Diárias</a></li>
 
