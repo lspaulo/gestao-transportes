@@ -69,3 +69,38 @@ def usuarios_visiveis(usuario_logado):
     return queryset.filter(
         pk=usuario_logado.pk,
     )
+
+
+# ==========================
+# Permissões por funcionalidade
+# ==========================
+
+
+def pode_gerenciar_usuarios(usuario):
+
+    return usuario.perfil.is_admin or usuario.perfil.is_gestor
+
+
+def pode_cadastrar_funcionarios(usuario):
+
+    return True
+
+
+def pode_cadastrar_empresas(usuario):
+
+    return True
+
+
+def pode_cadastrar_equipamentos(usuario):
+
+    return True
+
+
+def pode_cadastrar_classes_operacionais(usuario):
+
+    return True
+
+
+def pode_ver_relatorios(usuario):
+
+    return usuario.perfil.is_admin or usuario.perfil.is_gestor

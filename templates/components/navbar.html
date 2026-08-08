@@ -4,21 +4,6 @@
         <a class="navbar-brand fw-bold" href="{% url 'home' %}">
             Gestão de Transportes
         </a>
-        <small class="text-white ms-3">
-
-            {% if is_admin %}
-                ADMIN
-            {% endif %}
-
-            {% if is_gestor %}
-                GESTOR
-            {% endif %}
-
-            {% if is_operador %}
-                OPERADOR
-            {% endif %}
-
-        </small>
 
         <button
             class="navbar-toggler"
@@ -33,26 +18,27 @@
         <div class="collapse navbar-collapse" id="menu">
 
             <ul class="navbar-nav ms-auto">
-                {% if is_admin or id_gestor %}
-                    <li class="nav-item dropdown">
+                <li class="nav-item dropdown">
 
-                        <a
-                            class="nav-link dropdown-toggle"
-                            href="#"
-                            role="button"
-                            data-bs-toggle="dropdown">
+                    <a
+                        class="nav-link dropdown-toggle"
+                        href="#"
+                        role="button"
+                        data-bs-toggle="dropdown">
 
-                            Cadastros
+                        Cadastros
 
-                        </a>
+                    </a>
 
-                        <ul class="dropdown-menu">
-
-                            <li>
-                                <a class="dropdown-item" href="{% url 'cadastros:funcionario_list' %}">
-                                    Funcionários
-                                </a>
-                            </li>
+                    <ul class="dropdown-menu">
+                        {% if pode_cadastrar_funcionarios %}
+                        <li>
+                            <a class="dropdown-item" href="{% url 'cadastros:funcionario_list' %}">
+                                Funcionários
+                            </a>
+                        </li>
+                        {% endif %}
+                        {% if pode_gerenciar_usuarios %}
                             <li>
                                 <a
                                     class="dropdown-item"
@@ -62,6 +48,8 @@
 
                                 </a>
                             </li>
+                        {% endif %}
+                        {% if pode_cadastrar_empresas %}
                             <li>
                                 <a
                                     class="dropdown-item"
@@ -69,27 +57,29 @@
                                     Empresas
                                 </a>
                             </li>
+                        {% endif %}
+                        {% if pode_cadastrar_equipamentos %}
                             <li>
                                 <a
                                     class="dropdown-item"
                                     href="{% url 'cadastros:equipamento_list' %}">
-                                    Equipamentos
-                                </a>
-                            </li>
-
+                                Equipamentos
+                            </a>
+                        </li>
+                        {% if pode_cadastrar_classes_operacionais %}
                             <li>
                                 <a class="dropdown-item" href="{% url 'cadastros:classe_operacional_list' %}">
                                     Classes Operacionais
                                 </a>
                             </li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#">Cidades</a></li>
-                            <li><a class="dropdown-item" href="#">Regras de Diárias</a></li>
+                        {% endif %}
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">Cidades</a></li>
+                        <li><a class="dropdown-item" href="#">Regras de Diárias</a></li>
 
-                        </ul>
+                    </ul>
 
-                    </li>
-                {% endif %}
+                </li>
 
                 <li class="nav-item dropdown">
 
