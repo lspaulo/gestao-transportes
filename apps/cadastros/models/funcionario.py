@@ -24,13 +24,10 @@ class Funcionario(BaseModel):
         blank=True, null=True, verbose_name="Validade da CNH"
     )
     funcao = models.ForeignKey(Funcao, on_delete=models.PROTECT, verbose_name="Função")
-    setor = models.ForeignKey(
-        "usuarios.Setor",
+    empresa = models.ForeignKey(
+        "cadastros.Empresa",
         on_delete=models.PROTECT,
-        related_name="funcionarios",
-        verbose_name="Setor",
-        null=True,
-        blank=True,
+        verbose_name="Empresa",
     )
     cursos = models.TextField(blank=True, verbose_name="Cursos")
     observacao = models.TextField(blank=True, verbose_name="Observações")

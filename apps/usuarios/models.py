@@ -81,6 +81,13 @@ class PerfilUsuario(models.Model):
         default=TipoPerfil.OPERADOR,
         verbose_name="Perfil",
     )
+    setor = models.ForeignKey(
+        Setor,
+        on_delete=models.PROTECT,
+        verbose_name="Setor",
+        null=True,
+        blank=True,
+    )
 
     class Meta:
         verbose_name = "Perfil de usuário"

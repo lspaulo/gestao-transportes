@@ -14,25 +14,15 @@
 
         <div class="row">
 
-            <div class="col-md-5">
+            <div class="col-md-7">
                 {% include "components/form_field.html" with field=form.nome %}
             </div>
-
-            <div class="col-md-3">
+            <div class="col-md-4">
                 {% include "components/form_field.html" with field=form.cpf %}
             </div>
 
-            <div class="col-md-4">
-                {% include "components/form_field.html" with field=form.email %}
-            </div>
-
         </div>
-
         <div class="row">
-
-            <div class="col-md-3">
-                {% include "components/form_field.html" with field=form.telefone %}
-            </div>
 
             <div class="col-md-3">
                 {% include "components/form_field.html" with field=form.numero_cnh %}
@@ -41,21 +31,21 @@
             <div class="col-md-3">
                 {% include "components/form_field.html" with field=form.validade_cnh %}
             </div>
-
-            <div class="col-md-3">
-                {% include "components/form_field.html" with field=form.funcao %}
+            <div class="col-md-4">
+                {% include "components/form_field.html" with field=form.email %}
             </div>
 
         </div>
 
         <div class="row">
-
-            <div class="col-md-6">
-                {% include "components/form_field.html" with field=form.setor %}
+            <div class="col-md-3">
+                {% include "components/form_field.html" with field=form.telefone %}
             </div>
-
-            <div class="col-md-6">
-                {% include "components/form_field.html" with field=form.ativo %}
+            <div class="col-md-4">
+                {% include "components/form_field.html" with field=form.empresa %}
+            </div>
+            <div class="col-md-3">
+                {% include "components/form_field.html" with field=form.funcao %}
             </div>
 
         </div>
@@ -72,12 +62,8 @@
 
         </div>
         
-
-        <div class="form-check mb-3">
-            {{ form.ativo }}
-            <label class="form-check-label">
-                {{ form.ativo.label }}
-            </label>
+        <div class="col-md-6">
+            {% include "components/form_field.html" with field=form.ativo %}
         </div>
 
         <button class="btn btn-primary">

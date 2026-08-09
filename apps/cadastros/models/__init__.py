@@ -5,4 +5,5 @@ from .empresa import Empresa  # type: ignore
 from .equipamento import Equipamento
 from .funcao import Funcao  # type: ignore
 from .funcionario import Funcionario  # type: ignore
+from .setor import Setor  # type: ignore
 from .status_equipamento import StatusEquipamento  # type: ignore

@@ -101,5 +101,7 @@ def usuario_update(request, pk):
             "user_form": user_form,
             "perfil_form": perfil_form,
             "titulo": "Editar Usuário",
+            "descricao": "Atualize os dados do usuário.",
+            "icone": "bi-person-badge",
         },
     )

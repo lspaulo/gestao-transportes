@@ -26,6 +26,8 @@ class FuncionarioForm(forms.ModelForm):
                 }
             ),
             "funcao": forms.Select(attrs={"class": "form-select"}),
+            "empresa": forms.Select(attrs={"class": "form-select"}),
+            "setor": forms.Select(attrs={"class": "form-select"}),
             "cursos": forms.Textarea(
                 attrs={
                     "class": "form-control",

@@ -15,6 +15,7 @@ class PerfilUsuarioForm(forms.ModelForm):
         fields = (
             "funcionario",
             "perfil",
+            "setor",
         )
 
     def __init__(self, *args, **kwargs):
@@ -34,8 +35,4 @@ class PerfilUsuarioForm(forms.ModelForm):
         )
 
         if usuario_logado:
-
-            campo_perfil.choices = perfis_disponiveis(
-                usuario_logado
-            )
-       
+            campo_perfil.choices = perfis_disponiveis(usuario_logado)

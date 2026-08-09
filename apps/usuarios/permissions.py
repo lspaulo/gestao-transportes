@@ -2,6 +2,10 @@ from django.contrib.auth.models import User
 
 from apps.usuarios.models import TipoPerfil
 
+# ==================================================
+# Regras de negócio - Usuários
+# ==================================================
+
 
 def pode_editar_usuario(usuario_logado, usuario_editado):
 
@@ -71,9 +75,9 @@ def usuarios_visiveis(usuario_logado):
     )
 
 
-# ==========================
-# Permissões por funcionalidade
-# ==========================
+# ==================================================
+# Permissões da interface
+# ==================================================
 
 
 def pode_gerenciar_usuarios(usuario):
@@ -106,6 +110,11 @@ def pode_ver_relatorios(usuario):
     return usuario.perfil.is_admin or usuario.perfil.is_gestor
 
 
+# ==================================================
+# Contexto da interface
+# ==================================================
+
+
 def permissoes_interface(usuario):
 
     return {
@@ -113,8 +122,8 @@ def permissoes_interface(usuario):
         "pode_cadastrar_funcionarios": pode_cadastrar_funcionarios(usuario),
         "pode_cadastrar_empresas": pode_cadastrar_empresas(usuario),
         "pode_cadastrar_equipamentos": pode_cadastrar_equipamentos(usuario),
-        "pode_cadastrar_classes_operacionais": pode_cadastrar_classes_operacionais(
-            usuario
+        "pode_cadastrar_classes_operacionais": (
+            pode_cadastrar_classes_operacionais(usuario)
         ),
         "pode_ver_relatorios": pode_ver_relatorios(usuario),
     }

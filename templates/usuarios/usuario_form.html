@@ -1,15 +1,12 @@
 {% extends "base.html" %}
 
-{% block title %}Novo Usuário{% endblock %}
+{% block title %}{{ titulo }}{% endblock %}
 
 {% block content %}
 
 <div class="container mt-4">
-
-    <h2>Novo Usuário</h2>
-
+    {% include "components/page_header.html" with icone=icone titulo=titulo descricao=descricao %}
     <form method="post">
-
         {% csrf_token %}
 
         <div class="card mb-4">
@@ -62,12 +59,15 @@
 
                 <div class="row">
 
-                    <div class="col-md-8">
+                    <div class="col-md-6">
                         {% include "components/form_field.html" with field=perfil_form.funcionario %}
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         {% include "components/form_field.html" with field=perfil_form.perfil %}
+                    </div>
+                    <div class="col-md-3">
+                        {% include "components/form_field.html" with field=perfil_form.setor %}
                     </div>
 
                 </div>
@@ -81,8 +81,7 @@
         <button class="btn btn-primary">
             Salvar
         </button>
-
-        <a href="{% url 'home' %}" class="btn btn-secondary">
+        <a href="{% url 'usuarios:usuario_list' %}" class="btn btn-secondary">
             Cancelar
         </a>
 

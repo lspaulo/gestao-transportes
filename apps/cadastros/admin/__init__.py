@@ -3,4 +3,5 @@ from .empresa import *
 from .equipamento import *  # type: ignore  # type: ignore
 from .funcao import *
 from .funcionario import *
+from .setor import *  # type: ignore
 from .status_equipamento import *  # type: ignore

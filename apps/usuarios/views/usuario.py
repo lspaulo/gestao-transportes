@@ -66,5 +66,8 @@ def usuario_create(request):
         {
             "user_form": user_form,
             "perfil_form": perfil_form,
+            "titulo": "Novo Usuário",
+            "descricao": "Cadastre um novo usuário do sistema.",
+            "icone": "bi-person-badge",
         },
     )
