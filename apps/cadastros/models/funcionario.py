@@ -23,7 +23,9 @@ class Funcionario(BaseModel):
     validade_cnh = models.DateField(
         blank=True, null=True, verbose_name="Validade da CNH"
     )
-    funcao = models.ForeignKey(Funcao, on_delete=models.PROTECT, verbose_name="Função")
+    funcao = models.ForeignKey(
+        Funcao, on_delete=models.PROTECT, blank=True, null=True, verbose_name="Função"
+    )
     empresa = models.ForeignKey(
         "cadastros.Empresa",
         on_delete=models.PROTECT,

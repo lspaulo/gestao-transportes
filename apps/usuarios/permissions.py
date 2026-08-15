@@ -90,12 +90,22 @@ def pode_cadastrar_funcionarios(usuario):
     return True
 
 
+def pode_cadastrar_funcoes(usuario):
+
+    return True
+
+
 def pode_cadastrar_empresas(usuario):
 
     return True
 
 
 def pode_cadastrar_equipamentos(usuario):
+
+    return True
+
+
+def pode_cadastrar_status_equipamentos(usuario):
 
     return True
 
@@ -120,8 +130,12 @@ def permissoes_interface(usuario):
     return {
         "pode_gerenciar_usuarios": pode_gerenciar_usuarios(usuario),
         "pode_cadastrar_funcionarios": pode_cadastrar_funcionarios(usuario),
+        "pode_cadastrar_funcoes": pode_cadastrar_funcoes(usuario),
         "pode_cadastrar_empresas": pode_cadastrar_empresas(usuario),
         "pode_cadastrar_equipamentos": pode_cadastrar_equipamentos(usuario),
+        "pode_cadastrar_status_equipamentos": (
+            pode_cadastrar_status_equipamentos(usuario)
+        ),
         "pode_cadastrar_classes_operacionais": (
             pode_cadastrar_classes_operacionais(usuario)
         ),

@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, redirect, render
 
-from apps.cadastros.forms import EmpresaForm
+from apps.cadastros.forms import EmpresaForm  # type: ignore
 from apps.cadastros.models import Empresa
 
 
@@ -42,6 +42,9 @@ def empresa_create(request):
         "cadastros/empresa_form.html",
         {
             "form": form,
+            "titulo": "Nova Empresa",
+            "descricao": "Cadastre uma nova empresa",
+            "icone": "bi-building",
         },
     )
 
@@ -74,6 +77,9 @@ def empresa_update(request, pk):
         "cadastros/empresa_form.html",
         {
             "form": form,
+            "titulo": "Editar Empresa",
+            "descricao": "Edite os dados da empresa",
+            "icone": "bi-building",
         },
     )
 

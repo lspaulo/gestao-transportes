@@ -5,7 +5,8 @@
 {% block content %}
 
 <div class="container mt-4">
-    <h2>{{ titulo }}</h2>
+
+   {% include "components/page_header.html" with icone=icone titulo=titulo descricao=descricao %}
 
     <form method="post">
         {% csrf_token %}
@@ -35,10 +36,27 @@
             </label>
         </div>
 
-        <button class="btn btn-primary">Salvar</button>
-        <a href="{% url 'cadastros:classe_operacional_list' %}" class="btn btn-secondary">
-            Cancelar
-        </a>
+        <div class="mt-4 mb-5">
+
+            <button
+                type="submit"
+                class="btn btn-primary">
+
+                <i class="bi bi-floppy"></i>
+                Salvar
+
+            </button>
+
+            <a
+                href="{% url 'cadastros:classe_operacional_list' %}" class="btn btn-secondary"
+                class="btn btn-secondary">
+
+                <i class="bi bi-x-circle"></i>
+                Cancelar
+
+            </a>
+
+        </div>
     </form>
 </div>
 

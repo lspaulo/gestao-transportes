@@ -1,4 +1,6 @@
-from .classe_operacional import *  # type: ignore
-from .empresa import *  # type: ignore
-from .equipamento import *  # type: ignore
-from .funcionario import *  # type: ignore
+from apps.cadastros.views.funcionario import (
+    funcionario_create,
+    funcionario_list,
+    funcionario_toggle_status,
+    funcionario_update,
+)

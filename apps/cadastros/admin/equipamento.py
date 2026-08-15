@@ -11,7 +11,7 @@ class EquipamentoAdmin(admin.ModelAdmin):
         "descricao",
         "empresa",
         "classe_operacional",
-        "status",
+        "status_operacional",
         "ativo",
     )
 
@@ -24,7 +24,7 @@ class EquipamentoAdmin(admin.ModelAdmin):
     list_filter = (
         "empresa",
         "classe_operacional",
-        "status",
+        "status_operacional",
         "ativo",
     )
 

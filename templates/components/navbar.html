@@ -41,6 +41,15 @@
                             </a>
                         </li>
                         {% endif %}
+                        {% if pode_cadastrar_funcoes %}
+                            <li>
+                                <a
+                                    class="dropdown-item"
+                                    href="{% url 'cadastros:funcao_list' %}">
+                                    Funções
+                                </a>
+                            </li>
+                        {% endif %}
                         {% if pode_gerenciar_usuarios %}
                             <li>
                                 <a
@@ -67,6 +76,15 @@
                                     class="dropdown-item"
                                     href="{% url 'cadastros:equipamento_list' %}">
                                     Equipamentos
+                                </a>
+                            </li>
+                        {% endif %}
+                        {% if pode_cadastrar_status_equipamentos %}
+                            <li>
+                                <a
+                                    class="dropdown-item"
+                                    href="{% url 'cadastros:status_operacional_list' %}">
+                                    Status Operacionais
                                 </a>
                             </li>
                         {% endif %}

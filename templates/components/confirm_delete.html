@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ titulo }}
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    {% include "components/page_header.html" with icone="bi-trash" titulo=titulo descricao="Esta ação não poderá ser desfeita." %}
+
+    <div class="alert alert-warning">
+
+        Tem certeza que deseja excluir:
+
+        <strong>{{ objeto }}</strong>?
+
+    </div>
+
+    <form method="post">
+
+        {% csrf_token %}
+
+        <button
+            class="btn btn-danger">
+
+            <i class="bi bi-trash"></i>
+
+            Excluir
+
+        </button>
+
+        <a
+            href="{{ url_cancelar }}"
+            class="btn btn-secondary">
+
+            <i class="bi bi-arrow-left"></i>
+
+            Cancelar
+
+        </a>
+
+    </form>
+
+</div>
+
+{% endblock %}

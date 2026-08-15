@@ -7,7 +7,8 @@
 <div class="d-flex justify-content-between align-items-start mb-4">
    {% include "components/page_header.html" with icone="bi-diagram-3" titulo="Classes Operacionais" descricao="Cadastro de classes operacionais." %}
     <a href="{% url 'cadastros:classe_operacional_create' %}" class="btn btn-primary">
-        + Nova Classe Operacional
+        <i class="bi bi-plus-circle"></i>
+        Nova Classe Operacional
     </a>
 </div>
 
@@ -71,18 +72,21 @@
                     <a
                         href="{% url 'cadastros:classe_operacional_update' classe.id %}"
                         class="btn btn-sm btn-outline-primary">
+                        <i class="bi bi-pencil"></i>
                         Editar
                     </a>
                     {% if classe.ativo %}
                     <a
                         href="{% url 'cadastros:classe_operacional_toggle_status' classe.id %}"
                         class="btn btn-sm btn-outline-warning">
+                        <i class="bi bi-toggle-off"></i>
                         Inativar
                     </a>
                     {% else %}
                     <a
                         href="{% url 'cadastros:classe_operacional_toggle_status' classe.id %}"
                         class="btn btn-sm btn-outline-success">
+                        <i class="bi bi-toggle-on"></i>
                         Ativar
                     </a>
                     {% endif %}

@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 
-{% block title %}Funcionário{% endblock %}
+{% block title %}{{ titulo }}{% endblock %}
 
 {% block content %}
 
 <div class="container mt-4">
 
-    <h2>Novo Funcionário</h2>
+    {% include "components/page_header.html" with icone=icone titulo=titulo descricao=descricao %}
 
     <form method="post">
 
@@ -67,12 +67,27 @@
         </div>
 
         <button class="btn btn-primary">
+            <i class="bi bi-floppy"></i>
             Salvar
         </button>
 
         <a href="{% url 'cadastros:funcionario_list' %}" class="btn btn-secondary">
+            <i class="bi bi-x-circle"></i>
             Cancelar
         </a>
+        {% if form.instance.pk %}
+
+            <a
+                href="{% url 'cadastros:conta_bancaria_funcionario_list' form.instance.pk %}"
+                class="btn btn-outline-primary">
+
+                <i class="bi bi-bank"></i>
+
+                Contas Bancárias
+
+            </a>
+
+{% endif %}
 
     </form>
 

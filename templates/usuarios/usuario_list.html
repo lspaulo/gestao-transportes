@@ -4,9 +4,8 @@
 
 {% block content %}
 
-{% include "components/page_header.html" with icone="bi-people" titulo="Usuários" descricao="Cadastro de usuários." %}
-
-<div class="d-flex justify-content-end mb-4">
+<div class="d-flex justify-content-between align-items-start mb-4">
+    {% include "components/page_header.html" with icone="bi-people" titulo="Usuários" descricao="Cadastro de usuários." %}
 
     <a
         href="{% url 'usuarios:usuario_create' %}"

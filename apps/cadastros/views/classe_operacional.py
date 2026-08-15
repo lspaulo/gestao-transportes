@@ -53,6 +53,8 @@ def classe_operacional_create(request):
         {
             "form": form,
             "titulo": "Nova Classe Operacional",
+            "descricao": "Cadastre uma nova classe operacional",
+            "icone": "bi-diagram-3",
         },
     )
 
@@ -86,6 +88,8 @@ def classe_operacional_update(request, pk):
         {
             "form": form,
             "titulo": "Editar Classe Operacional",
+            "descricao": "Edite os dados da classe operacional",
+            "icone": "bi-diagram-3",
         },
     )
 

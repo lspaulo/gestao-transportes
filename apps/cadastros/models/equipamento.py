@@ -26,11 +26,10 @@ class Equipamento(BaseModel):
         on_delete=models.PROTECT,
         related_name="equipamentos",
     )
-
-    status = models.ForeignKey(
+    status_operacional = models.ForeignKey(
         StatusEquipamento,
-        verbose_name="Status",
         on_delete=models.PROTECT,
+        verbose_name="Status operacional",
         related_name="equipamentos",
     )
 

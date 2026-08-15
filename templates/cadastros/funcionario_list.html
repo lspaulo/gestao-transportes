@@ -9,7 +9,8 @@
     <a
         href="{% url 'cadastros:funcionario_create' %}"
         class="btn btn-primary">
-        + Novo Funcionário
+        <i class="bi bi-plus-circle"></i>
+        Novo Funcionário
     </a>
 </div>
 <form method="get" class="mb-4">
@@ -54,8 +55,9 @@
         <tr>
             <th>Nome</th>
             <th>CPF</th>
+            <th>Empresa</th>
             <th>Função</th>
-            <th>Status</th>
+            <th>Telefone</th>
             <th width="120">Ações</th>
         </tr>
     </thead>
@@ -65,14 +67,13 @@
         {% for funcionario in page_obj %}
 
         <tr>
-
             <td>{{ funcionario.nome }}</td>
-
             <td>{{ funcionario.cpf }}</td>
-
+            <td>{{ funcionario.empresa.nome }}</td>
             <td>{{ funcionario.funcao.nome }}</td>
+            <td>{{ funcionario.telefone }}</td>
 
-            <td>
+            {% comment %} <td>
 
                 {% if funcionario.ativo %}
 
@@ -88,13 +89,14 @@
 
                 {% endif %}
 
-            </td>
+            </td> {% endcomment %}
             <td class="text-nowrap">
 
                 <a
                     href="{% url 'cadastros:funcionario_update' funcionario.id %}"
                     class="btn btn-sm btn-outline-primary">
 
+                    <i class="bi bi-pencil"></i>
                     Editar
 
                 </a>
@@ -103,6 +105,7 @@
                         href="{% url 'cadastros:funcionario_toggle_status' funcionario.id %}"
                         class="btn btn-sm btn-outline-warning">
 
+                        <i class="bi bi-toggle-off"></i>
                         Inativar
 
                     </a>
@@ -110,7 +113,8 @@
                     <a
                         href="{% url 'cadastros:funcionario_toggle_status' funcionario.id %}"
                         class="btn btn-sm btn-outline-success">
-
+                        
+                        <i class="bi bi-toggle-on"></i>
                         Ativar
 
                     </a>
@@ -122,7 +126,7 @@
 
         <tr>
 
-            <td colspan="5" class="text-center">
+            <td colspan="6" class="text-center">
                 Nenhum funcionário cadastrado.
             </td>
 

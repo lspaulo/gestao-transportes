@@ -1,3 +1,4 @@
+from .bancos import Banco
 from .base import BaseModel  # type: ignore
 from .classe_operacional import ClasseOperacional  # type: ignore
 from .conta_bancaria_funcionario import ContaBancariaFuncionario  # type: ignore

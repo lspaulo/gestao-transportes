@@ -62,7 +62,9 @@ class ClasseOperacionalViewsTests(TestCase):
         )
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(ClasseOperacional.objects.filter(nome=self.classe_ativa.nome).count(), 1)
+        self.assertEqual(
+            ClasseOperacional.objects.filter(nome=self.classe_ativa.nome).count(), 1
+        )
         self.assertIn("nome", response.context["form"].errors)
 
     def test_edita_classe_operacional(self):

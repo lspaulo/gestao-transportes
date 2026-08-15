@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models import Q
 
+from .bancos import Banco
 from .base import BaseModel
 from .funcionario import Funcionario
 
@@ -9,6 +10,9 @@ class ContaBancariaFuncionario(BaseModel):
     class TipoConta(models.TextChoices):
         CORRENTE = "corrente", "Conta corrente"
         POUPANCA = "poupanca", "Conta poupança"
+        PAGAMENTO = "pagamento", "Conta de pagamento"
+        DIGITAL = "digital", "Conta digital"
+        SALARIO = "salario", "Conta salário"
 
     class TipoChavePix(models.TextChoices):
         CPF = "cpf", "CPF"
@@ -22,9 +26,14 @@ class ContaBancariaFuncionario(BaseModel):
         related_name="contas_bancarias",
         verbose_name="Funcionário",
     )
-
+    titular = models.CharField(
+        max_length=150,
+        blank=True,
+        verbose_name="Titular da conta",
+    )
     banco = models.CharField(
-        max_length=100,
+        max_length=3,
+        choices=Banco.choices,
         verbose_name="Banco",
     )
 
@@ -32,10 +41,20 @@ class ContaBancariaFuncionario(BaseModel):
         max_length=20,
         verbose_name="Agência",
     )
+    digito_agencia = models.CharField(
+        max_length=2,
+        blank=True,
+        verbose_name="Dígito da agência",
+    )
 
     numero_conta = models.CharField(
         max_length=30,
         verbose_name="Número da conta",
+    )
+    digito_conta = models.CharField(
+        max_length=2,
+        blank=True,
+        verbose_name="Dígito da conta",
     )
 
     tipo_conta = models.CharField(
@@ -58,8 +77,12 @@ class ContaBancariaFuncionario(BaseModel):
     )
 
     padrao = models.BooleanField(
-        default=True,
+        default=False,
         verbose_name="Conta padrão",
+    )
+    observacao = models.TextField(
+        blank=True,
+        verbose_name="Observação",
     )
 
     class Meta:
@@ -75,4 +98,26 @@ class ContaBancariaFuncionario(BaseModel):
         ]
 
     def __str__(self):
-        return f"{self.funcionario} - {self.banco} ({self.numero_conta})"
+        return (
+            f"{self.get_banco_display()} "  # type: ignore[attr-defined]
+            f"- Ag. {self.agencia}"
+            f"{('-' + self.digito_agencia) if self.digito_agencia else ''}"
+            f" - CC {self.numero_conta}"
+            f"{('-' + self.digito_conta) if self.digito_conta else ''}"
+        )
+
+    def save(self, *args, **kwargs):
+        if not self.titular:
+            self.titular = self.funcionario.nome
+
+        if self.padrao:
+            ContaBancariaFuncionario.objects.filter(
+                funcionario=self.funcionario,
+                padrao=True,
+            ).exclude(
+                pk=self.pk,
+            ).update(
+                padrao=False,
+            )
+
+        super().save(*args, **kwargs)

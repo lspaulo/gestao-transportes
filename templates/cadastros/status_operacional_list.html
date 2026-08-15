@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+{% block title %}Status Operacionais{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+    
+    <div class="d-flex justify-content-between align-items-start mb-4">
+        {% include "components/page_header.html" with icone="bi-activity" titulo="Status Operacionais" descricao="Cadastro de status operacionais dos equipamentos." %}
+
+        <a
+            href="{% url 'cadastros:status_operacional_create' %}"
+            class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i>
+            Novo Status Operacional
+        </a>
+
+    </div>
+
+    <div class="table-responsive">
+
+        <table class="table table-hover align-middle">
+
+            <thead>
+
+                <tr>
+                    <th>Ordem</th>
+                    <th>Nome</th>
+                    <th>Descrição</th>
+                    <th>Permite utilização</th>
+                    <th>Status</th>
+                    <th class="text-end">Ações</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for status in status_operacionais %}
+
+                    <tr>
+
+                        <td>
+                            {{ status.ordem }}
+                        </td>
+
+                        <td>
+                            {{ status.nome }}
+                        </td>
+
+                        <td>
+                            {{ status.descricao|default:"-" }}
+                        </td>
+
+                        <td>
+
+                            {% if status.permite_utilizacao %}
+                                <span class="badge bg-success">
+                                    Sim
+                                </span>
+                            {% else %}
+                                <span class="badge bg-secondary">
+                                    Não
+                                </span>
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+
+                            {% if status.ativo %}
+                                <span class="badge bg-success">
+                                    Ativo
+                                </span>
+                            {% else %}
+                                <span class="badge bg-secondary">
+                                    Inativo
+                                </span>
+                            {% endif %}
+
+                        </td>
+
+                        <td class="text-end">
+
+                            <a
+                                href="{% url 'cadastros:status_operacional_update' status.pk %}"
+                                class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-pencil"></i>
+                                Editar
+
+                            </a>
+
+                            <a
+                                href="{% url 'cadastros:status_operacional_toggle_status' status.pk %}"
+                                class="btn btn-sm {% if status.ativo %}btn-outline-danger{% else %}btn-outline-success{% endif %}">
+
+                                {% if status.ativo %}
+                                    <i class="bi bi-toggle-off"></i>
+                                    Desativar
+                                {% else %}
+                                    <i class="bi bi-toggle-on"></i>
+                                    Ativar
+                                {% endif %}
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                {% empty %}
+
+                    <tr>
+
+                        <td
+                            colspan="6"
+                            class="text-center">
+
+                            Nenhum status cadastrado.
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

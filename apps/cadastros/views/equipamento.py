@@ -42,6 +42,9 @@ def equipamento_create(request):
         "cadastros/equipamento_form.html",
         {
             "form": form,
+            "titulo": "Novo Equipamento",
+            "descricao": "Cadastre um novo equipamento",
+            "icone": "bi-truck",
         },
     )
 
@@ -74,6 +77,9 @@ def equipamento_update(request, pk):
         "cadastros/equipamento_form.html",
         {
             "form": form,
+            "titulo": "Editar Equipamento",
+            "descricao": "Edite os dados do equipamento",
+            "icone": "bi-truck",
         },
     )
 

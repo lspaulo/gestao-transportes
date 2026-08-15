@@ -6,6 +6,12 @@ from apps.cadastros.views.classe_operacional import (  # type: ignore
     classe_operacional_toggle_status,
     classe_operacional_update,
 )
+from apps.cadastros.views.conta_bancaria_funcionario import (
+    conta_bancaria_funcionario_create,
+    conta_bancaria_funcionario_delete,
+    conta_bancaria_funcionario_list,
+    conta_bancaria_funcionario_update,
+)
 from apps.cadastros.views.empresa import (  # type: ignore
     empresa_create,
     empresa_list,
@@ -23,6 +29,19 @@ from apps.cadastros.views.funcionario import (  # type: ignore
     funcionario_list,
     funcionario_toggle_status,
     funcionario_update,
+)
+
+from .views.funcao import (
+    funcao_create,
+    funcao_delete,
+    funcao_list,
+    funcao_update,
+)
+from .views.status_operacional import (
+    status_operacional_create,
+    status_operacional_list,
+    status_operacional_toggle_status,
+    status_operacional_update,
 )
 
 app_name = "cadastros"
@@ -70,6 +89,27 @@ urlpatterns = [
         funcionario_toggle_status,
         name="funcionario_toggle_status",
     ),
+    # Conta bancária
+    path(
+        "funcionarios/<int:funcionario_id>/contas-bancarias/",
+        conta_bancaria_funcionario_list,
+        name="conta_bancaria_funcionario_list",
+    ),
+    path(
+        "funcionarios/<int:funcionario_id>/contas-bancarias/nova/",
+        conta_bancaria_funcionario_create,
+        name="conta_bancaria_funcionario_create",
+    ),
+    path(
+        "contas-bancarias/<int:pk>/editar/",
+        conta_bancaria_funcionario_update,
+        name="conta_bancaria_funcionario_update",
+    ),
+    path(
+        "contas-bancarias/<int:pk>/excluir/",
+        conta_bancaria_funcionario_delete,
+        name="conta_bancaria_funcionario_delete",
+    ),
     # Equipamento
     path(
         "equipamentos/",
@@ -111,5 +151,47 @@ urlpatterns = [
         "empresas/<int:pk>/status/",
         empresa_toggle_status,
         name="empresa_toggle_status",
+    ),
+    # Função
+    path(
+        "funcoes/",
+        funcao_list,
+        name="funcao_list",
+    ),
+    path(
+        "funcoes/nova/",
+        funcao_create,
+        name="funcao_create",
+    ),
+    path(
+        "funcoes/<int:pk>/editar/",
+        funcao_update,
+        name="funcao_update",
+    ),
+    path(
+        "funcoes/<int:pk>/excluir/",
+        funcao_delete,
+        name="funcao_delete",
+    ),
+    # Status Equipamento
+    path(
+        "status-operacionais/",
+        status_operacional_list,
+        name="status_operacional_list",
+    ),
+    path(
+        "status-operacionais/novo/",
+        status_operacional_create,
+        name="status_operacional_create",
+    ),
+    path(
+        "status-operacionais/<int:pk>/editar/",
+        status_operacional_update,
+        name="status_operacional_update",
+    ),
+    path(
+        "status-operacionais/<int:pk>/alternar-status/",
+        status_operacional_toggle_status,
+        name="status_operacional_toggle_status",
     ),
 ]

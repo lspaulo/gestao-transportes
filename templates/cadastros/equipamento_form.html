@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 
-{% block title %}Equipamento{% endblock %}
+{% block title %}{{titulo}}{% endblock %}
 
 {% block content %}
 
 <div class="container mt-4">
 
-    <h2>Novo Equipamento</h2>
+    {% include "components/page_header.html" with icone=icone titulo=titulo descricao=descricao %}
 
     <form method="post">
 
@@ -24,6 +24,9 @@
 
             <div class="col-md-5">
                 {% include "components/form_field.html" with field=form.classe_operacional %}
+            </div>
+            <div class="col-md-5">
+                {% include "components/form_field.html" with field=form.status_operacional %}
             </div>
 
         </div>
@@ -95,10 +98,12 @@
         </div>
 
         <button class="btn btn-primary">
+            <i class="bi bi-floppy"></i>
             Salvar
         </button>
 
         <a href="{% url 'cadastros:equipamento_list' %}" class="btn btn-secondary">
+            <i class="bi bi-x-circle"></i>
             Cancelar
         </a>
 
