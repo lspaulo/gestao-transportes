@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ titulo }}
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    {% include "components/page_header.html" with icone=icone titulo=titulo descricao=descricao %}
+
+    <form method="post">
+
+        {% csrf_token %}
+
+        <div class="row">
+
+            <div class="col-md-6">
+                {% include "components/form_field.html" with field=form.funcionario %}
+            </div>
+
+            <div class="col-md-6">
+                {% include "components/form_field.html" with field=form.empresa %}
+            </div>
+
+        </div>
+        <div class="row">
+
+            <div class="col-md-6">
+                {% include "components/form_field.html" with field=form.conta_bancaria %}
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-3">
+                {% include "components/form_field.html" with field=form.valor %}
+            </div>
+
+            <div class="col-md-9">
+                {% include "components/form_field.html" with field=form.finalidade %}
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <div class="col-12">
+                {% include "components/form_field.html" with field=form.observacao %}
+            </div>
+
+        </div>
+
+        <button class="btn btn-primary">
+            Salvar
+        </button>
+
+        <a
+            href="{% url 'financeiro:adiantamento_list' %}"
+            class="btn btn-secondary">
+
+            Cancelar
+
+        </a>
+
+    </form>
+
+</div>
+{% endblock %}
+{% block scripts %}
+
+{{ block.super }}
+
+{% load static %}
+
+<script src="{% static 'financeiro/js/adiantamento.js' %}"></script>
+
+{% endblock %}

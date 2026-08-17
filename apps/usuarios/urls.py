@@ -3,6 +3,7 @@ from django.urls import path
 from .views import (
     alterar_senha,  # type: ignore
     meu_perfil,  # type: ignore
+    meu_perfil_update,
     redefinir_senha,  # type: ignore
     usuario_create,
     usuario_list,  # type: ignore
@@ -22,6 +23,11 @@ urlpatterns = [
         "perfil/",
         meu_perfil,
         name="meu_perfil",
+    ),
+    path(
+        "perfil/editar/",
+        meu_perfil_update,
+        name="meu_perfil_update",
     ),
     path(
         "",

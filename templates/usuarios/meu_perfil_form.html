@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}{{ titulo }}{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    {% include "components/page_header.html" with icone=icone titulo=titulo descricao=descricao %}
+
+    <form method="post">
+
+        {% csrf_token %}
+
+        {% include "components/form_field.html" with field=form.first_name %}
+
+        {% include "components/form_field.html" with field=form.last_name %}
+
+        {% include "components/form_field.html" with field=form.email %}
+
+        <div class="mt-4 mb-5">
+
+            <button
+                type="submit"
+                class="btn btn-primary">
+
+                <i class="bi bi-floppy"></i>
+                Salvar
+
+            </button>
+
+            <a
+                href="{% url 'usuarios:meu_perfil' %}"
+                class="btn btn-secondary">
+
+                <i class="bi bi-x-circle"></i>
+                Cancelar
+
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

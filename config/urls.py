@@ -44,4 +44,8 @@ urlpatterns = [
         "usuarios/",
         include("apps.usuarios.urls"),
     ),
+    path(
+        "financeiro/",
+        include("apps.financeiro.urls"),
+    ),
 ]
