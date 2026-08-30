@@ -94,4 +94,7 @@ class PerfilUsuario(models.Model):
         verbose_name_plural = "Perfis de usuários"
 
     def __str__(self):
-        return f"{self.usuario.username} - {self.funcionario.nome}"  # type: ignore
+
+        funcionario = self.funcionario.nome if self.funcionario else "Sem funcionário"
+
+        return f"{self.usuario.username} - {funcionario}"

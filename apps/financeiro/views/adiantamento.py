@@ -1,9 +1,30 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.http import FileResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
 from apps.financeiro.forms import AdiantamentoForm
+from apps.financeiro.models import LoteAdiantamento, StatusAdiantamento
+from apps.financeiro.services import AdiantamentoService
+from apps.financeiro.services.pdf_service import PdfService
+
+
+@login_required
+def teste_pdf(request, pk):
+
+    lote = get_object_or_404(
+        LoteAdiantamento,
+        pk=pk,
+    )
+
+    pdf = PdfService.gerar(lote)
+
+    return FileResponse(
+        pdf,
+        as_attachment=False,
+        filename=f"{lote.numero}.pdf",
+    )
 
 
 @login_required
@@ -50,8 +71,38 @@ from apps.financeiro.models import Adiantamento
 @login_required
 def adiantamento_list(request):
 
-    adiantamentos = Adiantamento.objects.visiveis_para(  # type:ignore
-        request.user,
+    if request.method == "POST":
+        ids = request.POST.getlist(
+            "adiantamentos",
+        )
+
+        lotes = AdiantamentoService.emitir_lotes(
+            request.user,
+            ids,
+        )
+
+        if not lotes:
+            messages.warning(
+                request,
+                "Nenhum adiantamento disponível para emissão.",
+            )
+
+            return redirect(
+                "financeiro:adiantamento_list",
+            )
+
+        # Aqui futuramente vamos gerar os PDFs.
+        messages.success(
+            request,
+            f"{len(lotes)} lote(s) criado(s) com sucesso.",
+        )
+
+        return redirect(
+            "financeiro:adiantamento_list",
+        )
+
+    adiantamentos = Adiantamento.objects.visiveis_para(request.user).filter(  # type: ignore
+        status=StatusAdiantamento.RASCUNHO,
     )
 
     return render(

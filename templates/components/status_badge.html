@@ -1,0 +1,31 @@
+{% if status == "rascunho" %}
+
+<span class="badge bg-secondary">
+    {{ descricao }}
+</span>
+
+{% elif status == "solicitado" %}
+
+<span class="badge bg-primary">
+    {{ descricao }}
+</span>
+
+{% elif status == "prestado" %}
+
+<span class="badge bg-success">
+    {{ descricao }}
+</span>
+
+{% elif status == "cancelado" %}
+
+<span class="badge bg-danger">
+    {{ descricao }}
+</span>
+
+{% else %}
+
+<span class="badge bg-dark">
+    {{ descricao }}
+</span>
+
+{% endif %}

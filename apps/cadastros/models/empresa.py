@@ -13,6 +13,12 @@ class Empresa(BaseModel):
     nome_fantasia = models.CharField("Nome Fantasia", max_length=150, blank=True)
 
     cnpj = models.CharField("CNPJ", max_length=18, unique=True)
+    logo = models.ImageField(
+        "Logo",
+        upload_to="empresas/logos/",
+        blank=True,
+        null=True,
+    )
 
     inscricao_estadual = models.CharField(
         "Inscrição Estadual", max_length=20, blank=True

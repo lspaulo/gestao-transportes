@@ -76,6 +76,27 @@ def usuario_update(request, pk):
                 )
 
                 return redirect("usuarios:usuario_list")
+            # Impede que o usuário altere o próprio perfil
+            if request.user == usuario:
+                perfil_atual = request.user.perfil.perfil
+
+                if novo_perfil != perfil_atual:
+                    perfil_form.add_error(
+                        "perfil",
+                        "Você não pode alterar o seu próprio perfil de acesso.",
+                    )
+
+                    return render(
+                        request,
+                        "usuarios/usuario_form.html",
+                        {
+                            "user_form": user_form,
+                            "perfil_form": perfil_form,
+                            "titulo": "Editar Usuário",
+                            "descricao": "Atualize os dados do usuário.",
+                            "icone": "bi-person-badge",
+                        },
+                    )
 
             user_form.save()
             perfil_form.save()

@@ -1,14 +1,18 @@
 from django.urls import path
 
 from .views import (
-    alterar_senha,  # type: ignore
-    meu_perfil,  # type: ignore
+    alterar_senha,
+    meu_perfil,
     meu_perfil_update,
-    redefinir_senha,  # type: ignore
+    redefinir_senha,
+    setor_create,
+    setor_delete,
+    setor_list,
+    setor_update,
     usuario_create,
-    usuario_list,  # type: ignore
-    usuario_toggle_status,  # type: ignore
-    usuario_update,  # type: ignore
+    usuario_list,
+    usuario_toggle_status,
+    usuario_update,
 )
 
 app_name = "usuarios"
@@ -53,5 +57,25 @@ urlpatterns = [
         "<int:pk>/status/",
         usuario_toggle_status,
         name="usuario_toggle_status",
+    ),
+    path(
+        "setores/",
+        setor_list,
+        name="setor_list",
+    ),
+    path(
+        "setores/novo/",
+        setor_create,
+        name="setor_create",
+    ),
+    path(
+        "setores/<int:pk>/editar/",
+        setor_update,
+        name="setor_update",
+    ),
+    path(
+        "setores/<int:pk>/excluir/",
+        setor_delete,
+        name="setor_delete",
     ),
 ]

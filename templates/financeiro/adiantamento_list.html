@@ -9,7 +9,11 @@
 <div class="d-flex justify-content-between align-items-center mb-4">
 
     {% include "components/page_header.html" with icone=icone titulo=titulo descricao=descricao %}
+    <form
+        method="post"
+        id="form-lote">
 
+        {% csrf_token %}
 
     <a
         href="{% url 'financeiro:adiantamento_create' %}"
@@ -25,12 +29,15 @@
         <div>
 
             <button
+                type="submit"
+                name="acao"
+                value="gerar_pdf"
                 id="btn-gerar-pdfs"
                 class="btn btn-success"
                 disabled>
 
                 <i class="bi bi-file-earmark-pdf"></i>
-                Gerar PDFs
+                Criar Lotes
 
             </button>
 
@@ -50,7 +57,7 @@
 
     </div>
 
-<table class="table table-striped table-hover">
+<table class="table table-hover align-middle">
 
     <thead>
 
@@ -68,7 +75,9 @@
             <th>Motorista</th>
             <th>Empresa</th>
             <th>Conta</th>
-            <th>Valor</th>
+            <th class="text-end">
+                Valor
+            </th>
             <th>Status</th>
             <th>Solicitante</th>
             
@@ -98,40 +107,28 @@
             <td>{{ adiantamento.funcionario }}</td>
             <td>{{ adiantamento.empresa }}</td>
             <td>
+
                 {{ adiantamento.conta_bancaria.get_banco_display }}
 
                 <br>
 
                 <small class="text-muted">
-                    {{ adiantamento.conta_bancaria.numero_conta }}-{{ adiantamento.conta_bancaria.digito_conta }}
+
+                    Ag. {{ adiantamento.conta_bancaria.agencia }}
+
+                    •
+
+                    CC {{ adiantamento.conta_bancaria.numero_conta }}-{{ adiantamento.conta_bancaria.digito_conta }}
+
                 </small>
+
             </td>
             <td class="text-end">
                 R$ {{ adiantamento.valor }}
             </td>
             <td>
 
-                {% if adiantamento.status == "rascunho" %}
-                    <span class="badge bg-secondary">
-                        {{ adiantamento.get_status_display }}
-                    </span>
-
-                {% elif adiantamento.status == "solicitado" %}
-                    <span class="badge bg-primary">
-                        {{ adiantamento.get_status_display }}
-                    </span>
-
-                {% elif adiantamento.status == "prestado" %}
-                    <span class="badge bg-success">
-                        {{ adiantamento.get_status_display }}
-                    </span>
-
-                {% elif adiantamento.status == "cancelado" %}
-                    <span class="badge bg-danger">
-                        {{ adiantamento.get_status_display }}
-                    </span>
-
-                {% endif %}
+                {% include "components/status_badge.html" with status=adiantamento.status descricao=adiantamento.get_status_display %}
 
             </td>
             <td>{{ adiantamento.solicitante.get_full_name|default:adiantamento.solicitante.username }}</td>
@@ -178,7 +175,7 @@
                 colspan="9"
                 class="text-center">
 
-                Nenhum adiantamento cadastrado.
+                Nenhum adiantamento encontrado.
 
             </td>
 
@@ -189,6 +186,7 @@
     </tbody>
 
 </table>
+</form>
 
 {% endblock %}
 {% block scripts %}

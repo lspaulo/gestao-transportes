@@ -6,6 +6,7 @@ from apps.financeiro.views import (
     adiantamento_list,
     adiantamento_update,
     contas_funcionario,
+    teste_pdf,
 )
 
 app_name = "financeiro"
@@ -35,5 +36,10 @@ urlpatterns = [
         "adiantamentos/<int:pk>/excluir/",
         adiantamento_delete,
         name="adiantamento_delete",
+    ),
+    path(
+        "lotes/<int:pk>/pdf/",
+        teste_pdf,
+        name="teste_pdf",
     ),
 ]

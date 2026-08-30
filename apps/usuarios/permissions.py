@@ -16,9 +16,16 @@ def pode_editar_usuario(usuario_logado, usuario_editado):
     if perfil_logado.is_admin:
         return True
 
-    # Gestor pode editar apenas Operadores
+    # Gestor pode editar Gestores e Operadores do próprio setor
     if perfil_logado.is_gestor:
-        return perfil_editado.is_operador
+        return (
+            perfil_editado.perfil
+            in (
+                TipoPerfil.GESTOR,
+                TipoPerfil.OPERADOR,
+            )
+            and perfil_editado.setor == perfil_logado.setor
+        )
 
     # Operadores não editam usuários
     return False
@@ -32,7 +39,10 @@ def pode_definir_perfil(usuario_logado, novo_perfil):
         return True
 
     if perfil_logado.is_gestor:
-        return novo_perfil == TipoPerfil.OPERADOR
+        return novo_perfil in (
+            TipoPerfil.GESTOR,
+            TipoPerfil.OPERADOR,
+        )
 
     return False
 
@@ -45,9 +55,13 @@ def perfis_disponiveis(usuario):
     if usuario.perfil.is_gestor:
         return [
             (
+                TipoPerfil.GESTOR,
+                "Gestor",
+            ),
+            (
                 TipoPerfil.OPERADOR,
                 "Operador",
-            )
+            ),
         ]
 
     return [
@@ -67,7 +81,13 @@ def usuarios_visiveis(usuario_logado):
 
     if usuario_logado.perfil.is_gestor:
         return queryset.filter(
-            perfil__perfil=TipoPerfil.OPERADOR,
+            perfil__setor=usuario_logado.perfil.setor,
+            perfil__perfil__in=[
+                TipoPerfil.GESTOR,
+                TipoPerfil.OPERADOR,
+            ],
+        ).exclude(
+            perfil__perfil=TipoPerfil.ADMINISTRADOR,
         )
 
     return queryset.filter(

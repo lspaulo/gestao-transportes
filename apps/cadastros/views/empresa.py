@@ -27,7 +27,10 @@ def empresa_list(request):
 def empresa_create(request):
 
     if request.method == "POST":
-        form = EmpresaForm(request.POST)
+        form = EmpresaForm(
+            request.POST,
+            request.FILES,
+        )
 
         if form.is_valid():
             form.save()
@@ -59,6 +62,7 @@ def empresa_update(request, pk):
     if request.method == "POST":
         form = EmpresaForm(
             request.POST,
+            request.FILES,
             instance=empresa,
         )
 

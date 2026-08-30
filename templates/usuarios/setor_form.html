@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {{ titulo }}
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    {% include "components/page_header.html" with icone=icone titulo=titulo descricao=descricao %}
+
+    <form method="post">
+
+        {% csrf_token %}
+
+        <div class="row">
+
+            <div class="col-md-6">
+                {% include "components/form_field.html" with field=form.nome %}
+            </div>
+
+            <div class="col-md-6">
+                {% include "components/form_field.html" with field=form.responsavel %}
+            </div>
+
+        </div>
+
+        <div class="row mt-2">
+
+            <div class="col-md-6">
+                {% include "components/form_field.html" with field=form.responsavel_substituto %}
+            </div>
+
+            <div class="col-md-3">
+                {% include "components/form_field.html" with field=form.ativo %}
+            </div>
+
+        </div>
+
+        <div class="mt-4">
+
+            <button class="btn btn-primary">
+                <i class="bi bi-floppy"></i>
+                Salvar
+            </button>
+
+            <a
+                href="{% url 'usuarios:setor_list' %}"
+                class="btn btn-secondary"
+            >
+                <i class="bi bi-x-circle"></i>
+                Cancelar
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

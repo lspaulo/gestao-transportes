@@ -6,7 +6,10 @@ document.addEventListener(
             document.querySelectorAll(
                 ".selecionar-adiantamento"
             );
-
+        const selecionarTodos =
+            document.getElementById(
+                "selecionar-todos"
+            );
         const contador =
             document.getElementById(
                 "contador-selecionados"
@@ -23,9 +26,13 @@ document.addEventListener(
                 document.querySelectorAll(
                     ".selecionar-adiantamento:checked"
                 ).length;
+            selecionarTodos.checked =
+                selecionados === checkboxes.length;
 
             contador.textContent =
-                `${selecionados} selecionados`;
+                selecionados === 1
+                    ? "1 selecionado"
+                    : `${selecionados} selecionados`;
 
             botao.disabled =
                 selecionados === 0;
@@ -40,6 +47,24 @@ document.addEventListener(
             );
 
         });
+        if (selecionarTodos) {
+
+            selecionarTodos.addEventListener(
+                "change",
+                function () {
+
+                    checkboxes.forEach((item) => {
+
+                        item.checked = this.checked;
+
+                    });
+
+                    atualizar();
+
+                },
+            );
+
+        }
 
     },
 );

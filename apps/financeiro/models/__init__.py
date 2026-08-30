@@ -1,3 +1,4 @@
 from .adiantamento import Adiantamento
 from .finalidade_adiantamento import FinalidadeAdiantamento
+from .lote_adiantamento import LoteAdiantamento
 from .status_adiantamento import StatusAdiantamento

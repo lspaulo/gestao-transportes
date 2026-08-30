@@ -120,7 +120,13 @@
 
                     <ul class="dropdown-menu">
 
-                        <li><a class="dropdown-item" href="#">Adiantamentos</a></li>
+                        <li>
+                            <a 
+                                class="dropdown-item" 
+                                href="{% url 'financeiro:adiantamento_list' %}">
+                                Adiantamentos
+                            </a>
+                        </li>
                         <li><a class="dropdown-item" href="#">Prestação de Contas</a></li>
 
                     </ul>

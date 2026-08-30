@@ -8,7 +8,10 @@
 
     {% include "components/page_header.html" with icone=icone titulo=titulo descricao=descricao %}
 
-    <form method="post">
+    <form
+        method="post"
+        enctype="multipart/form-data"
+    >
 
         {% csrf_token %}
 
@@ -52,6 +55,13 @@
             <div class="col-12">
                 {% include "components/form_field.html" with field=form.observacao %}
             </div>
+        </div>
+        <div class="row">
+
+            <div class="col-md-6">
+                {% include "components/form_field.html" with field=form.logo %}
+            </div>
+
         </div>
         
 

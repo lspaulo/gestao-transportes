@@ -15,6 +15,7 @@ class EmpresaForm(forms.ModelForm):
             "telefone",
             "email",
             "observacao",
+            "logo",
             "ativo",
         )
 
@@ -29,4 +30,5 @@ class EmpresaForm(forms.ModelForm):
             if not isinstance(campo.widget, forms.CheckboxInput):
                 campo.widget.attrs["class"] = "form-control"
 
+        self.fields["logo"].widget.attrs["class"] = "form-control"
         self.fields["ativo"].widget.attrs["class"] = "form-check-input"
