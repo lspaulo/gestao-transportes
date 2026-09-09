@@ -60,10 +60,20 @@ class AdiantamentoService:
         lotes_criados = []
 
         for lote_dto in lotes_dto:
+            setor = usuario.perfil.setor
+
+            responsavel = setor.responsavel if setor and setor.responsavel else None
+
+            emitido_por = usuario.get_full_name() or usuario.username
             lote = LoteAdiantamento.objects.create(
                 empresa=lote_dto.empresa,
                 solicitante=usuario,
-                setor=usuario.perfil.setor,
+                setor=setor,
+                responsavel_historico=(
+                    str(responsavel) if responsavel else "Não informado"
+                ),
+                setor_historico=(setor.nome if setor else "Não informado"),
+                emitido_por_historico=emitido_por,
             )
 
             for adiantamento in lote_dto.adiantamentos:

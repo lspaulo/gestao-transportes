@@ -40,6 +40,19 @@ class LoteAdiantamento(BaseModel):
         "Data da Emissão",
         auto_now_add=True,
     )
+    responsavel_historico = models.CharField(
+        max_length=150,
+        blank=True,
+    )
+
+    setor_historico = models.CharField(
+        max_length=100,
+        blank=True,
+    )
+    emitido_por_historico = models.CharField(
+        max_length=150,
+        blank=True,
+    )
 
     @property
     def quantidade(self):

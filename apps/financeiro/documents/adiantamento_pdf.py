@@ -2,6 +2,7 @@ import os
 from io import BytesIO
 from typing import Any
 
+from django.utils import timezone
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4, landscape
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
@@ -538,15 +539,13 @@ class AdiantamentoPdf:
         if lote is not None:
             emitido_por = lote.solicitante.get_full_name() or lote.solicitante.username
 
-            responsavel = (
-                str(lote.setor.responsavel)
-                if lote.setor and lote.setor.responsavel
-                else "Não informado"
+            responsavel = lote.responsavel_historico or "Não informado"
+
+            setor = lote.setor_historico or "Não informado"
+
+            data_emissao = timezone.localtime(lote.data_emissao).strftime(
+                "%d/%m/%Y às %H:%M"
             )
-
-            setor = str(lote.setor) if lote.setor else "Não informado"
-
-            data_emissao = lote.data_emissao.strftime("%d/%m/%Y às %H:%M")
 
             # -------------------------------------------------
             # LINHA VERDE DO RODAPÉ
