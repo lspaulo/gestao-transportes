@@ -20,12 +20,14 @@ from apps.cadastros.views.empresa import (  # type: ignore
 )
 from apps.cadastros.views.equipamento import (  # type: ignore
     equipamento_create,
+    equipamento_detail,
     equipamento_list,
     equipamento_toggle_status,
     equipamento_update,
 )
 from apps.cadastros.views.funcionario import (  # type: ignore
     funcionario_create,
+    funcionario_detail,
     funcionario_list,
     funcionario_toggle_status,
     funcionario_update,
@@ -75,6 +77,11 @@ urlpatterns = [
         name="funcionario_list",
     ),
     path(
+        "funcionarios/<int:pk>/",
+        funcionario_detail,
+        name="funcionario_detail",
+    ),
+    path(
         "funcionarios/novo/",
         funcionario_create,
         name="funcionario_create",
@@ -115,6 +122,11 @@ urlpatterns = [
         "equipamentos/",
         equipamento_list,
         name="equipamento_list",
+    ),
+    path(
+        "equipamentos/<int:pk>/",
+        equipamento_detail,
+        name="equipamento_detail",
     ),
     path(
         "equipamentos/novo/",

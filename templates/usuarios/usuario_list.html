@@ -19,19 +19,43 @@
 
 </div>
 
+<div class="btn-group mb-3" role="group" aria-label="Filtro de status">
+
+    <a
+        href="?status=ativos"
+        class="btn {% if status == 'ativos' %}btn-primary{% else %}btn-outline-primary{% endif %}"
+    >
+        Ativas
+    </a>
+
+    <a
+        href="?status=inativos"
+        class="btn {% if status == 'inativos' %}btn-primary{% else %}btn-outline-primary{% endif %}"
+    >
+        Inativas
+    </a>
+
+    <a
+        href="?status=todos"
+        class="btn {% if status == 'todos' %}btn-primary{% else %}btn-outline-primary{% endif %}"
+    >
+        Todas
+    </a>
+
+</div>
+
 <div class="card shadow-sm">
 
     <div class="table-responsive">
 
         <table class="table table-hover align-middle mb-0">
 
-            <thead>
+            <thead class="table-info">
                 <tr>
                     <th>Usuário</th>
                     <th>Funcionário</th>
                     <th>Perfil</th>
                     <th>Status</th>
-                    <th width="90">Ações</th>
                 </tr>
             </thead>
 
@@ -39,83 +63,70 @@
 
                 {% for usuario in usuarios %}
 
-                <tr>
+                    <tr class="position-relative">
 
-                    <td>
-
-                        {{ usuario.username }}
-
-                    </td>
-
-                    <td>
-
-                        {% if usuario.perfil.funcionario %}
-                            {{ usuario.perfil.funcionario }}
-                        {% else %}
-                            <span class="text-muted">Não vinculado</span>
-                        {% endif %}
-
-                    </td>
-
-                    <td>
-
-                        {% if usuario.perfil %}
-
-                            {{ usuario.perfil.get_perfil_display }}
-
-                        {% else %}
-
-                            Não Definido
-
-                        {% endif %}
-
-                    </td>
-                    <td>
-                        {% if usuario.is_active %}
-                            <span class="badge bg-success">
-                                Ativo
-                            </span>
-                        {% else %}
-                            <span class="badge bg-secondary">
-                                Inativo
-                            </span>
-                        {% endif %}
-                    </td>
-                    <td>
-                        <div class="d-flex justify-content-center align-items-center gap-3">
-                            <a href="{% url 'usuarios:usuario_update' usuario.id %}" class="action-icon" title="Editar usuário">
-                                <i class="bi bi-pencil-square fs-5"></i>
+                        <td>
+                            <a
+                                href="{% url 'usuarios:usuario_detail' usuario.pk %}"
+                                class="stretched-link text-decoration-none text-reset"
+                            >
+                                {{ usuario.username }}
                             </a>
-                            <a href="{% url 'usuarios:redefinir_senha' usuario.id %}" class="action-icon" title="Redefinir senha">
-                                <i class="bi bi-key fs-5"></i>
-                            </a>
-                            <form method="post" action="{% url 'usuarios:usuario_toggle_status' usuario.id %}" class="m-0">
-                                {% csrf_token %}
-                                <button type="submit" class="action-icon border-0 bg-transparent p-0" title="{% if usuario.is_active %}Inativar usuário{% else %}Ativar usuário{% endif %}">
-                                    {% if usuario.is_active %}
-                                        <i class="bi bi-person-x fs-5"></i>
-                                    {% else %}
-                                        <i class="bi bi-person-check fs-5"></i>
-                                    {% endif %}
-                                </button>
-                            </form>
-                        </div>
-                    </td>
+                        </td>
 
-                    
-                </tr>
+                        <td>
+
+                            {% if usuario.perfil.funcionario %}
+                                {{ usuario.perfil.funcionario }}
+                            {% else %}
+                                <span class="text-muted">
+                                    Não vinculado
+                                </span>
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+
+                            {% if usuario.perfil %}
+                                {{ usuario.perfil.get_perfil_display }}
+                            {% else %}
+                                <span class="text-muted">
+                                    Não definido
+                                </span>
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+
+                            {% if usuario.is_active %}
+
+                                <span class="badge bg-success">
+                                    Ativo
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-secondary">
+                                    Inativo
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
 
                 {% empty %}
 
-                <tr>
+                    <tr>
 
-                    <td colspan="4" class="text-center py-4">
+                        <td colspan="4" class="text-center py-4">
+                            Nenhum usuário encontrado.
+                        </td>
 
-                        Nenhum usuário encontrado.
-
-                    </td>
-
-                </tr>
+                    </tr>
 
                 {% endfor %}
 

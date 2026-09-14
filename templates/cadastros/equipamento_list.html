@@ -7,17 +7,18 @@
 <div class="d-flex justify-content-between align-items-center mb-4">
 
     {% include "components/page_header.html" with icone="bi-truck" titulo="Equipamentos" descricao="Cadastro de equipamentos." %}
-
-    <a href="{% url 'cadastros:equipamento_create' %}"
-       class="btn btn-primary">
+    <a
+        href="{% url 'cadastros:equipamento_create' %}"
+        class="btn btn-primary"
+    >
         <i class="bi bi-plus-circle"></i>
         Novo Equipamento
-
     </a>
 
 </div>
 
-<form method="get" class="mb-4">
+
+<form method="get" class="mb-3">
 
     <div class="input-group">
 
@@ -26,9 +27,14 @@
             class="form-control"
             name="q"
             placeholder="Pesquisar..."
-            value="{{ request.GET.q }}">
+            value="{{ request.GET.q }}"
+        >
 
-        <button class="btn btn-outline-secondary">
+        <button
+            type="submit"
+            class="btn btn-outline-secondary"
+        >
+            <i class="bi bi-search"></i>
             Pesquisar
         </button>
 
@@ -36,63 +42,132 @@
 
 </form>
 
-<table class="table table-striped table-hover">
+<div
+    class="btn-group mb-4"
+    role="group"
+    aria-label="Filtro de status"
+>
 
-    <thead>
+    <a
+        href="?status=ativos{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}"
+        class="btn {% if status == 'ativos' %}btn-primary{% else %}btn-outline-primary{% endif %}"
+    >
+        Ativos
+    </a>
 
-        <tr>
-            <th>Frota</th>
-            <th>Placa</th>
-            <th>Descrição</th>
-            <th>Empresa</th>
-            <th>Status</th>
-            <th width="120">Ações</th>
-        </tr>
+    <a
+        href="?status=inativos{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}"
+        class="btn {% if status == 'inativos' %}btn-primary{% else %}btn-outline-primary{% endif %}"
+    >
+        Inativos
+    </a>
 
-    </thead>
+    <a
+        href="?status=todos{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}"
+        class="btn {% if status == 'todos' %}btn-primary{% else %}btn-outline-primary{% endif %}"
+    >
+        Todos
+    </a>
 
-    <tbody>
+</div>
 
-        {% for equipamento in equipamentos %}
 
-        <tr>
+<div class="table-responsive">
 
-            <td>{{ equipamento.frota }}</td>
-            <td>{{ equipamento.placa }}</td>
-            <td>{{ equipamento.descricao }}</td>
-            <td>{{ equipamento.empresa }}</td>
-            <td>{{ equipamento.status }}</td>
+    <table class="table table-striped table-hover align-middle">
 
-            <td>
+        <thead class="table-info">
 
-                <a
-                    href="{% url 'cadastros:equipamento_update' equipamento.id %}"
-                    class="btn btn-sm btn-outline-primary">
-                    <i class="bi bi-pencil"></i>
-                    Editar
+            <tr>
 
-                </a>
+                <th>Frota</th>
+                <th>Placa</th>
+                <th>Descrição</th>
+                <th>Empresa</th>
+                <th>Classe Operacional</th>
+                <th>Marca / Modelo</th>
+                <th>Ano</th>
+                <th>Status Operacional</th>
 
-            </td>
+            </tr>
 
-        </tr>
+        </thead>
 
-        {% empty %}
+        <tbody>
 
-        <tr>
+            {% for equipamento in equipamentos %}
 
-            <td colspan="6" class="text-center">
+            <tr class="position-relative">
 
-                Nenhum equipamento cadastrado.
+                <td>
+                    <a
+                        href="{% url 'cadastros:equipamento_detail' equipamento.pk %}"
+                        class="stretched-link text-decoration-none text-reset"
+                    >
+                        {{ equipamento.frota }}
+                    </a>
+                </td>
 
-            </td>
+                <td>
+                    {{ equipamento.placa|default:"-" }}
+                </td>
 
-        </tr>
+                <td>
+                    {{ equipamento.descricao }}
+                </td>
 
-        {% endfor %}
+                <td>
+                    {{ equipamento.empresa }}
+                </td>
 
-    </tbody>
+                <td>
+                    {{ equipamento.classe_operacional }}
+                </td>
 
-</table>
+                <td>
+                    {% if equipamento.marca or equipamento.modelo %}
+                        {{ equipamento.marca|default:"-" }}
+                        /
+                        {{ equipamento.modelo|default:"-" }}
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+
+                <td>
+                    {% if equipamento.ano_fabricacao or equipamento.ano_modelo %}
+
+                        {{ equipamento.ano_fabricacao|default:"-" }}
+                        /
+                        {{ equipamento.ano_modelo|default:"-" }}
+
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+
+                <td>
+                    {{ equipamento.status_operacional }}
+                </td>
+
+            </tr>
+
+            {% empty %}
+
+            <tr>
+
+                <td colspan="8" class="text-center py-4">
+                    Nenhum equipamento cadastrado.
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
 
 {% endblock %}

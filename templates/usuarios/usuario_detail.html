@@ -1,0 +1,285 @@
+{% extends "base.html" %}
+
+{% block title %}Usuário - {{ usuario.username }}{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+        <h1 class="mb-1">
+            <i class="bi bi-person-badge"></i>
+            {{ usuario.get_full_name|default:usuario.username }}
+        </h1>
+
+        <p class="text-muted mb-0">
+            Detalhes do usuário
+        </p>
+    </div>
+
+    <a
+        href="{% url 'usuarios:usuario_list' %}"
+        class="btn btn-outline-secondary"
+    >
+        <i class="bi bi-arrow-left me-1"></i>
+        Voltar
+    </a>
+
+</div>
+
+
+<!-- Dados da conta -->
+
+<div class="card mb-4">
+
+    <div class="card-header">
+        <i class="bi bi-person me-1"></i>
+        Dados da conta
+    </div>
+
+    <div class="card-body">
+
+        <div class="row g-3">
+
+            <div class="col-md-4">
+                <small class="text-muted d-block">
+                    Usuário
+                </small>
+
+                <strong>
+                    {{ usuario.username }}
+                </strong>
+            </div>
+
+            <div class="col-md-4">
+                <small class="text-muted d-block">
+                    Nome
+                </small>
+
+                <strong>
+                    {{ usuario.get_full_name|default:"-" }}
+                </strong>
+            </div>
+
+            <div class="col-md-4">
+                <small class="text-muted d-block">
+                    E-mail
+                </small>
+
+                <strong>
+                    {{ usuario.email|default:"-" }}
+                </strong>
+            </div>
+
+            <div class="col-md-4">
+
+                <small class="text-muted d-block">
+                    Status
+                </small>
+
+                {% if usuario.is_active %}
+                    <span class="badge bg-success">
+                        Ativo
+                    </span>
+                {% else %}
+                    <span class="badge bg-danger">
+                        Inativo
+                    </span>
+                {% endif %}
+
+            </div>
+
+            <div class="col-md-4">
+
+                <small class="text-muted d-block">
+                    Último acesso
+                </small>
+
+                <strong>
+                    {% if usuario.last_login %}
+                        {{ usuario.last_login|date:"d/m/Y H:i" }}
+                    {% else %}
+                        Nunca acessou
+                    {% endif %}
+                </strong>
+
+            </div>
+
+            <div class="col-md-4">
+
+                <small class="text-muted d-block">
+                    Cadastro
+                </small>
+
+                <strong>
+                    {{ usuario.date_joined|date:"d/m/Y H:i" }}
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Perfil de acesso -->
+
+<div class="card mb-4">
+
+    <div class="card-header">
+        <i class="bi bi-shield-lock me-1"></i>
+        Perfil de acesso
+    </div>
+
+    <div class="card-body">
+
+        {% if usuario.perfil %}
+
+            <div class="row g-3">
+
+                <div class="col-md-4">
+
+                    <small class="text-muted d-block">
+                        Perfil
+                    </small>
+
+                    <strong>
+                        {{ usuario.perfil.get_perfil_display }}
+                    </strong>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <small class="text-muted d-block">
+                        Funcionário
+                    </small>
+
+                    <strong>
+                        {{ usuario.perfil.funcionario|default:"-" }}
+                    </strong>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <small class="text-muted d-block">
+                        Setor
+                    </small>
+
+                    <strong>
+                        {{ usuario.perfil.setor|default:"-" }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+        {% else %}
+
+            <span class="text-muted">
+                Nenhum perfil de acesso configurado.
+            </span>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+
+<!-- Permissões administrativas -->
+
+<div class="card mb-4">
+
+    <div class="card-header">
+        <i class="bi bi-key me-1"></i>
+        Permissões administrativas
+    </div>
+
+    <div class="card-body">
+
+        <div class="row g-3">
+
+            <div class="col-md-4">
+
+                <small class="text-muted d-block">
+                    Acesso à administração
+                </small>
+
+                {% if usuario.is_staff %}
+                    <span class="badge bg-success">
+                        Sim
+                    </span>
+                {% else %}
+                    <span class="badge bg-secondary">
+                        Não
+                    </span>
+                {% endif %}
+
+            </div>
+
+            <div class="col-md-4">
+
+                <small class="text-muted d-block">
+                    Superusuário
+                </small>
+
+                {% if usuario.is_superuser %}
+                    <span class="badge bg-success">
+                        Sim
+                    </span>
+                {% else %}
+                    <span class="badge bg-secondary">
+                        Não
+                    </span>
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Ações -->
+
+<div class="d-flex gap-2 mb-4">
+
+    <a
+        href="{% url 'usuarios:usuario_update' usuario.pk %}"
+        class="btn btn-sm btn-outline-primary"
+    >
+        <i class="bi bi-pencil me-1"></i>
+        Editar
+    </a>
+
+    {% if usuario.is_active %}
+
+        <a
+            href="{% url 'usuarios:usuario_toggle_status' usuario.pk %}"
+            class="btn btn-sm btn-outline-warning"
+        >
+            <i class="bi bi-person-dash me-1"></i>
+            Inativar
+        </a>
+
+    {% else %}
+
+        <a
+            href="{% url 'usuarios:usuario_toggle_status' usuario.pk %}"
+            class="btn btn-sm btn-outline-success"
+        >
+            <i class="bi bi-person-check me-1"></i>
+            Ativar
+        </a>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

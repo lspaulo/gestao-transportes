@@ -6,24 +6,106 @@ Início
 
 {% block content %}
 
-<div class="text-center py-5">
+<div
+    class="d-flex align-items-center justify-content-center"
+    style="min-height: calc(100vh - 170px);"
+>
+    <div class="text-center w-100">
 
-    <h1 class="display-4 fw-bold">
-        Gestão de Transportes
-    </h1>
+        <!-- Logo da empresa -->
+        <div class="mb-4">
+            <img
+                src="/media/empresas/logos/logo_1.png"
+                alt="Cooperativa Pindorama"
+                style="
+                    max-height: 105px;
+                    max-width: 280px;
+                    object-fit: contain;
+                "
+            >
+        </div>
 
-    <p class="lead mt-3">
-        Sistema de Prestação de Contas
-    </p>
+        <!-- Identificação do sistema -->
+        <h1 class="display-5 fw-bold mb-2">
+            Gestão de Transportes
+        </h1>
 
-    <hr class="my-5">
+        <p class="lead text-muted mb-3">
+            Sistema de Gestão de Frotas
+        </p>
 
-    <p class="text-muted">
+        <p
+            class="text-muted mx-auto mb-5"
+            style="max-width: 650px;"
+        >
+            Gestão operacional e administrativa dos recursos de transporte,
+            proporcionando maior controle, organização e eficiência.
+        </p>
 
-        Projeto desenvolvido em Django + PostgreSQL.
 
-    </p>
+        <!-- Acessos rápidos -->
+        <div class="row justify-content-center g-3">
 
+            <!-- Equipamentos -->
+            <div class="col-12 col-sm-6 col-lg-3">
+                <a
+                    href="{% url 'cadastros:equipamento_list' %}"
+                    class="btn btn-outline-success w-100 py-3"
+                >
+                    <i class="bi bi-truck fs-4 d-block mb-1"></i>
+                    Equipamentos
+                </a>
+            </div>
+
+
+            <!-- Funcionários -->
+            <div class="col-12 col-sm-6 col-lg-3">
+                <a
+                    href="{% url 'cadastros:funcionario_list' %}"
+                    class="btn btn-outline-success w-100 py-3"
+                >
+                    <i class="bi bi-people fs-4 d-block mb-1"></i>
+                    Funcionários
+                </a>
+            </div>
+
+
+            <!-- Financeiro -->
+            <div class="col-12 col-sm-6 col-lg-3">
+                <a
+                    href="{% url 'financeiro:adiantamento_list' %}"
+                    class="btn btn-outline-success w-100 py-3"
+                >
+                    <i class="bi bi-cash-stack fs-4 d-block mb-1"></i>
+                    Financeiro
+                </a>
+            </div>
+
+
+            <!-- Relatórios -->
+            <div class="col-12 col-sm-6 col-lg-3">
+
+                <div
+                    class="btn btn-outline-secondary w-100 py-3 position-relative"
+                    style="cursor: default;"
+                >
+                    <i class="bi bi-bar-chart-line fs-4 d-block mb-1"></i>
+
+                    Relatórios
+
+                    <span
+                        class="badge text-bg-secondary position-absolute top-0 end-0 mt-2 me-2"
+                        style="font-size: 0.65rem;"
+                    >
+                        Em breve
+                    </span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
 </div>
 
 {% endblock %}

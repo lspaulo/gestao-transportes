@@ -7,8 +7,19 @@ from apps.cadastros.models import Equipamento
 def equipamento_list(request):
 
     pesquisa = request.GET.get("q", "")
+    status = request.GET.get("status", "ativos")
 
     equipamentos = Equipamento.objects.all()
+
+    if status == "inativos":
+        equipamentos = equipamentos.filter(ativo=False)
+
+    elif status == "todos":
+        pass
+
+    else:
+        status = "ativos"
+        equipamentos = equipamentos.filter(ativo=True)
 
     if pesquisa:
         equipamentos = equipamentos.filter(descricao__icontains=pesquisa)
@@ -20,6 +31,7 @@ def equipamento_list(request):
         "cadastros/equipamento_list.html",
         {
             "equipamentos": equipamentos,
+            "status": status,
         },
     )
 
@@ -80,6 +92,22 @@ def equipamento_update(request, pk):
             "titulo": "Editar Equipamento",
             "descricao": "Edite os dados do equipamento",
             "icone": "bi-truck",
+        },
+    )
+
+
+def equipamento_detail(request, pk):
+
+    equipamento = get_object_or_404(
+        Equipamento,
+        pk=pk,
+    )
+
+    return render(
+        request,
+        "cadastros/equipamento_detail.html",
+        {
+            "equipamento": equipamento,
         },
     )
 

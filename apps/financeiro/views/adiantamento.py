@@ -7,6 +7,7 @@ from django.urls import reverse
 from apps.financeiro.forms import AdiantamentoForm
 from apps.financeiro.models import LoteAdiantamento, StatusAdiantamento
 from apps.financeiro.services import AdiantamentoService
+from apps.financeiro.services.email_service import EmailService
 from apps.financeiro.services.pdf_service import PdfService
 
 
@@ -69,6 +70,7 @@ from apps.financeiro.models import Adiantamento
 
 
 @login_required
+@login_required
 def adiantamento_list(request):
 
     if request.method == "POST":
@@ -91,11 +93,25 @@ def adiantamento_list(request):
                 "financeiro:adiantamento_list",
             )
 
-        # Aqui futuramente vamos gerar os PDFs.
-        messages.success(
-            request,
-            f"{len(lotes)} lote(s) criado(s) com sucesso.",
-        )
+        try:
+            EmailService.enviar_lotes(lotes)
+
+            messages.success(
+                request,
+                (
+                    f"{len(lotes)} lote(s) criado(s) e "
+                    "enviado(s) por e-mail com sucesso."
+                ),
+            )
+
+        except Exception as erro:
+            messages.warning(
+                request,
+                (
+                    f"{len(lotes)} lote(s) criado(s), porém "
+                    f"não foi possível enviar o e-mail: {erro}"
+                ),
+            )
 
         return redirect(
             "financeiro:adiantamento_list",

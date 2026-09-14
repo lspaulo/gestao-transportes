@@ -89,6 +89,22 @@ def funcionario_update(request, pk):
     )
 
 
+def funcionario_detail(request, pk):
+
+    funcionario = get_object_or_404(
+        Funcionario,
+        pk=pk,
+    )
+
+    return render(
+        request,
+        "cadastros/funcionario_detail.html",
+        {
+            "funcionario": funcionario,
+        },
+    )
+
+
 def funcionario_toggle_status(request, pk):
     funcionario = get_object_or_404(Funcionario, pk=pk)
 

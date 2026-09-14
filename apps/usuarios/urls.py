@@ -10,6 +10,7 @@ from .views import (
     setor_list,
     setor_update,
     usuario_create,
+    usuario_detail,
     usuario_list,
     usuario_toggle_status,
     usuario_update,
@@ -37,6 +38,11 @@ urlpatterns = [
         "",
         usuario_list,
         name="usuario_list",
+    ),
+    path(
+        "usuarios/<int:pk>/",
+        usuario_detail,
+        name="usuario_detail",
     ),
     path(
         "<int:pk>/editar/",
