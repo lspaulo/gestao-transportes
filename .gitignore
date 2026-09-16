@@ -39,3 +39,6 @@ Thumbs.db
 
 # Ruff
 .ruff_cache/
+
+# Outros
+anotações.txt
