@@ -3,9 +3,17 @@ from django.core.mail import EmailMessage
 from .pdf_service import PdfService
 
 
+def formatar_nome_setor(nome):
+    if not nome:
+        return "Setor"
+
+    return nome.strip().title()
+
+
 class EmailService:
     @staticmethod
     def enviar_lotes(lotes):
+
         if not lotes:
             raise ValueError("Nenhum lote foi informado para envio.")
 
@@ -16,23 +24,29 @@ class EmailService:
         if not destinatario:
             raise ValueError("O usuário solicitante não possui e-mail cadastrado.")
 
-        assunto = f"Solicitação de Adiantamento – {len(lotes)} lote(s)"
+        assunto = (
+            f"Solicitações de Adiantamento – "
+            f"{len(lotes)} lote(s) – "
+            "Gestão de Transportes"
+        )
 
         mensagem = (
-            "Prezado(a),\n\n"
-            "Foram gerados lote(s) de solicitações de "
-            "adiantamento no Sistema de Gestão de Transportes.\n\n"
+            "Prezados,\n\n"
+            "Encaminhamos, em anexo, os documentos referentes "
+            "às solicitações de adiantamento registradas no "
+            "Sistema de Gestão de Transportes.\n\n"
+            "Solicitações encaminhadas:\n\n"
         )
 
         for lote in lotes:
-            mensagem += f"Lote: {lote.numero}\nSetor: {lote.setor_historico}\n\n"
+            mensagem += f"• Lote {lote.numero} – {lote.setor_historico}\n"
 
         mensagem += (
-            "Os documentos em PDF seguem anexados para conferência.\n\n"
-            "Favor verificar os dados, valores e demais informações "
-            "antes de encaminhar aos setores responsáveis.\n\n"
+            "\n"
+            "Os documentos correspondentes seguem anexados "
+            "para prosseguimento do processo.\n\n"
             "Atenciosamente,\n"
-            "Sistema de Gestão de Transportes"
+            f"Setor de {formatar_nome_setor(primeiro_lote.setor_historico)}"
         )
 
         email = EmailMessage(

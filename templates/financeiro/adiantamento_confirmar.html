@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% load formatacao %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    {% include "components/page_header.html" with titulo=titulo descricao=descricao icone=icone %}
+
+    {% for lote in lotes %}
+
+        <div class="card shadow-sm mb-4">
+
+            <div class="card-header bg-white">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="mb-1">
+                            {{ lote.empresa }}
+                        </h5>
+
+                        <small class="text-muted">
+                            {{ lote.quantidade }}
+                            adiantamento{{ lote.quantidade|pluralize }}
+                        </small>
+                    </div>
+
+                    <div class="text-end">
+                        <small class="text-muted d-block">
+                            Total
+                        </small>
+
+                        <strong>
+                            {{ lote.total|moeda_br }}
+                        </strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-body p-0">
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle mb-0">
+
+                        <thead>
+                            <tr>
+                                <th>Adiantamento</th>
+                                <th>Funcionário</th>
+                                <th>Finalidade</th>
+                                <th class="text-end">Valor</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            {% for adiantamento in lote.adiantamentos %}
+
+                                <tr>
+                                    <td>
+                                        {{ adiantamento.numero }}
+                                    </td>
+
+                                    <td>
+                                        {{ adiantamento.historico_nome_motorista }}
+                                    </td>
+
+                                    <td>
+                                        {{  adiantamento.get_finalidade_display }}
+                                    </td>
+
+                                    <td class="text-end">
+                                        {{ adiantamento.valor|moeda_br }}
+                                    </td>
+                                </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    {% endfor %}
+
+
+    <form method="post">
+        {% csrf_token %}
+
+        {% for id in ids %}
+            <input
+                type="hidden"
+                name="adiantamentos"
+                value="{{ id }}"
+            >
+        {% endfor %}
+
+        <div class="d-flex justify-content-end gap-2 mt-4">
+
+            <a
+                href="{% url 'financeiro:adiantamento_list' %}"
+                class="btn btn-sm btn-outline-secondary"
+            >
+                <i class="bi bi-arrow-left"></i>
+                Voltar
+            </a>
+
+            <button
+                type="submit"
+                class="btn btn-primary"
+            >
+                <i class="bi bi-check2"></i>
+                Confirmar Solicitação
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

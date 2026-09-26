@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load formatacao %}
 
 {% block title %}
 {{ titulo }}
@@ -124,7 +125,7 @@
 
             </td>
             <td class="text-end">
-                R$ {{ adiantamento.valor }}
+                {{ adiantamento.valor|moeda_br }}
             </td>
             <td>
 

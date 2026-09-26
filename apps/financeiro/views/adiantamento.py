@@ -70,7 +70,6 @@ from apps.financeiro.models import Adiantamento
 
 
 @login_required
-@login_required
 def adiantamento_list(request):
 
     if request.method == "POST":
@@ -78,43 +77,19 @@ def adiantamento_list(request):
             "adiantamentos",
         )
 
-        lotes = AdiantamentoService.emitir_lotes(
-            request.user,
-            ids,
-        )
-
-        if not lotes:
+        if not ids:
             messages.warning(
                 request,
-                "Nenhum adiantamento disponível para emissão.",
+                "Selecione pelo menos um adiantamento.",
             )
 
             return redirect(
                 "financeiro:adiantamento_list",
             )
 
-        try:
-            EmailService.enviar_lotes(lotes)
-
-            messages.success(
-                request,
-                (
-                    f"{len(lotes)} lote(s) criado(s) e "
-                    "enviado(s) por e-mail com sucesso."
-                ),
-            )
-
-        except Exception as erro:
-            messages.warning(
-                request,
-                (
-                    f"{len(lotes)} lote(s) criado(s), porém "
-                    f"não foi possível enviar o e-mail: {erro}"
-                ),
-            )
-
         return redirect(
-            "financeiro:adiantamento_list",
+            f"{reverse('financeiro:adiantamento_confirmar')}?"
+            + "&".join(f"adiantamentos={id_}" for id_ in ids)
         )
 
     adiantamentos = Adiantamento.objects.visiveis_para(request.user).filter(  # type: ignore
@@ -231,5 +206,104 @@ def adiantamento_delete(
             "url_cancelar": reverse(
                 "financeiro:adiantamento_list",
             ),
+        },
+    )
+
+
+@login_required
+def adiantamento_confirmar(request):
+
+    if request.method == "POST":
+        ids = request.POST.getlist(
+            "adiantamentos",
+        )
+
+        if not ids:
+            messages.warning(
+                request,
+                "Nenhum adiantamento foi selecionado.",
+            )
+
+            return redirect(
+                "financeiro:adiantamento_list",
+            )
+
+        lotes = AdiantamentoService.emitir_lotes(
+            request.user,
+            ids,
+        )
+
+        if not lotes:
+            messages.warning(
+                request,
+                "Nenhum adiantamento disponível para emissão.",
+            )
+
+            return redirect(
+                "financeiro:adiantamento_list",
+            )
+
+        try:
+            EmailService.enviar_lotes(lotes)
+
+            messages.success(
+                request,
+                (
+                    f"{len(lotes)} lote(s) criado(s) e "
+                    "enviado(s) por e-mail com sucesso."
+                ),
+            )
+
+        except Exception as erro:
+            messages.warning(
+                request,
+                (
+                    f"{len(lotes)} lote(s) criado(s), porém "
+                    f"não foi possível enviar o e-mail: {erro}"
+                ),
+            )
+
+        return redirect(
+            "financeiro:adiantamento_list",
+        )
+
+    ids = request.GET.getlist(
+        "adiantamentos",
+    )
+
+    if not ids:
+        messages.warning(
+            request,
+            "Nenhum adiantamento foi selecionado.",
+        )
+
+        return redirect(
+            "financeiro:adiantamento_list",
+        )
+
+    lotes = AdiantamentoService.montar_lotes(
+        request.user,
+        ids,
+    )
+
+    if not lotes:
+        messages.warning(
+            request,
+            "Nenhum adiantamento disponível para solicitação.",
+        )
+
+        return redirect(
+            "financeiro:adiantamento_list",
+        )
+
+    return render(
+        request,
+        "financeiro/adiantamento_confirmar.html",
+        {
+            "lotes": lotes,
+            "titulo": "Confirmar Solicitação de Adiantamentos",
+            "descricao": ("Confira os dados abaixo antes de confirmar a solicitação."),
+            "icone": "bi-check2-square",
+            "ids": ids,
         },
     )

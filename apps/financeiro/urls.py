@@ -7,6 +7,7 @@ from apps.financeiro.views import (
     adiantamento_update,
     contas_funcionario,
     teste_pdf,
+    adiantamento_confirmar,
 )
 
 app_name = "financeiro"
@@ -16,6 +17,11 @@ urlpatterns = [
         "adiantamentos/",
         adiantamento_list,
         name="adiantamento_list",
+    ),
+    path(
+        "adiantamentos/confirmar/",
+        adiantamento_confirmar,
+        name="adiantamento_confirmar",
     ),
     path(
         "adiantamentos/novo/",
