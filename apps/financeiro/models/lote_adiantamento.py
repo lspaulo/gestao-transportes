@@ -8,8 +8,11 @@ from django.db.models import Max
 from apps.cadastros.models import BaseModel, Empresa
 from apps.usuarios.models import Setor
 
+from .managers import LoteAdiantamentoManager
+
 
 class LoteAdiantamento(BaseModel):
+    objects: LoteAdiantamentoManager = LoteAdiantamentoManager()
     numero = models.CharField(
         "Número",
         max_length=20,

@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 from django.http import FileResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
@@ -305,5 +306,45 @@ def adiantamento_confirmar(request):
             "descricao": ("Confira os dados abaixo antes de confirmar a solicitação."),
             "icone": "bi-check2-square",
             "ids": ids,
+        },
+    )
+
+
+@login_required
+def lote_adiantamento_list(request):
+    lotes = LoteAdiantamento.objects.visiveis_para(request.user)
+
+    paginator = Paginator(lotes, 10)
+
+    pagina = request.GET.get("pagina")
+    lotes_paginados = paginator.get_page(pagina)
+
+    return render(
+        request,
+        "financeiro/lote_adiantamento_list.html",
+        {
+            "lotes": lotes_paginados,
+            "titulo": "Solicitações de Adiantamentos",
+            "descricao": "Consulte os lotes de adiantamentos já encaminhados.",
+            "icone": "bi-file-earmark-text",
+        },
+    )
+
+
+@login_required
+def lote_adiantamento_detail(request, pk):
+    lote = get_object_or_404(
+        LoteAdiantamento.objects.visiveis_para(request.user),
+        pk=pk,
+    )
+
+    return render(
+        request,
+        "financeiro/lote_adiantamento_detail.html",
+        {
+            "lote": lote,
+            "titulo": f"Lote {lote.numero}",
+            "descricao": "Detalhes da solicitação de adiantamentos.",
+            "icone": "bi-file-earmark-text",
         },
     )

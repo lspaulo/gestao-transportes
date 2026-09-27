@@ -1,0 +1,286 @@
+{% extends "base.html" %}
+
+{% load formatacao %}
+
+{% block content %}
+
+{% include "components/page_header.html" %}
+
+<!-- Resumo do lote -->
+<div class="card shadow-sm border-0 mb-4">
+    <div class="card-body">
+
+        <div class="row g-3">
+
+            <div class="col-md-3">
+                <div class="text-muted small">Lote</div>
+                <div class="fw-semibold">{{ lote.numero }}</div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="text-muted small">Data de Emissão</div>
+                <div class="fw-semibold">
+                    {{ lote.data_emissao|date:"d/m/Y H:i" }}
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="text-muted small">Empresa</div>
+                <div class="fw-semibold">{{ lote.empresa }}</div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="text-muted small">Setor</div>
+                <div class="fw-semibold">
+                    {% if lote.setor %}
+                        {{ lote.setor }}
+                    {% else %}
+                        Não informado
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="text-muted small">Solicitante</div>
+                <div class="fw-semibold">
+                    {{ lote.solicitante.get_full_name|default:lote.solicitante.username }}
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="text-muted small">Emitido por</div>
+                <div class="fw-semibold">
+                    {% if lote.emitido_por_historico %}
+                        {{ lote.emitido_por_historico }}
+                    {% else %}
+                        Não informado
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="text-muted small">Responsável</div>
+                <div class="fw-semibold">
+                    {% if lote.responsavel_historico %}
+                        {{ lote.responsavel_historico }}
+                    {% else %}
+                        Não informado
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="text-muted small">Quantidade</div>
+                <div class="fw-semibold">
+                    {{ lote.quantidade }}
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="text-muted small">Total</div>
+                <div class="fw-semibold">
+                    R$ {{ lote.total_formatado }}
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+<!-- Adiantamentos -->
+<div class="mb-3">
+    <h5 class="fw-semibold mb-1">
+        <i class="bi bi-cash-stack me-2"></i>
+        Adiantamentos do Lote
+    </h5>
+
+    <p class="text-muted small mb-0">
+        Detalhamento das solicitações que compõem este lote.
+    </p>
+</div>
+
+
+{% for adiantamento in lote.adiantamentos.all %}
+
+    <div class="card shadow-sm border-0 mb-4">
+
+        <div class="card-header bg-white border-bottom">
+
+            <div class="d-flex justify-content-between align-items-center">
+
+                <div>
+                    <span class="fw-semibold">
+                        {{ adiantamento.numero }}
+                    </span>
+
+                    <span class="text-muted ms-2">
+                        {{ adiantamento.funcionario }}
+                    </span>
+                </div>
+
+                <div class="fw-semibold">
+                    {{ adiantamento.valor|moeda_br }}
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="card-body">
+
+            <!-- Dados da solicitação -->
+            <div class="row g-3 mb-4">
+
+                <div class="col-md-4">
+                    <div class="text-muted small">Motorista</div>
+                    <div>{{ adiantamento.historico_nome_motorista|default:"Não informado" }}</div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="text-muted small">CPF</div>
+                    <div>{{ adiantamento.historico_cpf_motorista|default:"Não informado" }}</div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="text-muted small">Finalidade</div>
+                    <div>{{ adiantamento.get_finalidade_display }}</div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="text-muted small">Valor</div>
+                    <div class="fw-semibold">
+                        {{ adiantamento.valor|moeda_br }}
+                    </div>
+                </div>
+
+                <div class="col-md-8">
+                    <div class="text-muted small">Observação</div>
+                    <div>
+                        {% if adiantamento.observacao %}
+                            {{ adiantamento.observacao }}
+                        {% else %}
+                            Não informada
+                        {% endif %}
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- Dados bancários -->
+            <div class="border-top pt-3">
+
+                <h6 class="fw-semibold mb-3">
+                    <i class="bi bi-bank me-2"></i>
+                    Dados Bancários
+                </h6>
+
+                <div class="row g-3">
+
+                    <div class="col-md-4">
+                        <div class="text-muted small">Titular</div>
+                        <div>
+                            {{ adiantamento.historico_titular|default:"Não informado" }}
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="text-muted small">Banco</div>
+                        <div>
+                            {{ adiantamento.historico_banco|default:"Não informado" }}
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <div class="text-muted small">Agência</div>
+                        <div>
+                            {{ adiantamento.historico_agencia|default:"Não informado" }}
+                            {% if adiantamento.historico_digito_agencia %}
+                                -{{ adiantamento.historico_digito_agencia }}
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <div class="text-muted small">Tipo de Conta</div>
+                        <div>
+                            {{ adiantamento.historico_tipo_conta|default:"Não informado" }}
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="text-muted small">Número da Conta</div>
+                        <div>
+                            {{ adiantamento.historico_numero_conta|default:"Não informado" }}
+                            {% if adiantamento.historico_digito_conta %}
+                                -{{ adiantamento.historico_digito_conta }}
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="text-muted small">Tipo de Chave PIX</div>
+                        <div>
+                            {{ adiantamento.historico_tipo_chave_pix|default:"Não informado" }}
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="text-muted small">Chave PIX</div>
+                        <div>
+                            {{ adiantamento.historico_chave_pix|default:"Não informado" }}
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+{% empty %}
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body text-center py-5 text-muted">
+
+            <i class="bi bi-cash-stack fs-1 d-block mb-3"></i>
+
+            <h5>Nenhum adiantamento encontrado</h5>
+
+            <p class="mb-0">
+                Este lote não possui adiantamentos associados.
+            </p>
+
+        </div>
+    </div>
+
+{% endfor %}
+
+
+<!-- Ações -->
+<div class="d-flex justify-content-between align-items-center mt-4 mb-4">
+
+    <a
+        href="{% url 'financeiro:lote_adiantamento_list' %}"
+        class="btn btn-sm btn-outline-secondary"
+    >
+        <i class="bi bi-arrow-left me-1"></i>
+        Voltar
+    </a>
+
+    <a
+        href="{% url 'financeiro:teste_pdf' lote.pk %}"
+        class="btn btn-sm btn-outline-primary"
+        target="_blank"
+    >
+        <i class="bi bi-file-earmark-pdf me-1"></i>
+        Visualizar PDF
+    </a>
+
+</div>
+
+{% endblock %}

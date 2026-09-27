@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% include "components/page_header.html" %}
+
+<div class="card shadow-sm border-0">
+    <div class="card-body">
+
+        {% if lotes %}
+
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+
+                    <thead>
+                        <tr>
+                            <th>Lote</th>
+                            <th>Data de Emissão</th>
+                            <th>Empresa</th>
+                            <th>Setor</th>
+                            <th class="text-center">Qtd.</th>
+                            <th>Total</th>
+                            <th>Solicitante</th>
+                            <th class="text-end">Ação</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for lote in lotes %}
+                            <tr style="cursor: pointer;"
+                                onclick="window.location='{% url 'financeiro:lote_adiantamento_detail' lote.pk %}'">
+
+                                <td class="fw-semibold">
+                                    {{ lote.numero }}
+                                </td>
+
+                                <td>
+                                    {{ lote.data_emissao|date:"d/m/Y H:i" }}
+                                </td>
+
+                                <td>
+                                    {{ lote.empresa }}
+                                </td>
+
+                                <td>
+                                    {% if lote.setor %}
+                                        {{ lote.setor }}
+                                    {% else %}
+                                        Não informado
+                                    {% endif %}
+                                </td>
+
+                                <td class="text-center">
+                                    {{ lote.quantidade }}
+                                </td>
+
+                                <td>
+                                    R$ {{ lote.total_formatado }}
+                                </td>
+
+                                <td>
+                                    {{ lote.solicitante.get_full_name|default:lote.solicitante.username }}
+                                </td>
+
+                                <td class="text-end text-nowrap">
+                                    <a
+                                        href="{% url 'financeiro:teste_pdf' lote.pk %}"
+                                        class="btn btn-sm btn-outline-primary"
+                                        target="_blank"
+                                        onclick="event.stopPropagation();"
+                                    >
+                                        <i class="bi bi-file-earmark-pdf me-1"></i>
+                                        Visualizar PDF
+                                    </a>
+                                </td>
+
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+
+                </table>
+            </div>
+            {% if lotes.has_other_pages %}
+                <div class="d-flex justify-content-between align-items-center mt-3">
+
+                    <div class="text-muted small">
+                        Página {{ lotes.number }} de {{ lotes.paginator.num_pages }}
+                    </div>
+
+                    <nav aria-label="Paginação das solicitações">
+                        <ul class="pagination pagination-sm mb-0">
+
+                            {% if lotes.has_previous %}
+                                <li class="page-item">
+                                    <a
+                                        class="page-link"
+                                        href="?pagina={{ lotes.previous_page_number }}"
+                                    >
+                                        Anterior
+                                    </a>
+                                </li>
+                            {% endif %}
+
+                            {% for num in lotes.paginator.page_range %}
+                                <li class="page-item {% if lotes.number == num %}active{% endif %}">
+                                    <a
+                                        class="page-link"
+                                        href="?pagina={{ num }}"
+                                    >
+                                        {{ num }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+
+                            {% if lotes.has_next %}
+                                <li class="page-item">
+                                    <a
+                                        class="page-link"
+                                        href="?pagina={{ lotes.next_page_number }}"
+                                    >
+                                        Próxima
+                                    </a>
+                                </li>
+                            {% endif %}
+
+                        </ul>
+                    </nav>
+
+                </div>
+            {% endif %}
+
+        {% else %}
+
+            <div class="text-center py-5 text-muted">
+                <i class="bi bi-file-earmark-text fs-1 d-block mb-3"></i>
+
+                <h5>Nenhuma solicitação encontrada</h5>
+
+                <p class="mb-0">
+                    Ainda não existem solicitações de adiantamentos disponíveis para visualização.
+                </p>
+            </div>
+
+        {% endif %}
+
+    </div>
+</div>
+
+{% endblock %}

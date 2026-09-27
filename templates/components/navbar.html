@@ -126,14 +126,29 @@
 
                     <ul class="dropdown-menu">
 
-                        <li>
-                            <a 
-                                class="dropdown-item" 
+                       <li>
+                            <a
+                                class="dropdown-item"
                                 href="{% url 'financeiro:adiantamento_list' %}">
                                 Adiantamentos
                             </a>
                         </li>
-                        <li><a class="dropdown-item" href="#">Prestação de Contas</a></li>
+
+                        <li>
+                            <a
+                                class="dropdown-item"
+                                href="{% url 'financeiro:lote_adiantamento_list' %}">
+                                Solicitações de Adiantamentos
+                            </a>
+                        </li>
+
+                        <li>
+                            <a
+                                class="dropdown-item"
+                                href="#">
+                                Prestação de Contas
+                            </a>
+                        </li>
 
                     </ul>
 

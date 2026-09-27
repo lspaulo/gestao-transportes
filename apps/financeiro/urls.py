@@ -1,13 +1,15 @@
 from django.urls import path
 
 from apps.financeiro.views import (
+    adiantamento_confirmar,
     adiantamento_create,
     adiantamento_delete,
     adiantamento_list,
     adiantamento_update,
     contas_funcionario,
+    lote_adiantamento_detail,
+    lote_adiantamento_list,
     teste_pdf,
-    adiantamento_confirmar,
 )
 
 app_name = "financeiro"
@@ -27,6 +29,16 @@ urlpatterns = [
         "adiantamentos/novo/",
         adiantamento_create,
         name="adiantamento_create",
+    ),
+    path(
+        "solicitacoes/",
+        lote_adiantamento_list,
+        name="lote_adiantamento_list",
+    ),
+    path(
+        "solicitacoes/<int:pk>/",
+        lote_adiantamento_detail,
+        name="lote_adiantamento_detail",
     ),
     path(
         "api/funcionarios/<int:funcionario_id>/contas/",

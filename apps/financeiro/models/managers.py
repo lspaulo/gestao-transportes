@@ -27,3 +27,30 @@ class AdiantamentoManager(models.Manager):
         return queryset.filter(
             setor=perfil.setor,
         )
+
+
+class LoteAdiantamentoManager(models.Manager):
+    def visiveis_para(self, usuario):
+
+        queryset = self.select_related(
+            "empresa",
+            "solicitante",
+            "setor",
+        )
+
+        if usuario.is_superuser:
+            return queryset
+
+        perfil = PerfilUsuario.objects.filter(
+            usuario=usuario,
+        ).first()
+
+        if perfil is None:
+            return self.none()
+
+        if perfil.is_admin:
+            return queryset
+
+        return queryset.filter(
+            setor=perfil.setor,
+        )
