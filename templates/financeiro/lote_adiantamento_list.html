@@ -1,144 +1,248 @@
 {% extends "base.html" %}
 
+{% load formatacao %}
+
 {% block content %}
 
 {% include "components/page_header.html" %}
 
+<div class="card shadow-sm border-0 mb-4">
+    <div class="card-body">
+
+        <form method="get">
+
+            <div class="row g-3 align-items-end">
+
+                <div class="col-md-5">
+                    <label for="motorista" class="form-label">
+                        Motorista
+                    </label>
+
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="motorista"
+                        name="motorista"
+                        value="{{ motorista }}"
+                        placeholder="Digite o nome do motorista"
+                    >
+                </div>
+
+                <div class="col-md-3">
+                    <label for="data_inicial" class="form-label">
+                        Data inicial
+                    </label>
+
+                    <input
+                        type="date"
+                        class="form-control"
+                        id="data_inicial"
+                        name="data_inicial"
+                        value="{{ data_inicial }}"
+                    >
+                </div>
+
+                <div class="col-md-3">
+                    <label for="data_final" class="form-label">
+                        Data final
+                    </label>
+
+                    <input
+                        type="date"
+                        class="form-control"
+                        id="data_final"
+                        name="data_final"
+                        value="{{ data_final }}"
+                    >
+                </div>
+
+                <div class="col-md-1 d-flex gap-2">
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                        title="Pesquisar"
+                    >
+                        <i class="bi bi-search"></i>
+                    </button>
+
+                    <a
+                        href="{% url 'financeiro:lote_adiantamento_list' %}"
+                        class="btn btn-outline-secondary"
+                        title="Limpar filtros"
+                    >
+                        <i class="bi bi-x-lg"></i>
+                    </a>
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+
 <div class="card shadow-sm border-0">
     <div class="card-body">
 
-        {% if lotes %}
+        {% if adiantamentos %}
 
             <div class="table-responsive">
+
                 <table class="table table-hover align-middle mb-0">
 
                     <thead>
                         <tr>
-                            <th>Lote</th>
-                            <th>Data de Emissão</th>
+                            <th>Adiantamento</th>
+                            <th>Motorista</th>
+                            <th>Data da Solicitação</th>
                             <th>Empresa</th>
-                            <th>Setor</th>
-                            <th class="text-center">Qtd.</th>
-                            <th>Total</th>
-                            <th>Solicitante</th>
+                            <th>Finalidade</th>
+                            <th>Valor</th>
+                            <th>Lote</th>
                             <th class="text-end">Ação</th>
                         </tr>
                     </thead>
 
                     <tbody>
-                        {% for lote in lotes %}
-                            <tr style="cursor: pointer;"
-                                onclick="window.location='{% url 'financeiro:lote_adiantamento_detail' lote.pk %}'">
+
+                        {% for adiantamento in adiantamentos %}
+
+                            <tr>
 
                                 <td class="fw-semibold">
-                                    {{ lote.numero }}
+                                    {{ adiantamento.numero }}
                                 </td>
 
                                 <td>
-                                    {{ lote.data_emissao|date:"d/m/Y H:i" }}
+                                    {{ adiantamento.historico_nome_motorista }}
                                 </td>
 
                                 <td>
-                                    {{ lote.empresa }}
+                                    {{ adiantamento.data_solicitacao|date:"d/m/Y H:i" }}
                                 </td>
 
                                 <td>
-                                    {% if lote.setor %}
-                                        {{ lote.setor }}
+                                    {{ adiantamento.empresa }}
+                                </td>
+
+                                <td>
+                                    {{ adiantamento.get_finalidade_display }}
+                                </td>
+
+                                <td>
+                                    {{ adiantamento.valor|moeda_br }}
+                                </td>
+
+                                <td>
+                                    {% if adiantamento.lote %}
+                                        <a
+                                            href="{% url 'financeiro:lote_adiantamento_detail' adiantamento.lote.pk %}"
+                                            class="text-decoration-none fw-semibold"
+                                        >
+                                            {{ adiantamento.lote.numero }}
+                                        </a>
                                     {% else %}
-                                        Não informado
+                                        —
                                     {% endif %}
                                 </td>
 
-                                <td class="text-center">
-                                    {{ lote.quantidade }}
-                                </td>
-
-                                <td>
-                                    R$ {{ lote.total_formatado }}
-                                </td>
-
-                                <td>
-                                    {{ lote.solicitante.get_full_name|default:lote.solicitante.username }}
-                                </td>
-
                                 <td class="text-end text-nowrap">
-                                    <a
-                                        href="{% url 'financeiro:teste_pdf' lote.pk %}"
-                                        class="btn btn-sm btn-outline-primary"
-                                        target="_blank"
-                                        onclick="event.stopPropagation();"
-                                    >
-                                        <i class="bi bi-file-earmark-pdf me-1"></i>
-                                        Visualizar PDF
-                                    </a>
+
+                                    {% if adiantamento.lote %}
+
+                                        <a
+                                            href="{% url 'financeiro:teste_pdf' adiantamento.lote.pk %}"
+                                            class="btn btn-sm btn-outline-primary"
+                                            target="_blank"
+                                        >
+                                            <i class="bi bi-file-earmark-pdf me-1"></i>
+                                            Visualizar PDF
+                                        </a>
+
+                                    {% else %}
+
+                                        <span class="text-muted small">
+                                            Não disponível
+                                        </span>
+
+                                    {% endif %}
+
                                 </td>
 
                             </tr>
+
                         {% endfor %}
+
                     </tbody>
 
                 </table>
+
             </div>
-            {% if lotes.has_other_pages %}
-                <div class="d-flex justify-content-between align-items-center mt-3">
 
-                    <div class="text-muted small">
-                        Página {{ lotes.number }} de {{ lotes.paginator.num_pages }}
-                    </div>
 
-                    <nav aria-label="Paginação das solicitações">
-                        <ul class="pagination pagination-sm mb-0">
+            {% if adiantamentos.has_other_pages %}
+                <nav aria-label="Paginação">
+                    <ul class="pagination justify-content-center">
 
-                            {% if lotes.has_previous %}
+                        {% if adiantamentos.has_previous %}
+                            <li class="page-item">
+                                <a
+                                    class="page-link"
+                                    href="?pagina={{ adiantamentos.previous_page_number }}&motorista={{ motorista|urlencode }}&data_inicial={{ data_inicial|urlencode }}&data_final={{ data_final|urlencode }}"
+                                >
+                                    Anterior
+                                </a>
+                            </li>
+                        {% endif %}
+
+                        {% for num in adiantamentos.paginator.page_range %}
+                            {% if adiantamentos.number == num %}
+                                <li class="page-item active">
+                                    <span class="page-link">{{ num }}</span>
+                                </li>
+                            {% else %}
                                 <li class="page-item">
                                     <a
                                         class="page-link"
-                                        href="?pagina={{ lotes.previous_page_number }}"
-                                    >
-                                        Anterior
-                                    </a>
-                                </li>
-                            {% endif %}
-
-                            {% for num in lotes.paginator.page_range %}
-                                <li class="page-item {% if lotes.number == num %}active{% endif %}">
-                                    <a
-                                        class="page-link"
-                                        href="?pagina={{ num }}"
+                                        href="?pagina={{ num }}&motorista={{ motorista|urlencode }}&data_inicial={{ data_inicial|urlencode }}&data_final={{ data_final|urlencode }}"
                                     >
                                         {{ num }}
                                     </a>
                                 </li>
-                            {% endfor %}
-
-                            {% if lotes.has_next %}
-                                <li class="page-item">
-                                    <a
-                                        class="page-link"
-                                        href="?pagina={{ lotes.next_page_number }}"
-                                    >
-                                        Próxima
-                                    </a>
-                                </li>
                             {% endif %}
+                        {% endfor %}
 
-                        </ul>
-                    </nav>
+                        {% if adiantamentos.has_next %}
+                            <li class="page-item">
+                                <a
+                                    class="page-link"
+                                    href="?pagina={{ adiantamentos.next_page_number }}&motorista={{ motorista|urlencode }}&data_inicial={{ data_inicial|urlencode }}&data_final={{ data_final|urlencode }}"
+                                >
+                                    Próxima
+                                </a>
+                            </li>
+                        {% endif %}
 
-                </div>
+                    </ul>
+                </nav>
             {% endif %}
+
 
         {% else %}
 
             <div class="text-center py-5 text-muted">
+
                 <i class="bi bi-file-earmark-text fs-1 d-block mb-3"></i>
 
                 <h5>Nenhuma solicitação encontrada</h5>
 
                 <p class="mb-0">
-                    Ainda não existem solicitações de adiantamentos disponíveis para visualização.
+                    Não existem adiantamentos que correspondam aos filtros informados.
                 </p>
+
             </div>
 
         {% endif %}

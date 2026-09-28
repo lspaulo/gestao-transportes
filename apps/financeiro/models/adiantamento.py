@@ -18,7 +18,7 @@ from .status_adiantamento import StatusAdiantamento
 
 
 class Adiantamento(BaseModel):
-    objects = AdiantamentoManager()
+    objects: AdiantamentoManager = AdiantamentoManager()
 
     numero = models.CharField(
         "Número",

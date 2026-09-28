@@ -13,10 +13,9 @@ from apps.financeiro.services.pdf_service import PdfService
 
 
 @login_required
-def teste_pdf(request, pk):
-
+def visualizar_pdf_adiantamento(request, pk):
     lote = get_object_or_404(
-        LoteAdiantamento,
+        LoteAdiantamento.objects.visiveis_para(request.user),
         pk=pk,
     )
 
@@ -312,20 +311,40 @@ def adiantamento_confirmar(request):
 
 @login_required
 def lote_adiantamento_list(request):
-    lotes = LoteAdiantamento.objects.visiveis_para(request.user)
+    adiantamentos = Adiantamento.objects.visiveis_para(request.user).filter(
+        status=StatusAdiantamento.SOLICITADO,
+    )
 
-    paginator = Paginator(lotes, 10)
+    motorista = request.GET.get("motorista", "").strip()
+    data_inicial = request.GET.get("data_inicial", "").strip()
+    data_final = request.GET.get("data_final", "").strip()
+
+    if motorista:
+        adiantamentos = adiantamentos.filter(
+            historico_nome_motorista__icontains=motorista
+        )
+
+    if data_inicial:
+        adiantamentos = adiantamentos.filter(data_solicitacao__date__gte=data_inicial)
+
+    if data_final:
+        adiantamentos = adiantamentos.filter(data_solicitacao__date__lte=data_final)
+
+    paginator = Paginator(adiantamentos, 10)
 
     pagina = request.GET.get("pagina")
-    lotes_paginados = paginator.get_page(pagina)
+    adiantamentos_paginados = paginator.get_page(pagina)
 
     return render(
         request,
         "financeiro/lote_adiantamento_list.html",
         {
-            "lotes": lotes_paginados,
+            "adiantamentos": adiantamentos_paginados,
+            "motorista": motorista,
+            "data_inicial": data_inicial,
+            "data_final": data_final,
             "titulo": "Solicitações de Adiantamentos",
-            "descricao": "Consulte os lotes de adiantamentos já encaminhados.",
+            "descricao": "Consulte os adiantamentos já encaminhados.",
             "icone": "bi-file-earmark-text",
         },
     )

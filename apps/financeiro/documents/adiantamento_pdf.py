@@ -35,6 +35,9 @@ class AdiantamentoPdf:
             topMargin=2.6 * cm,
             bottomMargin=1.5 * cm,
         )
+        doc.title = f"Adiantamento – {lote.numero}"
+        doc.author = "Sistema de Gestão de Transportes"
+        doc.subject = "Solicitação de Adiantamento de Viagem"
 
         styles = getSampleStyleSheet()
 

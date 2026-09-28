@@ -9,7 +9,7 @@ from apps.financeiro.views import (
     contas_funcionario,
     lote_adiantamento_detail,
     lote_adiantamento_list,
-    teste_pdf,
+    visualizar_pdf_adiantamento,
 )
 
 app_name = "financeiro"
@@ -57,7 +57,7 @@ urlpatterns = [
     ),
     path(
         "lotes/<int:pk>/pdf/",
-        teste_pdf,
+        visualizar_pdf_adiantamento,
         name="teste_pdf",
     ),
 ]
