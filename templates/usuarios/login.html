@@ -4,91 +4,94 @@
 
 {% block content %}
 
-<div class="w-100 d-flex justify-content-center">
+<div class="page-container">
 
-    <div style="max-width:420px; width:100%;">
+    <div class="w-100 d-flex justify-content-center">
 
-        <div class="card shadow">
+        <div style="max-width:420px; width:100%;">
 
-            <div class="card-body p-4">
+            <div class="card shadow">
 
-                <h3 class="text-center mb-2">
-                    Gestão de Transportes
-                </h3>
+                <div class="card-body p-4">
 
-                <p class="text-center text-muted mb-4">
-                    Faça login para continuar
-                </p>
+                    <h3 class="text-center mb-2">
+                        Gestão de Transportes
+                    </h3>
 
-                <form method="post">
+                    <p class="text-center text-muted mb-4">
+                        Faça login para continuar
+                    </p>
 
-                    {% csrf_token %}
+                    <form method="post">
+
+                        {% csrf_token %}
+                        {% if form.errors %}
+
+                        <div class="alert alert-danger mb-3">
+
+                            Usuário ou senha inválidos.
+
+                        </div>
+
+                        {% endif %}
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Usuário
+                            </label>
+
+                            {{ form.username }}
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Senha
+                            </label>
+
+                            {{ form.password }}
+
+                        </div>
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary w-100">
+
+                            Entrar
+
+                        </button>
+
+                    </form>
+
                     {% if form.errors %}
 
-                    <div class="alert alert-danger mb-3">
+                        <div class="alert alert-danger mt-3">
 
-                        Usuário ou senha inválidos.
+                            Usuário ou senha inválidos.
 
-                    </div>
+                        </div>
 
                     {% endif %}
 
-                    <div class="mb-3">
+                    <hr>
 
-                        <label class="form-label">
-                            Usuário
-                        </label>
+                    <small class="text-muted d-block text-center">
 
-                        {{ form.username }}
+                        Esqueceu sua senha?<br>
 
-                    </div>
+                        Solicite ao Gestor ou Administrador do sistema.
 
-                    <div class="mb-3">
+                    </small>
 
-                        <label class="form-label">
-                            Senha
-                        </label>
-
-                        {{ form.password }}
-
-                    </div>
-
-                    <button
-                        type="submit"
-                        class="btn btn-primary w-100">
-
-                        Entrar
-
-                    </button>
-
-                </form>
-
-                {% if form.errors %}
-
-                    <div class="alert alert-danger mt-3">
-
-                        Usuário ou senha inválidos.
-
-                    </div>
-
-                {% endif %}
-
-                <hr>
-
-                <small class="text-muted d-block text-center">
-
-                    Esqueceu sua senha?<br>
-
-                    Solicite ao Gestor ou Administrador do sistema.
-
-                </small>
+                </div>
 
             </div>
 
         </div>
 
     </div>
-
 </div>
 
 {% endblock %}

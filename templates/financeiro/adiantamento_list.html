@@ -1,74 +1,43 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
+
 {% load formatacao %}
 
 {% block title %}
-{{ titulo }}
+  {{ titulo }}
 {% endblock %}
 
 {% block content %}
+  <div class="page-container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      {% include 'components/page_header.html' with icone=icone titulo=titulo descricao=descricao %}
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-
-    {% include "components/page_header.html" with icone=icone titulo=titulo descricao=descricao %}
-    <form
-        method="post"
-        id="form-lote">
-
-        {% csrf_token %}
-
-    <a
-        href="{% url 'financeiro:adiantamento_create' %}"
-        class="btn btn-primary">
-
+      <a href="{% url 'financeiro:adiantamento_create' %}" class="btn btn-primary">
+        <i class="bi bi-plus-circle"></i>
         Novo Adiantamento
-
-    </a>
-
-</div>
-<div class="d-flex justify-content-between align-items-center mb-3">
-
-        <div>
-
-            <button
-                type="submit"
-                name="acao"
-                value="gerar_pdf"
-                id="btn-gerar-pdfs"
-                class="btn btn-success"
-                disabled>
-
-                <i class="bi bi-file-earmark-pdf"></i>
-                Solicitar Adiantamentos
-
-            </button>
-
-        </div>
-
-        <div>
-
-            <span
-                id="contador-selecionados"
-                class="text-muted">
-
-                0 selecionados
-
-            </span>
-
-        </div>
-
+      </a>
     </div>
 
-<table class="table table-hover align-middle">
+    <form method="post" id="form-lote">
+      {% csrf_token %}
 
-    <thead>
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+          <button type="submit" name="acao" value="gerar_pdf" id="btn-gerar-pdfs" class="btn btn-success" disabled>
+            <i class="bi bi-file-earmark-pdf"></i>
+            Solicitar Adiantamentos
+          </button>
+        </div>
 
-        <tr>
+        <div>
+          <span id="contador-selecionados" class="text-muted">0 selecionados</span>
+        </div>
+      </div>
+
+      <table class="table table-hover align-middle">
+        <thead>
+          <tr>
             <th width="40">
-
-                <input
-                    type="checkbox"
-                    id="selecionar-todos">
-
+              <input type="checkbox" id="selecionar-todos" />
             </th>
 
             <th>Número</th>
@@ -76,126 +45,87 @@
             <th>Motorista</th>
             <th>Empresa</th>
             <th>Conta</th>
-            <th class="text-end">
-                Valor
-            </th>
+
+            <th class="text-end">Valor</th>
+
             <th>Status</th>
             <th>Solicitante</th>
-            
+
             <th width="120">Ações</th>
+          </tr>
+        </thead>
 
-        </tr>
+        <tbody>
+          {% for adiantamento in adiantamentos %}
+            <tr>
+              <td>
+                <input type="checkbox" class="form-check-input selecionar-adiantamento" name="adiantamentos" value="{{ adiantamento.pk }}" />
+              </td>
 
-    </thead>
+              <td>{{ adiantamento.numero }}</td>
 
-    <tbody>
+              <td>{{ adiantamento.data_solicitacao|date:'d/m/Y H:i' }}</td>
 
-        {% for adiantamento in adiantamentos %}
+              <td>{{ adiantamento.funcionario }}</td>
 
-        <tr>
-            <td>
+              <td>{{ adiantamento.empresa }}</td>
 
-                <input
-                    type="checkbox"
-                    class="form-check-input selecionar-adiantamento"
-                    name="adiantamentos"
-                    value="{{ adiantamento.pk }}">
-
-            </td>
-
-            <td>{{ adiantamento.numero }}</td>
-            <td>{{ adiantamento.data_solicitacao|date:"d/m/Y H:i" }}</td>
-            <td>{{ adiantamento.funcionario }}</td>
-            <td>{{ adiantamento.empresa }}</td>
-            <td>
-
+              <td>
                 {{ adiantamento.conta_bancaria.get_banco_display }}
 
-                <br>
+                <br />
 
                 <small class="text-muted">
+                  Ag. {{ adiantamento.conta_bancaria.agencia }}
 
-                    Ag. {{ adiantamento.conta_bancaria.agencia }}
+                  •
 
-                    •
-
-                    CC {{ adiantamento.conta_bancaria.numero_conta }}-{{ adiantamento.conta_bancaria.digito_conta }}
-
+                  CC
+                  {{ adiantamento.conta_bancaria.numero_conta }}-{{ adiantamento.conta_bancaria.digito_conta }}
                 </small>
+              </td>
 
-            </td>
-            <td class="text-end">
-                {{ adiantamento.valor|moeda_br }}
-            </td>
-            <td>
+              <td class="text-end">{{ adiantamento.valor|moeda_br }}</td>
 
-                {% include "components/status_badge.html" with status=adiantamento.status descricao=adiantamento.get_status_display %}
+              <td>
+                {% include 'components/status_badge.html' with status=adiantamento.status descricao=adiantamento.get_status_display %}
+              </td>
 
-            </td>
-            <td>{{ adiantamento.solicitante.get_full_name|default:adiantamento.solicitante.username }}</td>
+              <td>{{ adiantamento.solicitante.get_full_name|default:adiantamento.solicitante.username }}</td>
 
-            <td>
-
+              <td>
                 <div class="btn-group">
+                  {% if adiantamento.pode_editar %}
+                    <a href="{% url 'financeiro:adiantamento_update' adiantamento.id %}" class="btn btn-sm btn-outline-primary">
+                      <i class="bi bi-pencil"></i>
+                      Editar
+                    </a>
+                  {% endif %}
 
-                    {% if adiantamento.pode_editar %}
-
-                        <a
-                            href="{% url 'financeiro:adiantamento_update' adiantamento.id %}"
-                            class="btn btn-sm btn-outline-primary">
-
-                            Editar
-
-                        </a>
-
-                    {% endif %}
-
-                    {% if adiantamento.pode_excluir %}
-
-                        <a
-                            href="{% url 'financeiro:adiantamento_delete' adiantamento.id %}"
-                            class="btn btn-sm btn-outline-danger">
-
-                            Excluir
-
-                        </a>
-
-                    {% endif %}
-
+                  {% if adiantamento.pode_excluir %}
+                    <a href="{% url 'financeiro:adiantamento_delete' adiantamento.id %}" class="btn btn-sm btn-outline-danger">
+                      <i class="bi bi-trash"></i>
+                      Excluir
+                    </a>
+                  {% endif %}
                 </div>
-
-            </td>
-
-        </tr>
-
-        {% empty %}
-
-        <tr>
-
-            <td
-                colspan="10"
-                class="text-center">
-
-                Nenhum adiantamento encontrado.
-
-            </td>
-
-        </tr>
-
-        {% endfor %}
-
-    </tbody>
-
-</table>
-</form>
-
+              </td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="10" class="text-center">Nenhum adiantamento encontrado.</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </form>
+  </div>
 {% endblock %}
+
 {% block scripts %}
+  {{ block.super }}
 
-{{ block.super }}
+  {% load static %}
 
-{% load static %}
-
-<script src="{% static 'financeiro/js/adiantamento_list.js' %}"></script>
-
+  <script src="{% static 'financeiro/js/adiantamento_list.js' %}"></script>
 {% endblock %}

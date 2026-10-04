@@ -34,10 +34,10 @@
     {% endif %}
 
     {% if user.is_authenticated %}
-        <main class="container mt-4 flex-grow-1">
-    {% else %}
-        <main class="container flex-grow-1 d-flex align-items-center justify-content-center">
-    {% endif %}
+            <main class="main-content flex-grow-1">
+        {% else %}
+            <main class="container flex-grow-1 d-flex align-items-center justify-content-center">
+        {% endif %}
 
 
         {% include "components/messages.html" %}

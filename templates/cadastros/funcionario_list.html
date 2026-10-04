@@ -1,213 +1,122 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
-{% block title %}Funcionários{% endblock %}
+{% block title %}
+  Funcionários
+{% endblock %}
 
 {% block content %}
+  <div class="page-container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      {% include 'components/page_header.html' with icone='bi-people' titulo='Funcionários' descricao='Gerencie os funcionários cadastrados' %}
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-
-    <div>
-        <h1 class="mb-1">
-            <i class="bi bi-people"></i>
-            Funcionários
-        </h1>
-
-        <p class="text-muted mb-0">
-            Gerencie os funcionários cadastrados
-        </p>
-    </div>
-
-    <a
-        href="{% url 'cadastros:funcionario_create' %}"
-        class="btn btn-primary"
-    >
+      <a href="{% url 'cadastros:funcionario_create' %}" class="btn btn-primary">
         <i class="bi bi-plus-circle"></i>
         Novo Funcionário
-    </a>
+      </a>
+    </div>
 
-</div>
+    <!-- Filtro de status -->
 
-
-<!-- Filtro de status -->
-
-<div class="btn-group mb-3" role="group" aria-label="Filtro de status">
-
-    <a
-        href="?status=ativos"
-        class="btn {% if status == 'ativos' %}btn-primary{% else %}btn-outline-primary{% endif %}"
-    >
+    <div class="btn-group mb-3 status-filter" role="group" aria-label="Filtro de status">
+      <a href="?status=ativos"
+        class="btn {% if status == 'ativos' %}
+          btn-primary
+        {% else %}
+          btn-outline-primary
+        {% endif %}">
         Ativos
-    </a>
+      </a>
 
-    <a
-        href="?status=inativos"
-        class="btn {% if status == 'inativos' %}btn-primary{% else %}btn-outline-primary{% endif %}"
-    >
+      <a href="?status=inativos"
+        class="btn {% if status == 'inativos' %}
+          btn-primary
+        {% else %}
+          btn-outline-primary
+        {% endif %}">
         Inativos
-    </a>
+      </a>
 
-    <a
-        href="?status=todos"
-        class="btn {% if status == 'todos' %}btn-primary{% else %}btn-outline-primary{% endif %}"
-    >
+      <a href="?status=todos"
+        class="btn {% if status == 'todos' %}
+          btn-primary
+        {% else %}
+          btn-outline-primary
+        {% endif %}">
         Todos
-    </a>
+      </a>
+    </div>
 
-</div>
+    <!-- Tabela -->
 
-
-<!-- Tabela -->
-
-<div class="table-responsive">
-
-    <table class="table table-striped table-hover align-middle">
-
+    <div class="table-responsive">
+      <table class="table table-striped table-hover align-middle">
         <thead class="table-info">
-
-            <tr>
-                <th>Nome</th>
-                <th>CPF</th>
-                <th>Função</th>
-                <th>Status</th>
-            </tr>
-
+          <tr>
+            <th>Nome</th>
+            <th>CPF</th>
+            <th>Função</th>
+            <th>Status</th>
+          </tr>
         </thead>
 
         <tbody>
+          {% for funcionario in page_obj %}
+            <tr class="position-relative">
+              <td>
+                <a href="{% url 'cadastros:funcionario_detail' funcionario.pk %}" class="stretched-link text-decoration-none text-reset">{{ funcionario.nome }}</a>
+              </td>
 
-            {% for funcionario in page_obj %}
+              <td>{{ funcionario.cpf }}</td>
 
-                <tr class="position-relative">
+              <td>{{ funcionario.funcao|default:'-' }}</td>
 
-                    <td>
-                        <a
-                            href="{% url 'cadastros:funcionario_detail' funcionario.pk %}"
-                            class="stretched-link text-decoration-none text-reset"
-                        >
-                            {{ funcionario.nome }}
-                        </a>
-                    </td>
-
-                    <td>
-                        {{ funcionario.cpf }}
-                    </td>
-
-                    <td>
-                        {{ funcionario.funcao|default:"-" }}
-                    </td>
-
-                    <td>
-
-                        {% if funcionario.ativo %}
-
-                            <span class="badge bg-success">
-                                Ativo
-                            </span>
-
-                        {% else %}
-
-                            <span class="badge bg-danger">
-                                Inativo
-                            </span>
-
-                        {% endif %}
-
-                    </td>
-
-                </tr>
-
-            {% empty %}
-
-                <tr>
-
-                    <td colspan="4" class="text-center">
-
-                        Nenhum funcionário cadastrado.
-
-                    </td>
-
-                </tr>
-
-            {% endfor %}
-
-        </tbody>
-
-    </table>
-
-</div>
-
-
-<!-- Paginação -->
-
-{% if page_obj.has_other_pages %}
-
-    <nav aria-label="Paginação">
-
-        <ul class="pagination">
-
-            {% if page_obj.has_previous %}
-
-                <li class="page-item">
-
-                    <a
-                        class="page-link"
-                        href="?status={{ status }}&page={{ page_obj.previous_page_number }}"
-                    >
-                        Anterior
-                    </a>
-
-                </li>
-
-            {% endif %}
-
-
-            {% for num in page_obj.paginator.page_range %}
-
-                {% if page_obj.number == num %}
-
-                    <li class="page-item active">
-                        <span class="page-link">
-                            {{ num }}
-                        </span>
-                    </li>
-
+              <td>
+                {% if funcionario.ativo %}
+                  <span class="badge bg-success">Ativo</span>
                 {% else %}
-
-                    <li class="page-item">
-
-                        <a
-                            class="page-link"
-                            href="?status={{ status }}&page={{ num }}"
-                        >
-                            {{ num }}
-                        </a>
-
-                    </li>
-
+                  <span class="badge bg-danger">Inativo</span>
                 {% endif %}
+              </td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="4" class="text-center">Nenhum funcionário cadastrado.</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
 
-            {% endfor %}
+    <!-- Paginação -->
 
+    {% if page_obj.has_other_pages %}
+      <nav aria-label="Paginação">
+        <ul class="pagination">
+          {% if page_obj.has_previous %}
+            <li class="page-item">
+              <a class="page-link" href="?status={{ status }}&page={{ page_obj.previous_page_number }}">Anterior</a>
+            </li>
+          {% endif %}
 
-            {% if page_obj.has_next %}
-
-                <li class="page-item">
-
-                    <a
-                        class="page-link"
-                        href="?status={{ status }}&page={{ page_obj.next_page_number }}"
-                    >
-                        Próxima
-                    </a>
-
-                </li>
-
+          {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+              <li class="page-item active">
+                <span class="page-link">{{ num }}</span>
+              </li>
+            {% else %}
+              <li class="page-item">
+                <a class="page-link" href="?status={{ status }}&page={{ num }}">{{ num }}</a>
+              </li>
             {% endif %}
+          {% endfor %}
 
+          {% if page_obj.has_next %}
+            <li class="page-item">
+              <a class="page-link" href="?status={{ status }}&page={{ page_obj.next_page_number }}">Próxima</a>
+            </li>
+          {% endif %}
         </ul>
-
-    </nav>
-
-{% endif %}
-
+      </nav>
+    {% endif %}
+  </div>
 {% endblock %}

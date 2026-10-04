@@ -4,7 +4,7 @@
 
 {% block content %}
 
-<div class="container mt-4">
+<div class="page-container">
 
     {% include "components/page_header.html" with icone=icone titulo=titulo descricao=descricao %}
 
@@ -24,7 +24,7 @@
         </div>
         <div class="row">
 
-            <div class="col-md-3">
+            <div class="col-md-4">
                 {% include "components/form_field.html" with field=form.numero_cnh %}
             </div>
 
@@ -38,21 +38,22 @@
         </div>
 
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-4">
                 {% include "components/form_field.html" with field=form.telefone %}
+            </div>
+             <div class="col-md-3">
+                {% include "components/form_field.html" with field=form.funcao %}
             </div>
             <div class="col-md-4">
                 {% include "components/form_field.html" with field=form.empresa %}
             </div>
-            <div class="col-md-3">
-                {% include "components/form_field.html" with field=form.funcao %}
-            </div>
+
 
         </div>
 
         <div class="row">
 
-            <div class="col-md-6">
+            <div class="col-md-5">
                 {% include "components/form_field.html" with field=form.cursos %}
             </div>
 

@@ -17,22 +17,51 @@
 
 }
 
-body{
+.btn-primary {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    background-color: var(--color-primary-dark);
+    border-color: var(--color-primary-dark);
+}
+
+.btn-primary:active {
+    background-color: var(--color-primary-dark) !important;
+    border-color: var(--color-primary-dark) !important;
+}
+
+.status-filter .btn-outline-primary {
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.status-filter .btn-outline-primary:hover {
+    color: #ffffff;
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+body {
     background: var(--color-background);
     color: var(--color-text);
 }
 
-.navbar-custom{
+.navbar-custom {
     background: var(--color-primary);
+    padding-top: 0.35rem;
+    padding-bottom: 0.35rem;
 }
 
 .navbar-custom .navbar-brand,
-.navbar-custom .nav-link{
-    color:white;
+.navbar-custom .nav-link {
+    color: white;
 }
 
-.navbar-custom .nav-link:hover{
-    color:#EAF6EE;
+.navbar-custom .nav-link:hover {
+    color: #EAF6EE;
 }
 
 .footer-custom {
@@ -59,11 +88,12 @@ body{
     color: #ffffff !important;
 }
 
-.card-body{
+.card-body {
 
-    padding:2rem;
+    padding: 2rem;
 
 }
+
 /* Ícones de ações das tabelas */
 
 .action-icon {
@@ -82,4 +112,340 @@ body{
 
     transform: scale(1.15);
 
+}
+
+/* =========================================================
+   ESTRUTURA DA HOME
+   ========================================================= */
+
+.main-content {
+    width: 100%;
+    padding: 20px 16px;
+    background-color: var(--color-background);
+}
+
+.main-content:has(.home-hero) {
+    padding: 0;
+
+    display: flex;
+    flex-direction: column;
+}
+
+/* =========================================================
+   HOME
+   ========================================================= */
+
+.home-hero {
+    position: relative;
+
+    flex: 1;
+    min-height: 0;
+
+    margin: 0;
+
+    border-radius: 0;
+    overflow: hidden;
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    box-shadow: none;
+}
+
+/* =========================================================
+   SOBREPOSIÇÃO DA IMAGEM
+   ========================================================= */
+
+.home-hero-overlay {
+    position: absolute;
+    inset: 0;
+
+    background:
+        linear-gradient(90deg,
+            rgba(0, 45, 30, 0.90) 0%,
+            rgba(0, 45, 30, 0.72) 25%,
+            rgba(0, 45, 30, 0.28) 50%,
+            rgba(0, 0, 0, 0.05) 100%);
+}
+
+/* =========================================================
+   CONTEÚDO PRINCIPAL
+   ========================================================= */
+
+.home-hero-content {
+    position: relative;
+    z-index: 2;
+
+    width: 44%;
+
+    padding-top: 55px;
+    padding-left: 4%;
+    padding-bottom: 30px;
+
+    color: #ffffff;
+}
+
+/* Logo */
+
+.home-brand img {
+    max-width: 210px;
+    max-height: 80px;
+
+    object-fit: contain;
+
+    margin-bottom: 28px;
+}
+
+/* Linha verde */
+
+.home-title-line {
+    width: 75px;
+    height: 4px;
+
+    background-color: #5bd58a;
+
+    margin-bottom: 22px;
+
+    border-radius: 4px;
+}
+
+/* Título */
+
+.home-hero-content h1 {
+    margin: 0;
+
+    font-size: clamp(2.5rem, 4vw, 4.2rem);
+
+    line-height: 1.02;
+
+    font-weight: 700;
+
+    letter-spacing: -1.5px;
+}
+
+.home-hero-content h1 span {
+    display: block;
+
+    color: #5bd58a;
+}
+
+/* Subtítulo */
+
+.home-subtitle {
+    margin-top: 18px;
+    margin-bottom: 18px;
+
+    font-size: 1.35rem;
+
+    color: rgba(255, 255, 255, 0.88);
+}
+
+/* Descrição */
+
+.home-description {
+    max-width: 520px;
+
+    margin: 0;
+
+    font-size: 1rem;
+
+    line-height: 1.7;
+
+    color: rgba(255, 255, 255, 0.82);
+}
+
+/* =========================================================
+   BARRA INFERIOR
+   ========================================================= */
+
+.home-bottom-bar {
+    position: relative;
+    z-index: 2;
+
+    margin: 0 4% 24px;
+
+    min-height: 82px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 12px 22px;
+
+    background: rgba(8, 44, 31, 0.50);
+
+    border: 1px solid rgba(255, 255, 255, 0.18);
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 6px 18px rgba(0, 0, 0, 0.16);
+
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+/* Item */
+
+.home-bottom-item {
+    flex: 1;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    color: #ffffff;
+}
+
+/* Ícone */
+
+.home-bottom-item i {
+    font-size: 1.8rem;
+
+    color: #5bd58a;
+}
+
+/* Título */
+
+.home-bottom-item strong {
+    display: block;
+
+    font-size: 0.9rem;
+
+    font-weight: 600;
+}
+
+/* Descrição */
+
+.home-bottom-item span {
+    display: block;
+
+    margin-top: 3px;
+
+    font-size: 0.78rem;
+
+    color: rgba(255, 255, 255, 0.65);
+}
+
+/* Separadores */
+
+.home-bottom-divider {
+    width: 1px;
+
+    height: 38px;
+
+    margin: 0 20px;
+
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* Relatórios */
+
+.home-bottom-disabled {
+    opacity: 0.65;
+}
+
+/* =========================================================
+   RESPONSIVIDADE
+   ========================================================= */
+
+@media (max-width: 992px) {
+
+    .home-hero-content {
+        width: 65%;
+
+        padding-left: 35px;
+    }
+
+    .home-bottom-bar {
+        flex-wrap: wrap;
+
+        gap: 18px;
+    }
+
+    .home-bottom-divider {
+        display: none;
+    }
+
+    .home-bottom-item {
+        min-width: 45%;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .home-hero {
+
+        min-height: calc(100vh - 130px);
+
+        background-position: 62% center;
+    }
+
+    .home-hero-content {
+
+        width: 100%;
+
+        padding: 40px 30px 30px;
+    }
+
+    .home-hero-content h1 {
+
+        font-size: 2.7rem;
+    }
+
+    .home-description {
+
+        max-width: 100%;
+    }
+
+    .home-bottom-bar {
+
+        margin: 0 18px 18px;
+
+        padding: 16px;
+    }
+
+    .home-bottom-item {
+
+        min-width: 100%;
+    }
+}
+
+.home-service-item {
+    color: #ffffff;
+    transition: all 0.2s ease-in-out;
+    border-radius: 8px;
+}
+
+.home-service-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-1px);
+}
+
+.home-service-item:hover i {
+    transform: scale(1.08);
+}
+
+/* =========================================================
+   CONTAINER PADRÃO DAS PÁGINAS
+   ========================================================= */
+
+.page-container {
+    width: 100%;
+    max-width: 1800px;
+    margin: 0 auto;
+    padding: 0 12px;
+}
+
+.navbar-custom .page-container {
+    display: flex;
+    align-items: center;
+    flex-wrap: inherit;
+    justify-content: space-between;
 }
