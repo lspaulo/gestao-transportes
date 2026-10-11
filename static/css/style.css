@@ -338,7 +338,7 @@ body {
 .home-bottom-divider {
     flex: 0 0 1px;
     height: 38px;
-    margin: 0 12px;
+    margin: 0 6px;
     background: rgba(255, 255, 255, 0.15);
 }
 
