@@ -1,5 +1,7 @@
 from django.db import models
 
+from apps.core.validators.cpf import normalizar_cpf
+
 from .base import BaseModel
 from .funcao import Funcao
 
@@ -41,3 +43,7 @@ class Funcionario(BaseModel):
 
     def __str__(self):
         return self.nome
+
+    def save(self, *args, **kwargs):
+        self.cpf = normalizar_cpf(self.cpf)
+        super().save(*args, **kwargs)

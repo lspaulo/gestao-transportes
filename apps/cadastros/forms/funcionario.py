@@ -1,6 +1,7 @@
 from django import forms
 
 from apps.cadastros.models import Funcionario
+from apps.core.validators.cpf import normalizar_cpf, validar_cpf
 
 
 class FuncionarioForm(forms.ModelForm):
@@ -36,3 +37,11 @@ class FuncionarioForm(forms.ModelForm):
             ),
             "ativo": forms.CheckboxInput(attrs={"class": "form-check-input"}),
         }
+
+    def clean_cpf(self):
+        cpf = normalizar_cpf(self.cleaned_data.get("cpf"))
+
+        if not validar_cpf(cpf):
+            raise forms.ValidationError("Informe um CPF válido, com 11 dígitos.")
+
+        return cpf

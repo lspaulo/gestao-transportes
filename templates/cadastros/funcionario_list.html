@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load formatacao %}
+
 {% block title %}
     Funcionários
 {% endblock %}
@@ -53,7 +55,7 @@
                         <td>
                             <a href="{% url 'cadastros:funcionario_detail' funcionario.pk %}" class="stretched-link text-decoration-none text-reset">{{ funcionario.nome }}</a>
                         </td>
-                        <td>{{ funcionario.cpf }}</td>
+                        <td>{{ funcionario.cpf|cpf_br }}</td>
                         <td>{{ funcionario.funcao|default:'-' }}</td>
                         <td>
                             {% if funcionario.ativo %}

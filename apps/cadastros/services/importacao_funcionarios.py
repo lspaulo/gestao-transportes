@@ -12,6 +12,7 @@ from apps.cadastros.models import (
     Funcionario,
 )
 from apps.cadastros.models.bancos import Banco
+from apps.core.validators.cpf import normalizar_cpf, validar_cpf
 
 
 class ImportacaoFuncionarioError(Exception):
@@ -26,13 +27,6 @@ def texto(valor):
         return str(int(valor))
 
     return str(valor).strip()
-
-
-def normalizar_cpf(valor):
-    """
-    Mantém somente os números do CPF.
-    """
-    return "".join(ch for ch in texto(valor) if ch.isdigit())
 
 
 def normalizar_data(valor):
@@ -199,11 +193,12 @@ def ler_funcionarios(worksheet):
 
         if not nome:
             erros.append("Nome não informado.")
-
         if not cpf:
             erros.append("CPF não informado.")
-        elif len(cpf) != 11:
-            erros.append("CPF deve possuir 11 dígitos.")
+        elif not validar_cpf(cpf):
+            erros.append(
+                "CPF inválido. Confira os 11 dígitos e os dígitos verificadores."
+            )
 
         if cpf in cpfs_excel:
             erros.append(
@@ -226,7 +221,7 @@ def ler_funcionarios(worksheet):
             if not funcao:
                 erros.append(f"Função '{funcao_nome}' não encontrada.")
 
-        if cpf and Funcionario.objects.filter(cpf=cpf_original).exists():
+        if cpf and Funcionario.objects.filter(cpf=cpf).exists():
             erros.append("CPF já cadastrado no sistema.")
 
         validade_cnh_original = valor_coluna(

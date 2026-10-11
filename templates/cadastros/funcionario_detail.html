@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load formatacao %}
+
 {% block title %}Funcionário - {{ funcionario.nome }}{% endblock %}
 
 {% block content %}
@@ -57,7 +59,7 @@
                 </small>
 
                 <strong>
-                    {{ funcionario.cpf }}
+                    {{ funcionario.cpf|cpf_br }}
                 </strong>
             </div>
 
@@ -67,7 +69,7 @@
                 </small>
 
                 <strong>
-                    {{ funcionario.telefone|default:"-" }}
+                    {{ funcionario.telefone|telefone_br|default:"-" }}
                 </strong>
             </div>
 

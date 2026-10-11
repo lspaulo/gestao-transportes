@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load formatacao %}
+
 {% block content %}
 
 
@@ -99,7 +101,7 @@
                     <tr>
                         <td>{{ item.linha }}</td>
                         <td>{{ item.nome }}</td>
-                        <td>{{ item.cpf }}</td>
+                        <td>{{ item.cpf|cpf_br }}</td>
                         <td>{{ item.empresa_nome }}</td>
                         <td>{{ item.funcao_nome|default:"—" }}</td>
                         <td>
@@ -167,7 +169,7 @@
                     {% for item in dados.contas %}
                     <tr>
                         <td>{{ item.linha }}</td>
-                        <td>{{ item.cpf }}</td>
+                        <td>{{ item.cpf|cpf_br }}</td>
                         <td>{{ item.banco|default:"—" }}</td>
                         <td>{{ item.agencia }}</td>
                         <td>{{ item.numero_conta }}</td>
