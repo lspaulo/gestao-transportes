@@ -1,0 +1,202 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<div class="page-container">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        {% include 'components/page_header.html' with icone='bi-file-earmark-spreadsheet' titulo='Cadastro em Massa' descricao='Importe funcionários e suas contas bancárias através de um arquivo Excel' %}
+
+        <a href="{% url 'cadastros:funcionario_list' %}"
+           class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i>
+            Voltar
+        </a>
+
+    </div>
+
+
+
+    <div class="row g-4">
+
+        <!-- MODELO -->
+        <div class="col-lg-5">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body p-4">
+
+                    <div class="d-flex align-items-center mb-3">
+
+                        <div class="me-3">
+                            <i
+                                class="bi bi-file-earmark-excel"
+                                style="font-size: 2rem;"
+                            ></i>
+                        </div>
+
+                        <div>
+                            <h5 class="mb-1">
+                                1. Baixe o modelo
+                            </h5>
+
+                            <small class="text-muted">
+                                Utilize o modelo oficial para evitar erros na importação.
+                            </small>
+                        </div>
+
+                    </div>
+
+                    <p class="text-muted">
+                        O arquivo possui duas abas:
+                    </p>
+
+                    <ul class="text-muted">
+
+                        <li>
+                            <strong>Funcionarios</strong>
+                            — dados dos funcionários
+                        </li>
+
+                        <li>
+                            <strong>ContasBancarias</strong>
+                            — dados bancários opcionais
+                        </li>
+
+                    </ul>
+
+                    <a
+                        href="{% url 'cadastros:funcionario_baixar_modelo' %}"
+                        class="btn btn-success w-100 mt-2"
+                    >
+                        <i class="bi bi-download"></i>
+                        Baixar Modelo Excel
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- UPLOAD -->
+        <div class="col-lg-7">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body p-4">
+
+                    <div class="d-flex align-items-center mb-3">
+
+                        <div class="me-3">
+                            <i
+                                class="bi bi-cloud-arrow-up"
+                                style="font-size: 2rem;"
+                            ></i>
+                        </div>
+
+                        <div>
+                            <h5 class="mb-1">
+                                2. Envie o arquivo
+                            </h5>
+
+                            <small class="text-muted">
+                                Selecione o Excel preenchido.
+                            </small>
+                        </div>
+
+                    </div>
+
+
+                    <form
+                        method="post"
+                        enctype="multipart/form-data"
+                    >
+
+                        {% csrf_token %}
+
+                        <div class="mb-4">
+
+                            <label
+                                for="arquivo"
+                                class="form-label fw-semibold"
+                            >
+                                Arquivo Excel
+                            </label>
+
+                            <input
+                                type="file"
+                                name="arquivo"
+                                id="arquivo"
+                                class="form-control"
+                                accept=".xlsx,.xlsm"
+                                required
+                            >
+
+                            <div class="form-text">
+                                Formatos aceitos: .xlsx e .xlsm
+                            </div>
+
+                        </div>
+
+
+                        <div class="alert alert-light border">
+
+                            <div class="d-flex">
+
+                                <i class="bi bi-info-circle me-2"></i>
+
+                                <div>
+
+                                    <strong>Importante</strong>
+
+                                    <ul class="mb-0 mt-2">
+
+                                        <li>
+                                            Funcionários sem conta bancária
+                                            podem ser importados normalmente.
+                                        </li>
+
+                                        <li>
+                                            Contas bancárias parcialmente
+                                            preenchidas serão sinalizadas.
+                                        </li>
+
+                                        <li>
+                                            Nenhum registro será gravado
+                                            antes da confirmação.
+                                        </li>
+
+                                    </ul>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary w-100"
+                        >
+                            <i class="bi bi-search"></i>
+                            Validar Arquivo
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

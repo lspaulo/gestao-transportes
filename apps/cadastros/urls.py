@@ -32,6 +32,17 @@ from apps.cadastros.views.funcionario import (  # type: ignore
     funcionario_toggle_status,
     funcionario_update,
 )
+from apps.cadastros.views.importacao_equipamento import (
+    equipamento_baixar_modelo,
+    equipamento_importar,
+    equipamento_importar_confirmar,
+    equipamento_importar_preview,
+)
+from apps.cadastros.views.importacao_funcionario import (
+    funcionario_baixar_modelo,
+    funcionario_importar,
+    funcionario_importar_confirmar,
+)
 
 from .views.funcao import (
     funcao_create,
@@ -75,6 +86,21 @@ urlpatterns = [
         "funcionarios/",
         funcionario_list,
         name="funcionario_list",
+    ),
+    path(
+        "funcionarios/importar/",
+        funcionario_importar,
+        name="funcionario_importar",
+    ),
+    path(
+        "funcionarios/importar/modelo/",
+        funcionario_baixar_modelo,
+        name="funcionario_baixar_modelo",
+    ),
+    path(
+        "funcionarios/importar/confirmar/",
+        funcionario_importar_confirmar,
+        name="funcionario_importar_confirmar",
     ),
     path(
         "funcionarios/<int:pk>/",
@@ -122,6 +148,26 @@ urlpatterns = [
         "equipamentos/",
         equipamento_list,
         name="equipamento_list",
+    ),
+    path(
+        "equipamentos/importar/",
+        equipamento_importar,
+        name="equipamento_importar",
+    ),
+    path(
+        "equipamentos/importar/preview/",
+        equipamento_importar_preview,
+        name="equipamento_importar_preview",
+    ),
+    path(
+        "equipamentos/importar/confirmar/",
+        equipamento_importar_confirmar,
+        name="equipamento_importar_confirmar",
+    ),
+    path(
+        "equipamentos/modelo/",
+        equipamento_baixar_modelo,
+        name="equipamento_baixar_modelo",
     ),
     path(
         "equipamentos/<int:pk>/",

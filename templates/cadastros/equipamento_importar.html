@@ -1,0 +1,103 @@
+
+{% extends "base.html" %}
+
+{% block title %}Importar Equipamentos{% endblock %}
+
+{% block content %}
+
+<div class="page-container">
+
+    {% include 'components/page_header.html' with icone='bi-file-earmark-spreadsheet' titulo='Importação de Equipamentos' descricao='Cadastre vários equipamentos utilizando uma planilha Excel.' %}
+
+    <div class="row g-4">
+
+        <div class="col-md-5">
+            <div class="card h-100">
+                <div class="card-body">
+
+                    <h5 class="card-title">
+                        <i class="bi bi-download"></i>
+                        1. Baixar modelo
+                    </h5>
+
+                    <p class="text-muted">
+                        Baixe o modelo oficial e preencha os dados
+                        dos equipamentos que deseja cadastrar.
+                    </p>
+
+                    <a
+                        href="{% url 'cadastros:equipamento_baixar_modelo' %}"
+                        class="btn btn-outline-success"
+                    >
+                        <i class="bi bi-file-earmark-excel"></i>
+                        Baixar modelo Excel
+                    </a>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-7">
+            <div class="card h-100">
+                <div class="card-body">
+
+                    <h5 class="card-title">
+                        <i class="bi bi-upload"></i>
+                        2. Enviar planilha
+                    </h5>
+
+                    <p class="text-muted">
+                        Selecione o arquivo preenchido para validar
+                        os registros antes da importação.
+                    </p>
+
+                    <form
+                        method="post"
+                        enctype="multipart/form-data"
+                    >
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+                            <label
+                                for="arquivo"
+                                class="form-label"
+                            >
+                                Planilha Excel (.xlsx)
+                            </label>
+
+                            <input
+                                type="file"
+                                name="arquivo"
+                                id="arquivo"
+                                class="form-control"
+                                accept=".xlsx"
+                                required
+                            >
+                        </div>
+
+                        <button
+                            type="submit"
+                            class="btn btn-success"
+                        >
+                            <i class="bi bi-search"></i>
+                            Analisar planilha
+                        </button>
+
+                        <a
+                            href="{% url 'cadastros:equipamento_list' %}"
+                            class="btn btn-outline-secondary"
+                        >
+                            Cancelar
+                        </a>
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,122 +1,107 @@
 {% extends 'base.html' %}
 
 {% block title %}
-  Funcionários
+    Funcionários
 {% endblock %}
 
 {% block content %}
-  <div class="page-container">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-      {% include 'components/page_header.html' with icone='bi-people' titulo='Funcionários' descricao='Gerencie os funcionários cadastrados' %}
+<div class="page-container">
 
-      <a href="{% url 'cadastros:funcionario_create' %}" class="btn btn-primary">
-        <i class="bi bi-plus-circle"></i>
-        Novo Funcionário
-      </a>
+    <!-- Cabeçalho e Botões -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        {% include 'components/page_header.html' with icone='bi-people' titulo='Funcionários' descricao='Gerencie os funcionários cadastrados' %}
+
+        <div class="d-flex gap-2">
+            <a href="{% url 'cadastros:funcionario_create' %}" class="btn btn-primary">
+                <i class="bi bi-plus-lg"></i>
+                Novo Funcionário
+            </a>
+            <a href="{% url 'cadastros:funcionario_importar' %}" class="btn btn-success">
+                <i class="bi bi-file-earmark-spreadsheet"></i>
+                Importar em Massa
+            </a>
+        </div>
     </div>
 
     <!-- Filtro de status -->
-
     <div class="btn-group mb-3 status-filter" role="group" aria-label="Filtro de status">
-      <a href="?status=ativos"
-        class="btn {% if status == 'ativos' %}
-          btn-primary
-        {% else %}
-          btn-outline-primary
-        {% endif %}">
-        Ativos
-      </a>
-
-      <a href="?status=inativos"
-        class="btn {% if status == 'inativos' %}
-          btn-primary
-        {% else %}
-          btn-outline-primary
-        {% endif %}">
-        Inativos
-      </a>
-
-      <a href="?status=todos"
-        class="btn {% if status == 'todos' %}
-          btn-primary
-        {% else %}
-          btn-outline-primary
-        {% endif %}">
-        Todos
-      </a>
+        <a href="?status=ativos" class="btn {% if status == 'ativos' %}btn-primary{% else %}btn-outline-primary{% endif %}">
+            Ativos
+        </a>
+        <a href="?status=inativos" class="btn {% if status == 'inativos' %}btn-primary{% else %}btn-outline-primary{% endif %}">
+            Inativos
+        </a>
+        <a href="?status=todos" class="btn {% if status == 'todos' %}btn-primary{% else %}btn-outline-primary{% endif %}">
+            Todos
+        </a>
     </div>
 
     <!-- Tabela -->
-
     <div class="table-responsive">
-      <table class="table table-striped table-hover align-middle">
-        <thead class="table-info">
-          <tr>
-            <th>Nome</th>
-            <th>CPF</th>
-            <th>Função</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {% for funcionario in page_obj %}
-            <tr class="position-relative">
-              <td>
-                <a href="{% url 'cadastros:funcionario_detail' funcionario.pk %}" class="stretched-link text-decoration-none text-reset">{{ funcionario.nome }}</a>
-              </td>
-
-              <td>{{ funcionario.cpf }}</td>
-
-              <td>{{ funcionario.funcao|default:'-' }}</td>
-
-              <td>
-                {% if funcionario.ativo %}
-                  <span class="badge bg-success">Ativo</span>
-                {% else %}
-                  <span class="badge bg-danger">Inativo</span>
-                {% endif %}
-              </td>
-            </tr>
-          {% empty %}
-            <tr>
-              <td colspan="4" class="text-center">Nenhum funcionário cadastrado.</td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+        <table class="table table-striped table-hover align-middle">
+            <thead class="table-info">
+                <tr>
+                    <th>Nome</th>
+                    <th>CPF</th>
+                    <th>Função</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for funcionario in page_obj %}
+                    <tr class="position-relative">
+                        <td>
+                            <a href="{% url 'cadastros:funcionario_detail' funcionario.pk %}" class="stretched-link text-decoration-none text-reset">{{ funcionario.nome }}</a>
+                        </td>
+                        <td>{{ funcionario.cpf }}</td>
+                        <td>{{ funcionario.funcao|default:'-' }}</td>
+                        <td>
+                            {% if funcionario.ativo %}
+                                <span class="badge bg-success">Ativo</span>
+                            {% else %}
+                                <span class="badge bg-danger">Inativo</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-center">Nenhum funcionário cadastrado.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 
     <!-- Paginação -->
-
     {% if page_obj.has_other_pages %}
-      <nav aria-label="Paginação">
-        <ul class="pagination">
-          {% if page_obj.has_previous %}
-            <li class="page-item">
-              <a class="page-link" href="?status={{ status }}&page={{ page_obj.previous_page_number }}">Anterior</a>
-            </li>
-          {% endif %}
+        <nav aria-label="Paginação">
+            <ul class="pagination">
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?status={{ status }}&page={{ page_obj.previous_page_number }}">Anterior</a>
+                    </li>
+                {% endif %}
 
-          {% for num in page_obj.paginator.page_range %}
-            {% if page_obj.number == num %}
-              <li class="page-item active">
-                <span class="page-link">{{ num }}</span>
-              </li>
-            {% else %}
-              <li class="page-item">
-                <a class="page-link" href="?status={{ status }}&page={{ num }}">{{ num }}</a>
-              </li>
-            {% endif %}
-          {% endfor %}
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                        <li class="page-item active">
+                            <span class="page-link">{{ num }}</span>
+                        </li>
+                    {% else %}
+                        <li class="page-item">
+                            <a class="page-link" href="?status={{ status }}&page={{ num }}">{{ num }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
 
-          {% if page_obj.has_next %}
-            <li class="page-item">
-              <a class="page-link" href="?status={{ status }}&page={{ page_obj.next_page_number }}">Próxima</a>
-            </li>
-          {% endif %}
-        </ul>
-      </nav>
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?status={{ status }}&page={{ page_obj.next_page_number }}">Próxima</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
     {% endif %}
-  </div>
+
+</div>
 {% endblock %}

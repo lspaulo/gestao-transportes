@@ -44,6 +44,20 @@
     <div class="home-bottom-bar">
 
         <a
+            href="{% url 'financeiro:adiantamento_list' %}"
+            class="home-service-item text-decoration-none"
+        >
+            <i class="bi bi-cash-stack"></i>
+
+            <div>
+                <strong>Financeiro</strong>
+                <small>Adiantamentos e despesas</small>
+            </div>
+        </a>
+
+        <div class="home-bottom-divider"></div>
+
+        <a
             href="{% url 'cadastros:equipamento_list' %}"
             class="home-service-item text-decoration-none"
         >
@@ -66,20 +80,6 @@
             <div>
                 <strong>Funcionários</strong>
                 <small>Gestão de colaboradores</small>
-            </div>
-        </a>
-
-        <div class="home-bottom-divider"></div>
-
-        <a
-            href="{% url 'financeiro:adiantamento_list' %}"
-            class="home-service-item text-decoration-none"
-        >
-            <i class="bi bi-cash-stack"></i>
-
-            <div>
-                <strong>Financeiro</strong>
-                <small>Adiantamentos e despesas</small>
             </div>
         </a>
 
