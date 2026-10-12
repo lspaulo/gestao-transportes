@@ -1,7 +1,7 @@
 
 {% extends "base.html" %}
 
-{% block title %}Importar Equipamentos{% endblock %}
+{% block title %}Importação de Equipamentos{% endblock %}
 
 {% block content %}
 
@@ -11,58 +11,54 @@
 
     <div class="row g-4">
 
-        <div class="col-md-5">
-            <div class="card h-100">
+        <!-- Etapa 1: Baixar modelo -->
+        <div class="col-12">
+            <div class="card">
                 <div class="card-body">
 
                     <h5 class="card-title">
-                        <i class="bi bi-download"></i>
-                        1. Baixar modelo
+                        <i class="bi bi-file-earmark-excel"></i>
+                        1. Baixe o modelo
                     </h5>
 
                     <p class="text-muted">
-                        Baixe o modelo oficial e preencha os dados
-                        dos equipamentos que deseja cadastrar.
+                        Utilize o modelo oficial para evitar erros na importação.
                     </p>
+
+                    <p>O arquivo deve conter os dados dos equipamentos que deseja cadastrar.</p>
 
                     <a
                         href="{% url 'cadastros:equipamento_baixar_modelo' %}"
-                        class="btn btn-outline-success"
+                        class="btn btn-success w-100"
                     >
-                        <i class="bi bi-file-earmark-excel"></i>
-                        Baixar modelo Excel
+                        <i class="bi bi-download"></i>
+                        Baixar Modelo Excel
                     </a>
 
                 </div>
             </div>
         </div>
 
-        <div class="col-md-7">
-            <div class="card h-100">
+        <!-- Etapa 2: Enviar planilha -->
+        <div class="col-12">
+            <div class="card">
                 <div class="card-body">
 
                     <h5 class="card-title">
-                        <i class="bi bi-upload"></i>
-                        2. Enviar planilha
+                        <i class="bi bi-cloud-upload"></i>
+                        2. Envie o arquivo
                     </h5>
 
                     <p class="text-muted">
-                        Selecione o arquivo preenchido para validar
-                        os registros antes da importação.
+                        Selecione a planilha preenchida para validar os registros antes da importação.
                     </p>
 
-                    <form
-                        method="post"
-                        enctype="multipart/form-data"
-                    >
+                    <form method="post" enctype="multipart/form-data">
                         {% csrf_token %}
 
                         <div class="mb-3">
-                            <label
-                                for="arquivo"
-                                class="form-label"
-                            >
-                                Planilha Excel (.xlsx)
+                            <label for="arquivo" class="form-label">
+                                Arquivo Excel
                             </label>
 
                             <input
@@ -73,22 +69,32 @@
                                 accept=".xlsx"
                                 required
                             >
+
+                            <div class="form-text">
+                                Formato aceito: .xlsx
+                            </div>
+                        </div>
+
+                        <div class="alert alert-light border mb-3">
+                            <strong>
+                                <i class="bi bi-info-circle"></i>
+                                Importante
+                            </strong>
+
+                            <ul class="mb-0 mt-2">
+                                <li>Utilize o modelo oficial para preservar os nomes das colunas.</li>
+                                <li>Confira os vínculos de empresa, classe e status operacional.</li>
+                                <li>Nenhum registro será gravado antes da confirmação.</li>
+                            </ul>
                         </div>
 
                         <button
                             type="submit"
-                            class="btn btn-success"
+                            class="btn btn-success w-100"
                         >
                             <i class="bi bi-search"></i>
-                            Analisar planilha
+                            Validar Arquivo
                         </button>
-
-                        <a
-                            href="{% url 'cadastros:equipamento_list' %}"
-                            class="btn btn-outline-secondary"
-                        >
-                            Cancelar
-                        </a>
 
                     </form>
 
