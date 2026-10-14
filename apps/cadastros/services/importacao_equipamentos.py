@@ -52,10 +52,7 @@ def normalizar_ano(valor, nome_coluna):
     except (ValueError, TypeError):
         return None, f"{nome_coluna} deve ser um número inteiro."
 
-    if ano < 1900 or ano > 2155:
-        return None, f"{nome_coluna} está fora do intervalo permitido."
-
-    return ano, None
+    return (ano if ano != 0 else None), None
 
 
 def analisar_arquivo(arquivo):
