@@ -88,23 +88,29 @@
           <tr>
             <th>Frota</th>
             <th>Placa</th>
+            <th>Renavam</th>
             <th>Descrição</th>
             <th>Empresa</th>
             <th>Classe Operacional</th>
-            <th>Marca / Modelo</th>
             <th>Ano</th>
             <th>Status Operacional</th>
           </tr>
         </thead>
 
+
         <tbody>
           {% for equipamento in equipamentos %}
-            <tr class="position-relative">
+            <tr>
               <td>
-                <a href="{% url 'cadastros:equipamento_detail' equipamento.pk %}" class="stretched-link text-decoration-none text-reset">{{ equipamento.frota }}</a>
+                <a
+                  href="{% url 'cadastros:equipamento_detail' equipamento.pk %}"
+                  class="text-decoration-none text-reset fw-semibold"
+                >{{ equipamento.frota }}</a>
               </td>
 
               <td>{{ equipamento.placa|default:'-' }}</td>
+
+              <td>{{ equipamento.renavam|default:'-' }}</td>
 
               <td>{{ equipamento.descricao }}</td>
 
@@ -113,20 +119,12 @@
               <td>{{ equipamento.classe_operacional }}</td>
 
               <td>
-                {% if equipamento.marca or equipamento.modelo %}
-                  {{ equipamento.marca|default:'-' }}
-                  /
-                  {{ equipamento.modelo|default:'-' }}
-                {% else %}
-                  -
-                {% endif %}
-              </td>
-
-              <td>
-                {% if equipamento.ano_fabricacao or equipamento.ano_modelo %}
-                  {{ equipamento.ano_fabricacao|default:'-' }}
-                  /
-                  {{ equipamento.ano_modelo|default:'-' }}
+                {% if equipamento.ano_fabricacao and equipamento.ano_modelo %}
+                  {{ equipamento.ano_fabricacao }} / {{ equipamento.ano_modelo }}
+                {% elif equipamento.ano_fabricacao %}
+                  {{ equipamento.ano_fabricacao }}
+                {% elif equipamento.ano_modelo %}
+                  {{ equipamento.ano_modelo }}
                 {% else %}
                   -
                 {% endif %}
@@ -136,10 +134,13 @@
             </tr>
           {% empty %}
             <tr>
-              <td colspan="8" class="text-center py-4">Nenhum equipamento cadastrado.</td>
+              <td colspan="8" class="text-center py-4">
+                Nenhum equipamento cadastrado.
+              </td>
             </tr>
           {% endfor %}
         </tbody>
+
       </table>
     </div>
   </div>
