@@ -1,4 +1,7 @@
+import re
+
 from django.core.paginator import Paginator
+from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 
 from apps.cadastros.forms import FuncionarioForm  # type: ignore
@@ -18,7 +21,14 @@ def funcionario_list(request):
         funcionarios = funcionarios.filter(ativo=False)
 
     if pesquisa:
-        funcionarios = funcionarios.filter(nome__icontains=pesquisa)
+        cpf_pesquisa = re.sub(r"\D", "", pesquisa)
+
+        filtro = Q(nome__icontains=pesquisa)
+
+        if cpf_pesquisa:
+            filtro |= Q(cpf__icontains=cpf_pesquisa)
+
+        funcionarios = funcionarios.filter(filtro)
 
     funcionarios = funcionarios.order_by("nome")
 
@@ -31,6 +41,7 @@ def funcionario_list(request):
     context = {
         "page_obj": page_obj,
         "status": status,
+        "pesquisa": pesquisa,
     }
 
     return render(
