@@ -22,14 +22,36 @@
     </div>
 
     <form method="get" class="mb-3">
-      <div class="input-group">
-        <input type="text" class="form-control" name="q" placeholder="Pesquisar..." value="{{ request.GET.q }}" />
+        <input type="hidden" name="status" value="{{ status }}">
 
-        <button type="submit" class="btn btn-outline-secondary">
-          <i class="bi bi-search"></i>
-          Pesquisar
-        </button>
-      </div>
+        <div class="d-flex gap-2 align-items-center">
+            <input
+                type="text"
+                class="form-control"
+                name="q"
+                placeholder="Pesquisar por frota, placa ou descrição..."
+                value="{{ pesquisa }}"
+                style="min-width: 0;"
+            >
+
+            <button
+                type="submit"
+                class="btn btn-success text-nowrap flex-shrink-0"
+                style="min-width: 112px;"
+            >
+                <i class="bi bi-search"></i>
+                Pesquisar
+            </button>
+
+            {% if pesquisa %}
+                <a
+                    href="?status={{ status }}"
+                    class="btn btn-outline-secondary text-nowrap flex-shrink-0"
+                >
+                    Limpar
+                </a>
+            {% endif %}
+        </div>
     </form>
 
     <div class="btn-group mb-3 status-filter" role="group" aria-label="Filtro de status">

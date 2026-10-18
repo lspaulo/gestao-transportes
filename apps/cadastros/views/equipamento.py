@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 
 from apps.cadastros.forms import EquipamentoForm
@@ -5,24 +6,27 @@ from apps.cadastros.models import Equipamento
 
 
 def equipamento_list(request):
-
-    pesquisa = request.GET.get("q", "")
+    pesquisa = request.GET.get("q", "").strip()
     status = request.GET.get("status", "ativos")
 
     equipamentos = Equipamento.objects.all()
 
+    # Filtro de status
     if status == "inativos":
         equipamentos = equipamentos.filter(ativo=False)
-
     elif status == "todos":
         pass
-
     else:
         status = "ativos"
         equipamentos = equipamentos.filter(ativo=True)
 
+    # Pesquisa por frota, placa ou descrição
     if pesquisa:
-        equipamentos = equipamentos.filter(descricao__icontains=pesquisa)
+        equipamentos = equipamentos.filter(
+            Q(frota__icontains=pesquisa)
+            | Q(placa__icontains=pesquisa)
+            | Q(descricao__icontains=pesquisa)
+        )
 
     equipamentos = equipamentos.order_by("frota")
 
@@ -32,6 +36,7 @@ def equipamento_list(request):
         {
             "equipamentos": equipamentos,
             "status": status,
+            "pesquisa": pesquisa,
         },
     )
 
