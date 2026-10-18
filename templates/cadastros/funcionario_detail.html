@@ -166,12 +166,17 @@
 
         <div class="card-body">
             <div class="row g-3">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <small class="text-muted d-block">Número da CNH</small>
                     <strong>{{ funcionario.numero_cnh|default:"-" }}</strong>
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-md-4">
+                    <small class="text-muted d-block">Categoria da CNH</small>
+                    <strong>{{ funcionario.categoria_cnh|default:"-" }}</strong>
+                </div>
+
+                <div class="col-md-4">
                     <small class="text-muted d-block">Validade da CNH</small>
                     <strong>
                         {% if funcionario.validade_cnh %}
@@ -183,6 +188,7 @@
                 </div>
             </div>
         </div>
+
     </div>
 
     <!-- Contas bancárias -->

@@ -28,6 +28,9 @@ class FuncionarioForm(forms.ModelForm):
             "funcao": forms.Select(attrs={"class": "form-select"}),
             # Habilitação
             "numero_cnh": forms.TextInput(attrs={"class": "form-control"}),
+            "categoria_cnh": forms.Select(
+                attrs={"class": "form-select"},
+            ),
             "validade_cnh": forms.DateInput(
                 attrs={
                     "class": "form-control",
