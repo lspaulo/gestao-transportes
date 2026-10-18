@@ -463,3 +463,28 @@ body {
     flex-wrap: inherit;
     justify-content: space-between;
 }
+/* ========================================
+   PAGINAÇÃO
+   ======================================== */
+
+.pagination-verde .page-link {
+    color: #267F49;
+    background-color: #fff;
+    border-color: #dee2e6;
+}
+
+.pagination-verde .page-item.active .page-link {
+    color: #fff;
+    background-color: #267F49;
+    border-color: #267F49;
+}
+
+.pagination-verde .page-link:hover {
+    color: #1e6339;
+    background-color: #e8f3ec;
+    border-color: #dee2e6;
+}
+
+.pagination-verde .page-link:focus {
+    box-shadow: 0 0 0 0.2rem rgba(38, 127, 73, 0.2);
+}

@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 
@@ -30,11 +31,16 @@ def equipamento_list(request):
 
     equipamentos = equipamentos.order_by("frota")
 
+    # Paginação: 10 equipamentos por página
+    paginator = Paginator(equipamentos, 10)
+    page_obj = paginator.get_page(request.GET.get("page"))
+
     return render(
         request,
         "cadastros/equipamento_list.html",
         {
-            "equipamentos": equipamentos,
+            "page_obj": page_obj,
+            "equipamentos": page_obj,
             "status": status,
             "pesquisa": pesquisa,
         },
