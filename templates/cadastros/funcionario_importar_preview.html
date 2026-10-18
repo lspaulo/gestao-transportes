@@ -3,277 +3,157 @@
 {% load formatacao %}
 
 {% block content %}
-
-
 <div class="page-container">
-
     <div class="d-flex justify-content-between align-items-center mb-4">
-
         {% include 'components/page_header.html' with icone='bi-clipboard-check' titulo='Conferência da Importação' descricao='Confira os registros antes de confirmar o cadastro' %}
-
-        <a href="{% url 'cadastros:funcionario_importar' %}"
-           class="btn btn-outline-secondary">
-            <i class="bi bi-arrow-left"></i>
-            Voltar
+        <a href="{% url 'cadastros:funcionario_importar' %}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Voltar
         </a>
-
     </div>
 
-
-    <!-- RESUMO -->
+    <!-- Resumo -->
     <div class="row g-3 mb-4">
-
         <div class="col-md-3">
-            <div class="card shadow-sm h-100">
-                <div class="card-body">
-                    <div class="text-muted small">
-                        Funcionários
-                    </div>
-                    <h3>{{ dados.resumo.total_funcionarios }}</h3>
-                    <span class="text-success">
-                        {{ dados.resumo.funcionarios_validos }} válidos
-                    </span>
-                </div>
-            </div>
+            <div class="card shadow-sm h-100"><div class="card-body">
+                <div class="text-muted small">Funcionários</div>
+                <h3>{{ dados.resumo.total_funcionarios }}</h3>
+                <span class="text-success">{{ dados.resumo.funcionarios_validos }} válidos</span>
+            </div></div>
         </div>
-
         <div class="col-md-3">
-            <div class="card shadow-sm h-100">
-                <div class="card-body">
-                    <div class="text-muted small">
-                        Erros nos funcionários
-                    </div>
-                    <h3>{{ dados.resumo.funcionarios_com_erro }}</h3>
-                </div>
-            </div>
+            <div class="card shadow-sm h-100"><div class="card-body">
+                <div class="text-muted small">Erros nos funcionários</div>
+                <h3>{{ dados.resumo.funcionarios_com_erro }}</h3>
+            </div></div>
         </div>
-
         <div class="col-md-3">
-            <div class="card shadow-sm h-100">
-                <div class="card-body">
-                    <div class="text-muted small">
-                        Contas bancárias
-                    </div>
-                    <h3>{{ dados.resumo.total_contas }}</h3>
-                    <span class="text-success">
-                        {{ dados.resumo.contas_validas }} válidas
-                    </span>
-                </div>
-            </div>
+            <div class="card shadow-sm h-100"><div class="card-body">
+                <div class="text-muted small">Contas bancárias</div>
+                <h3>{{ dados.resumo.total_contas }}</h3>
+                <span class="text-success">{{ dados.resumo.contas_validas }} válidas</span>
+            </div></div>
         </div>
-
         <div class="col-md-3">
-            <div class="card shadow-sm h-100">
-                <div class="card-body">
-                    <div class="text-muted small">
-                        Erros nas contas
-                    </div>
-                    <h3>{{ dados.resumo.contas_com_erro }}</h3>
-                </div>
-            </div>
+            <div class="card shadow-sm h-100"><div class="card-body">
+                <div class="text-muted small">Erros nas contas</div>
+                <h3>{{ dados.resumo.contas_com_erro }}</h3>
+            </div></div>
         </div>
-
     </div>
 
-    <!-- FUNCIONÁRIOS -->
+    <!-- Funcionários -->
     <div class="card shadow-sm mb-4">
-
         <div class="card-header bg-white py-3">
             <h5 class="mb-0">Funcionários identificados</h5>
         </div>
-
         <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0">
-
+            <table class="table table-hover table-sm align-middle mb-0">
                 <thead class="table-light">
                     <tr>
                         <th>Linha</th>
                         <th>Nome</th>
                         <th>CPF</th>
+                        <th>Matrícula</th>
+                        <th>Código fornecedor</th>
+                        <th>Admissão</th>
                         <th>Empresa</th>
                         <th>Função</th>
+                        <th>Endereço</th>
                         <th>Situação</th>
                     </tr>
                 </thead>
-
                 <tbody>
                     {% for item in dados.funcionarios %}
                     <tr>
                         <td>{{ item.linha }}</td>
                         <td>{{ item.nome }}</td>
                         <td>{{ item.cpf|cpf_br }}</td>
+                        <td>{{ item.matricula|default:"—" }}</td>
+                        <td>{{ item.codigo_fornecedor|default:"—" }}</td>
+                        <td>{{ item.data_admissao_exibicao|default:"—" }}</td>
                         <td>{{ item.empresa_nome }}</td>
                         <td>{{ item.funcao_nome|default:"—" }}</td>
                         <td>
-                            {% if item.erros %}
-                                <span class="badge text-bg-danger">
-                                    Com erro
-                                </span>
-                            {% else %}
-                                <span class="badge text-bg-success">
-                                    Válido
-                                </span>
-                            {% endif %}
+                            {% if item.logradouro %}{{ item.logradouro }}{% if item.numero_endereco %}, {{ item.numero_endereco }}{% endif %}{% endif %}
+                            {% if item.complemento %} — {{ item.complemento }}{% endif %}
+                            {% if item.bairro %}<br>{{ item.bairro }}{% endif %}
+                            {% if item.cidade %}{% if item.bairro %}, {% else %}<br>{% endif %}{{ item.cidade }}{% endif %}
+                            {% if item.uf %}/{{ item.uf }}{% endif %}
+                            {% if item.cep %}<br>CEP: {{ item.cep }}{% endif %}
+                            {% if not item.logradouro and not item.numero_endereco and not item.complemento and not item.bairro and not item.cidade and not item.uf and not item.cep %}—{% endif %}
+                        </td>
+                        <td>
+                            {% if item.erros %}<span class="badge text-bg-danger">Com erro</span>
+                            {% else %}<span class="badge text-bg-success">Válido</span>{% endif %}
                         </td>
                     </tr>
-
                     {% if item.erros %}
-                    <tr>
-                        <td colspan="6" class="bg-light">
-                            <strong>Problemas na linha {{ item.linha }}:</strong>
-                            <ul class="mb-0 mt-1">
-                                {% for erro in item.erros %}
-                                <li class="text-danger">{{ erro }}</li>
-                                {% endfor %}
-                            </ul>
-                        </td>
-                    </tr>
+                    <tr><td colspan="10" class="bg-light">
+                        <strong>Problemas na linha {{ item.linha }}:</strong>
+                        <ul class="mb-0 mt-1">{% for erro in item.erros %}<li class="text-danger">{{ erro }}</li>{% endfor %}</ul>
+                    </td></tr>
                     {% endif %}
-
                     {% empty %}
-                    <tr>
-                        <td colspan="6" class="text-center text-muted py-4">
-                            Nenhum funcionário encontrado.
-                        </td>
-                    </tr>
+                    <tr><td colspan="10" class="text-center text-muted py-4">Nenhum funcionário encontrado.</td></tr>
                     {% endfor %}
                 </tbody>
-
             </table>
         </div>
     </div>
 
-    <!-- CONTAS BANCÁRIAS -->
+    <!-- Contas bancárias -->
     <div class="card shadow-sm mb-4">
-
-        <div class="card-header bg-white py-3">
-            <h5 class="mb-0">Contas bancárias identificadas</h5>
-        </div>
-
+        <div class="card-header bg-white py-3"><h5 class="mb-0">Contas bancárias identificadas</h5></div>
         <div class="table-responsive">
             <table class="table table-hover align-middle mb-0">
-
-                <thead class="table-light">
-                    <tr>
-                        <th>Linha</th>
-                        <th>CPF do funcionário</th>
-                        <th>Banco</th>
-                        <th>Agência</th>
-                        <th>Número da conta</th>
-                        <th>Conta padrão</th>
-                        <th>Situação</th>
-                    </tr>
-                </thead>
-
+                <thead class="table-light"><tr>
+                    <th>Linha</th><th>CPF do funcionário</th><th>Banco</th><th>Agência</th>
+                    <th>Número da conta</th><th>Conta padrão</th><th>Situação</th>
+                </tr></thead>
                 <tbody>
                     {% for item in dados.contas %}
                     <tr>
-                        <td>{{ item.linha }}</td>
-                        <td>{{ item.cpf|cpf_br }}</td>
-                        <td>{{ item.banco|default:"—" }}</td>
-                        <td>{{ item.agencia }}</td>
-                        <td>{{ item.numero_conta }}</td>
-                        <td>
-                            {% if item.padrao %}
-                                Sim
-                            {% else %}
-                                Não
-                            {% endif %}
-                        </td>
-                        <td>
-                            {% if item.erros %}
-                                <span class="badge text-bg-danger">
-                                    Com erro
-                                </span>
-                            {% else %}
-                                <span class="badge text-bg-success">
-                                    Válida
-                                </span>
-                            {% endif %}
-                        </td>
+                        <td>{{ item.linha }}</td><td>{{ item.cpf|cpf_br }}</td><td>{{ item.banco|default:"—" }}</td>
+                        <td>{{ item.agencia }}</td><td>{{ item.numero_conta }}</td>
+                        <td>{% if item.padrao %}Sim{% else %}Não{% endif %}</td>
+                        <td>{% if item.erros %}<span class="badge text-bg-danger">Com erro</span>{% else %}<span class="badge text-bg-success">Válida</span>{% endif %}</td>
                     </tr>
-
                     {% if item.erros %}
-                    <tr>
-                        <td colspan="7" class="bg-light">
-                            <strong>Problemas na linha {{ item.linha }}:</strong>
-                            <ul class="mb-0 mt-1">
-                                {% for erro in item.erros %}
-                                <li class="text-danger">{{ erro }}</li>
-                                {% endfor %}
-                            </ul>
-                        </td>
-                    </tr>
+                    <tr><td colspan="7" class="bg-light">
+                        <strong>Problemas na linha {{ item.linha }}:</strong>
+                        <ul class="mb-0 mt-1">{% for erro in item.erros %}<li class="text-danger">{{ erro }}</li>{% endfor %}</ul>
+                    </td></tr>
                     {% endif %}
-
                     {% empty %}
-                    <tr>
-                        <td colspan="7" class="text-center text-muted py-4">
-                            Nenhuma conta bancária informada.
-                            Os funcionários poderão ser cadastrados sem conta.
-                        </td>
-                    </tr>
+                    <tr><td colspan="7" class="text-center text-muted py-4">Nenhuma conta bancária informada. Os funcionários poderão ser cadastrados sem conta.</td></tr>
                     {% endfor %}
                 </tbody>
-
             </table>
         </div>
     </div>
 
-    <!-- AÇÕES -->
-    <div class="card shadow-sm">
-        <div class="card-body d-flex flex-wrap justify-content-between
-                    align-items-center gap-3">
-
-            <div>
-                {% if dados.resumo.funcionarios_com_erro or dados.resumo.contas_com_erro %}
-                    <strong class="text-danger">
-                        Corrija os problemas antes de continuar.
-                    </strong>
-                    <p class="text-muted mb-0 small">
-                        Nenhum registro foi gravado nesta etapa.
-                    </p>
-                {% else %}
-                    <strong class="text-success">
-                        Validação concluída.
-                    </strong>
-                    <p class="text-muted mb-0 small">
-                        Revise os dados antes de confirmar a importação.
-                    </p>
-                {% endif %}
-            </div>
-
-            <div class="d-flex gap-2">
-
-                <a href="{% url 'cadastros:funcionario_importar' %}"
-                   class="btn btn-outline-secondary">
-                    Cancelar
-                </a>
-
-                {% if dados.resumo.total_funcionarios > 0 and dados.resumo.funcionarios_com_erro == 0 and dados.resumo.contas_com_erro == 0 %}
-                <form method="post"
-                      action="{% url 'cadastros:funcionario_importar_confirmar' %}">
-                    {% csrf_token %}
-
-                    <button type="submit" class="btn btn-success">
-                        <i class="bi bi-check-circle"></i>
-                        Confirmar importação
-                    </button>
-                </form>
-                {% else %}
-                <button type="button"
-                        class="btn btn-success"
-                        disabled>
-                    <i class="bi bi-check-circle"></i>
-                    Confirmar importação
-                </button>
-                {% endif %}
-
-            </div>
-
+    <!-- Ações -->
+    <div class="card shadow-sm"><div class="card-body d-flex flex-wrap justify-content-between align-items-center gap-3">
+        <div>
+            {% if dados.resumo.funcionarios_com_erro or dados.resumo.contas_com_erro %}
+                <strong class="text-danger">Corrija os problemas antes de continuar.</strong>
+                <p class="text-muted mb-0 small">Nenhum registro será gravado nesta etapa.</p>
+            {% else %}
+                <strong class="text-success">Validação concluída.</strong>
+                <p class="text-muted mb-0 small">Revise os dados antes de confirmar a importação.</p>
+            {% endif %}
         </div>
-    </div>
-
+        <div class="d-flex gap-2">
+            <a href="{% url 'cadastros:funcionario_importar' %}" class="btn btn-outline-secondary">Cancelar</a>
+            {% if dados.resumo.total_funcionarios > 0 and dados.resumo.funcionarios_com_erro == 0 and dados.resumo.contas_com_erro == 0 %}
+            <form method="post" action="{% url 'cadastros:funcionario_importar_confirmar' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-success"><i class="bi bi-check-circle"></i> Confirmar importação</button>
+            </form>
+            {% else %}
+            <button type="button" class="btn btn-success" disabled><i class="bi bi-check-circle"></i> Confirmar importação</button>
+            {% endif %}
+        </div>
+    </div></div>
 </div>
-
 {% endblock %}

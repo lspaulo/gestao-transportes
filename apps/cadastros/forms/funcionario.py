@@ -10,10 +10,23 @@ class FuncionarioForm(forms.ModelForm):
         fields = "__all__"
 
         widgets = {
+            # Dados pessoais
             "nome": forms.TextInput(attrs={"class": "form-control"}),
             "cpf": forms.TextInput(attrs={"class": "form-control"}),
             "email": forms.EmailInput(attrs={"class": "form-control"}),
             "telefone": forms.TextInput(attrs={"class": "form-control"}),
+            # Dados profissionais
+            "data_admissao": forms.DateInput(
+                attrs={
+                    "class": "form-control",
+                    "type": "date",
+                }
+            ),
+            "matricula": forms.TextInput(attrs={"class": "form-control"}),
+            "codigo_fornecedor": forms.TextInput(attrs={"class": "form-control"}),
+            "empresa": forms.Select(attrs={"class": "form-select"}),
+            "funcao": forms.Select(attrs={"class": "form-select"}),
+            # Habilitação
             "numero_cnh": forms.TextInput(attrs={"class": "form-control"}),
             "validade_cnh": forms.DateInput(
                 attrs={
@@ -21,8 +34,27 @@ class FuncionarioForm(forms.ModelForm):
                     "type": "date",
                 }
             ),
-            "funcao": forms.Select(attrs={"class": "form-select"}),
-            "empresa": forms.Select(attrs={"class": "form-select"}),
+            # Endereço
+            "cep": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "00000-000",
+                    "maxlength": "9",
+                }
+            ),
+            "logradouro": forms.TextInput(attrs={"class": "form-control"}),
+            "numero_endereco": forms.TextInput(attrs={"class": "form-control"}),
+            "complemento": forms.TextInput(attrs={"class": "form-control"}),
+            "bairro": forms.TextInput(attrs={"class": "form-control"}),
+            "cidade": forms.TextInput(attrs={"class": "form-control"}),
+            "uf": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "maxlength": "2",
+                    "placeholder": "Ex.: AL",
+                }
+            ),
+            # Informações complementares
             "cursos": forms.Textarea(
                 attrs={
                     "class": "form-control",
@@ -35,6 +67,7 @@ class FuncionarioForm(forms.ModelForm):
                     "rows": 4,
                 }
             ),
+            # Situação cadastral
             "ativo": forms.CheckboxInput(attrs={"class": "form-check-input"}),
         }
 
@@ -45,3 +78,7 @@ class FuncionarioForm(forms.ModelForm):
             raise forms.ValidationError("Informe um CPF válido, com 11 dígitos.")
 
         return cpf
+
+    def clean_uf(self):
+        uf = self.cleaned_data.get("uf", "")
+        return uf.strip().upper()
