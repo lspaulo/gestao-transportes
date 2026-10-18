@@ -179,7 +179,7 @@ def criar_modelo_funcionarios():
         ws_listas.cell(
             row=linha,
             column=3,
-            value=f"{codigo} - {descricao}",
+            value=descricao,
         )
 
     for linha, (_, descricao) in enumerate(
