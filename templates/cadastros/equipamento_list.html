@@ -121,7 +121,7 @@
 
 
         <tbody>
-          {% for equipamento in equipamentos %}
+          {% for equipamento in page_obj %}
             <tr>
               <td>
                 <a
@@ -165,5 +165,52 @@
 
       </table>
     </div>
+
+    <!-- Paginação -->
+    {% if page_obj.has_other_pages %}
+        <nav aria-label="Paginação">
+            <ul class="pagination pagination-verde">
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a
+                            class="page-link"
+                            href="?status={{ status }}&q={{ pesquisa|urlencode }}&page={{ page_obj.previous_page_number }}"
+                        >
+                            Anterior
+                        </a>
+                    </li>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                        <li class="page-item active">
+                            <span class="page-link">{{ num }}</span>
+                        </li>
+                    {% else %}
+                        <li class="page-item">
+                            <a
+                                class="page-link"
+                                href="?status={{ status }}&q={{ pesquisa|urlencode }}&page={{ num }}"
+                            >
+                                {{ num }}
+                            </a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a
+                            class="page-link"
+                            href="?status={{ status }}&q={{ pesquisa|urlencode }}&page={{ page_obj.next_page_number }}"
+                        >
+                            Próxima
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    {% endif %}
+
   </div>
 {% endblock %}
