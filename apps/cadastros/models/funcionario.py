@@ -36,6 +36,68 @@ class Funcionario(BaseModel):
     cursos = models.TextField(blank=True, verbose_name="Cursos")
     observacao = models.TextField(blank=True, verbose_name="Observações")
 
+    # Novos campos profissionais
+    data_admissao = models.DateField(
+        blank=True,
+        null=True,
+        verbose_name="Data de admissão",
+    )
+
+    matricula = models.CharField(
+        max_length=30,
+        blank=True,
+        verbose_name="Matrícula",
+    )
+
+    codigo_fornecedor = models.CharField(
+        max_length=50,
+        blank=True,
+        verbose_name="Código fornecedor",
+    )
+
+    # Endereço residencial
+    cep = models.CharField(
+        max_length=9,
+        blank=True,
+        verbose_name="CEP",
+    )
+
+    logradouro = models.CharField(
+        max_length=200,
+        blank=True,
+        verbose_name="Logradouro",
+    )
+
+    numero_endereco = models.CharField(
+        max_length=20,
+        blank=True,
+        verbose_name="Número",
+    )
+
+    complemento = models.CharField(
+        max_length=100,
+        blank=True,
+        verbose_name="Complemento",
+    )
+
+    bairro = models.CharField(
+        max_length=100,
+        blank=True,
+        verbose_name="Bairro",
+    )
+
+    cidade = models.CharField(
+        max_length=100,
+        blank=True,
+        verbose_name="Cidade",
+    )
+
+    uf = models.CharField(
+        max_length=2,
+        blank=True,
+        verbose_name="UF",
+    )
+
     class Meta:
         ordering = ["nome"]
         verbose_name = "Funcionário"

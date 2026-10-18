@@ -1,3 +1,4 @@
+
 {% extends "base.html" %}
 
 {% block title %}{{ titulo }}{% endblock %}
@@ -9,86 +10,195 @@
     {% include "components/page_header.html" with icone=icone titulo=titulo descricao=descricao %}
 
     <form method="post">
-
         {% csrf_token %}
 
-        <div class="row">
+        {{ form.non_field_errors }}
 
-            <div class="col-md-7">
-                {% include "components/form_field.html" with field=form.nome %}
-            </div>
-            <div class="col-md-4">
-                {% include "components/form_field.html" with field=form.cpf %}
-            </div>
-
-        </div>
-        <div class="row">
-
-            <div class="col-md-4">
-                {% include "components/form_field.html" with field=form.numero_cnh %}
+        <!-- 1. Dados pessoais -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="bi bi-person me-2"></i>
+                    Dados pessoais
+                </h5>
             </div>
 
-            <div class="col-md-3">
-                {% include "components/form_field.html" with field=form.validade_cnh %}
-            </div>
-            <div class="col-md-4">
-                {% include "components/form_field.html" with field=form.email %}
-            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-7 mb-3">
+                        {% include "components/form_field.html" with field=form.nome %}
+                    </div>
 
-        </div>
+                    <div class="col-md-5 mb-3">
+                        {% include "components/form_field.html" with field=form.cpf %}
+                    </div>
+                </div>
 
-        <div class="row">
-            <div class="col-md-4">
-                {% include "components/form_field.html" with field=form.telefone %}
-            </div>
-             <div class="col-md-3">
-                {% include "components/form_field.html" with field=form.funcao %}
-            </div>
-            <div class="col-md-4">
-                {% include "components/form_field.html" with field=form.empresa %}
-            </div>
+                <div class="row">
+                    <div class="col-md-7 mb-3">
+                        {% include "components/form_field.html" with field=form.email %}
+                    </div>
 
-
+                    <div class="col-md-5 mb-3">
+                        {% include "components/form_field.html" with field=form.telefone %}
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div class="row">
-
-            <div class="col-md-5">
-                {% include "components/form_field.html" with field=form.cursos %}
+        <!-- 2. Dados profissionais -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="bi bi-briefcase me-2"></i>
+                    Dados profissionais
+                </h5>
             </div>
 
-            <div class="col-md-6">
-                {% include "components/form_field.html" with field=form.observacao %}
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        {% include "components/form_field.html" with field=form.empresa %}
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        {% include "components/form_field.html" with field=form.funcao %}
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        {% include "components/form_field.html" with field=form.data_admissao %}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        {% include "components/form_field.html" with field=form.matricula %}
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        {% include "components/form_field.html" with field=form.codigo_fornecedor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Habilitação -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="bi bi-card-text me-2"></i>
+                    Habilitação
+                </h5>
             </div>
 
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        {% include "components/form_field.html" with field=form.numero_cnh %}
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        {% include "components/form_field.html" with field=form.validade_cnh %}
+                    </div>
+                </div>
+            </div>
         </div>
-        
-        <div class="col-md-6">
-            {% include "components/form_field.html" with field=form.ativo %}
+
+        <!-- 4. Endereço -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="bi bi-geo-alt me-2"></i>
+                    Endereço
+                </h5>
+            </div>
+
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3 mb-3">
+                        {% include "components/form_field.html" with field=form.cep %}
+                    </div>
+
+                    <div class="col-md-7 mb-3">
+                        {% include "components/form_field.html" with field=form.logradouro %}
+                    </div>
+
+                    <div class="col-md-2 mb-3">
+                        {% include "components/form_field.html" with field=form.numero_endereco %}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-5 mb-3">
+                        {% include "components/form_field.html" with field=form.complemento %}
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        {% include "components/form_field.html" with field=form.bairro %}
+                    </div>
+
+                    <div class="col-md-3 mb-3">
+                        {% include "components/form_field.html" with field=form.cidade %}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-2 mb-3">
+                        {% include "components/form_field.html" with field=form.uf %}
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <button class="btn btn-primary">
-            <i class="bi bi-floppy"></i>
-            Salvar
-        </button>
+        <!-- 5. Informações complementares -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="bi bi-journal-text me-2"></i>
+                    Informações complementares
+                </h5>
+            </div>
 
-        <a href="{% url 'cadastros:funcionario_list' %}" class="btn btn-secondary">
-            <i class="bi bi-x-circle"></i>
-            Cancelar
-        </a>
-        {% if form.instance.pk %}
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        {% include "components/form_field.html" with field=form.cursos %}
+                    </div>
 
-            <a
-                href="{% url 'cadastros:conta_bancaria_funcionario_list' form.instance.pk %}"
-                class="btn btn-outline-primary">
+                    <div class="col-md-6 mb-3">
+                        {% include "components/form_field.html" with field=form.observacao %}
+                    </div>
+                </div>
 
-                <i class="bi bi-bank"></i>
+                <div class="form-check mb-2">
+                    {% include "components/form_field.html" with field=form.ativo %}
+                </div>
+            </div>
+        </div>
 
-                Contas Bancárias
+        <!-- Botões de ação -->
+        <div class="d-flex flex-wrap gap-2 mb-4">
 
+            <button type="submit" class="btn btn-primary">
+                <i class="bi bi-floppy me-1"></i>
+                Salvar
+            </button>
+
+            <a href="{% url 'cadastros:funcionario_list' %}"
+               class="btn btn-secondary">
+                <i class="bi bi-x-circle me-1"></i>
+                Cancelar
             </a>
 
-{% endif %}
+            {% if form.instance.pk %}
+                <a href="{% url 'cadastros:conta_bancaria_funcionario_list' form.instance.pk %}"
+                   class="btn btn-outline-primary">
+                    <i class="bi bi-bank me-1"></i>
+                    Contas Bancárias
+                </a>
+            {% endif %}
+
+        </div>
 
     </form>
 

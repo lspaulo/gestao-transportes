@@ -1,3 +1,4 @@
+
 {% extends "base.html" %}
 
 {% load formatacao %}
@@ -6,401 +7,317 @@
 
 {% block content %}
 
-<div class="d-flex justify-content-between align-items-center mb-4">
+<div class="page-container">
 
-    <div>
-        <h1 class="mb-1">
-            <i class="bi bi-person-badge"></i>
-            {{ funcionario.nome }}
-        </h1>
-
-        <p class="text-muted mb-0">
-            Detalhes do funcionário
-        </p>
-    </div>
-
-    <a
-        href="{% url 'cadastros:funcionario_list' %}"
-        class="btn btn-outline-secondary"
-    >
-        <i class="bi bi-arrow-left me-1"></i>
-        Voltar
-    </a>
-
-</div>
-
-
-<!-- Dados pessoais -->
-
-<div class="card mb-4">
-
-    <div class="card-header">
-        <i class="bi bi-person me-1"></i>
-        Dados pessoais
-    </div>
-
-    <div class="card-body">
-
-        <div class="row g-3">
-
-            <div class="col-md-6">
-                <small class="text-muted d-block">
-                    Nome
-                </small>
-
-                <strong>
-                    {{ funcionario.nome }}
-                </strong>
-            </div>
-
-            <div class="col-md-3">
-                <small class="text-muted d-block">
-                    CPF
-                </small>
-
-                <strong>
-                    {{ funcionario.cpf|cpf_br }}
-                </strong>
-            </div>
-
-            <div class="col-md-3">
-                <small class="text-muted d-block">
-                    Telefone
-                </small>
-
-                <strong>
-                    {{ funcionario.telefone|telefone_br|default:"-" }}
-                </strong>
-            </div>
-
-            <div class="col-md-6">
-                <small class="text-muted d-block">
-                    E-mail
-                </small>
-
-                <strong>
-                    {{ funcionario.email|default:"-" }}
-                </strong>
-            </div>
-
+    <!-- Cabeçalho -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="mb-1">
+                <i class="bi bi-person-badge"></i>
+                {{ funcionario.nome }}
+            </h1>
+            <p class="text-muted mb-0">Detalhes do funcionário</p>
         </div>
 
+        <a href="{% url 'cadastros:funcionario_list' %}"
+           class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left me-1"></i>
+            Voltar
+        </a>
     </div>
 
-</div>
-
-<!-- Contas bancárias -->
-
-<div class="card mb-4">
-
-    <div class="card-header">
-        <i class="bi bi-bank me-1"></i>
-        Contas bancárias
-    </div>
-
-    <div class="card-body">
-
-        {% for conta in funcionario.contas_bancarias.all %}
-
-            <div class="border rounded p-3 {% if not forloop.last %}mb-3{% endif %}">
-
-                <div class="d-flex justify-content-between align-items-center mb-3">
-
-                    <h6 class="mb-0">
-                        <i class="bi bi-credit-card me-1"></i>
-                        {{ conta.get_banco_display }}
-                    </h6>
-
-                    {% if conta.padrao %}
-                        <span class="badge bg-success">
-                            Conta padrão
-                        </span>
-                    {% endif %}
-
-                </div>
-
-                <div class="row g-3">
-
-                    <div class="col-md-4">
-                        <small class="text-muted d-block">
-                            Titular
-                        </small>
-
-                        <strong>
-                            {{ conta.titular|default:"-" }}
-                        </strong>
-                    </div>
-
-                    <div class="col-md-4">
-                        <small class="text-muted d-block">
-                            Agência
-                        </small>
-
-                        <strong>
-                            {{ conta.agencia }}
-                            {% if conta.digito_agencia %}
-                                -{{ conta.digito_agencia }}
-                            {% endif %}
-                        </strong>
-                    </div>
-
-                    <div class="col-md-4">
-                        <small class="text-muted d-block">
-                            Conta
-                        </small>
-
-                        <strong>
-                            {{ conta.numero_conta }}
-                            {% if conta.digito_conta %}
-                                -{{ conta.digito_conta }}
-                            {% endif %}
-                        </strong>
-                    </div>
-
-                    <div class="col-md-4">
-                        <small class="text-muted d-block">
-                            Tipo de conta
-                        </small>
-
-                        <strong>
-                            {{ conta.get_tipo_conta_display }}
-                        </strong>
-                    </div>
-
-                    <div class="col-md-4">
-                        <small class="text-muted d-block">
-                            Tipo de chave PIX
-                        </small>
-
-                        <strong>
-                            {{ conta.get_tipo_chave_pix_display }}
-                        </strong>
-                    </div>
-
-                    <div class="col-md-4">
-                        <small class="text-muted d-block">
-                            Chave PIX
-                        </small>
-
-                        <strong>
-                            {{ conta.chave_pix }}
-                        </strong>
-                    </div>
-
-                    {% if conta.observacao %}
-                        <div class="col-12">
-                            <small class="text-muted d-block">
-                                Observação
-                            </small>
-
-                            {{ conta.observacao|linebreaks }}
-                        </div>
-                    {% endif %}
-
-                </div>
-
-            </div>
-
-        {% empty %}
-
-            <div class="text-muted">
-                <i class="bi bi-info-circle me-1"></i>
-                Nenhuma conta bancária cadastrada para este funcionário.
-            </div>
-
-        {% endfor %}
-
-    </div>
-
-</div>
-
-
-<!-- Dados profissionais -->
-
-<div class="card mb-4">
-
-    <div class="card-header">
-        <i class="bi bi-briefcase me-1"></i>
-        Dados profissionais
-    </div>
-
-    <div class="card-body">
-
-        <div class="row g-3">
-
-            <div class="col-md-6">
-                <small class="text-muted d-block">
-                    Empresa
-                </small>
-
-                <strong>
-                    {{ funcionario.empresa }}
-                </strong>
-            </div>
-
-            <div class="col-md-3">
-                <small class="text-muted d-block">
-                    Função
-                </small>
-
-                <strong>
-                    {{ funcionario.funcao|default:"-" }}
-                </strong>
-            </div>
-
-            <div class="col-md-3">
-                <small class="text-muted d-block">
-                    Status
-                </small>
-
-                {% if funcionario.ativo %}
-                    <span class="badge bg-success">
-                        Ativo
-                    </span>
-                {% else %}
-                    <span class="badge bg-danger">
-                        Inativo
-                    </span>
-                {% endif %}
-
-            </div>
-
+    <!-- Dados pessoais -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="bi bi-person me-1"></i>
+            Dados pessoais
         </div>
 
-    </div>
+        <div class="card-body">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <small class="text-muted d-block">Nome</small>
+                    <strong>{{ funcionario.nome }}</strong>
+                </div>
 
-</div>
+                <div class="col-md-3">
+                    <small class="text-muted d-block">CPF</small>
+                    <strong>{{ funcionario.cpf|cpf_br }}</strong>
+                </div>
 
+                <div class="col-md-3">
+                    <small class="text-muted d-block">Telefone</small>
+                    <strong>{{ funcionario.telefone|telefone_br|default:"-" }}</strong>
+                </div>
 
-<!-- CNH -->
-
-<div class="card mb-4">
-
-    <div class="card-header">
-        <i class="bi bi-card-text me-1"></i>
-        Habilitação
-    </div>
-
-    <div class="card-body">
-
-        <div class="row g-3">
-
-            <div class="col-md-6">
-
-                <small class="text-muted d-block">
-                    Número da CNH
-                </small>
-
-                <strong>
-                    {{ funcionario.numero_cnh|default:"-" }}
-                </strong>
-
+                <div class="col-md-6">
+                    <small class="text-muted d-block">E-mail</small>
+                    <strong>{{ funcionario.email|default:"-" }}</strong>
+                </div>
             </div>
+        </div>
+    </div>
 
-            <div class="col-md-3">
+    <!-- Dados profissionais -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="bi bi-briefcase me-1"></i>
+            Dados profissionais
+        </div>
 
-                <small class="text-muted d-block">
-                    Validade da CNH
-                </small>
+        <div class="card-body">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <small class="text-muted d-block">Empresa</small>
+                    <strong>{{ funcionario.empresa }}</strong>
+                </div>
 
-                <strong>
-                    {% if funcionario.validade_cnh %}
-                        {{ funcionario.validade_cnh|date:"d/m/Y" }}
+                <div class="col-md-4">
+                    <small class="text-muted d-block">Função</small>
+                    <strong>{{ funcionario.funcao|default:"-" }}</strong>
+                </div>
+
+                <div class="col-md-4">
+                    <small class="text-muted d-block">Data de admissão</small>
+                    <strong>
+                        {% if funcionario.data_admissao %}
+                            {{ funcionario.data_admissao|date:"d/m/Y" }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </strong>
+                </div>
+
+                <div class="col-md-4">
+                    <small class="text-muted d-block">Matrícula</small>
+                    <strong>{{ funcionario.matricula|default:"-" }}</strong>
+                </div>
+
+                <div class="col-md-4">
+                    <small class="text-muted d-block">Código fornecedor</small>
+                    <strong>{{ funcionario.codigo_fornecedor|default:"-" }}</strong>
+                </div>
+
+                <div class="col-md-4">
+                    <small class="text-muted d-block">Status</small>
+                    {% if funcionario.ativo %}
+                        <span class="badge bg-success">Ativo</span>
                     {% else %}
-                        -
+                        <span class="badge bg-danger">Inativo</span>
                     {% endif %}
-                </strong>
-
+                </div>
             </div>
+        </div>
+    </div>
 
+    <!-- Endereço -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="bi bi-geo-alt me-1"></i>
+            Endereço
         </div>
 
+        <div class="card-body">
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <small class="text-muted d-block">CEP</small>
+                    <strong>{{ funcionario.cep|default:"-" }}</strong>
+                </div>
+
+                <div class="col-md-7">
+                    <small class="text-muted d-block">Logradouro</small>
+                    <strong>{{ funcionario.logradouro|default:"-" }}</strong>
+                </div>
+
+                <div class="col-md-2">
+                    <small class="text-muted d-block">Número</small>
+                    <strong>{{ funcionario.numero_endereco|default:"-" }}</strong>
+                </div>
+
+                <div class="col-md-4">
+                    <small class="text-muted d-block">Complemento</small>
+                    <strong>{{ funcionario.complemento|default:"-" }}</strong>
+                </div>
+
+                <div class="col-md-4">
+                    <small class="text-muted d-block">Bairro</small>
+                    <strong>{{ funcionario.bairro|default:"-" }}</strong>
+                </div>
+
+                <div class="col-md-3">
+                    <small class="text-muted d-block">Cidade</small>
+                    <strong>{{ funcionario.cidade|default:"-" }}</strong>
+                </div>
+
+                <div class="col-md-1">
+                    <small class="text-muted d-block">UF</small>
+                    <strong>{{ funcionario.uf|default:"-" }}</strong>
+                </div>
+            </div>
+        </div>
     </div>
 
-</div>
+    <!-- Habilitação -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="bi bi-card-text me-1"></i>
+            Habilitação
+        </div>
 
+        <div class="card-body">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <small class="text-muted d-block">Número da CNH</small>
+                    <strong>{{ funcionario.numero_cnh|default:"-" }}</strong>
+                </div>
 
-<!-- Cursos -->
-
-<div class="card mb-4">
-
-    <div class="card-header">
-        <i class="bi bi-mortarboard me-1"></i>
-        Cursos e qualificações
+                <div class="col-md-3">
+                    <small class="text-muted d-block">Validade da CNH</small>
+                    <strong>
+                        {% if funcionario.validade_cnh %}
+                            {{ funcionario.validade_cnh|date:"d/m/Y" }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </strong>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="card-body">
+    <!-- Contas bancárias -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="bi bi-bank me-1"></i>
+            Contas bancárias
+        </div>
 
-        {% if funcionario.cursos %}
-            {{ funcionario.cursos|linebreaks }}
-        {% else %}
-            <span class="text-muted">
-                Nenhum curso ou qualificação informado.
-            </span>
-        {% endif %}
+        <div class="card-body">
+            {% for conta in funcionario.contas_bancarias.all %}
+                <div class="border rounded p-3 {% if not forloop.last %}mb-3{% endif %}">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h6 class="mb-0">
+                            <i class="bi bi-credit-card me-1"></i>
+                            {{ conta.get_banco_display }}
+                        </h6>
 
+                        {% if conta.padrao %}
+                            <span class="badge bg-success">Conta padrão</span>
+                        {% endif %}
+                    </div>
+
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <small class="text-muted d-block">Titular</small>
+                            <strong>{{ conta.titular|default:"-" }}</strong>
+                        </div>
+
+                        <div class="col-md-4">
+                            <small class="text-muted d-block">Agência</small>
+                            <strong>
+                                {{ conta.agencia }}
+                                {% if conta.digito_agencia %}-{{ conta.digito_agencia }}{% endif %}
+                            </strong>
+                        </div>
+
+                        <div class="col-md-4">
+                            <small class="text-muted d-block">Conta</small>
+                            <strong>
+                                {{ conta.numero_conta }}
+                                {% if conta.digito_conta %}-{{ conta.digito_conta }}{% endif %}
+                            </strong>
+                        </div>
+
+                        <div class="col-md-4">
+                            <small class="text-muted d-block">Tipo de conta</small>
+                            <strong>{{ conta.get_tipo_conta_display }}</strong>
+                        </div>
+
+                        <div class="col-md-4">
+                            <small class="text-muted d-block">Tipo de chave PIX</small>
+                            <strong>{{ conta.get_tipo_chave_pix_display|default:"-" }}</strong>
+                        </div>
+
+                        <div class="col-md-4">
+                            <small class="text-muted d-block">Chave PIX</small>
+                            <strong>{{ conta.chave_pix|default:"-" }}</strong>
+                        </div>
+
+                        {% if conta.observacao %}
+                            <div class="col-12">
+                                <small class="text-muted d-block">Observação</small>
+                                {{ conta.observacao|linebreaks }}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            {% empty %}
+                <div class="text-muted">
+                    <i class="bi bi-info-circle me-1"></i>
+                    Nenhuma conta bancária cadastrada para este funcionário.
+                </div>
+            {% endfor %}
+        </div>
     </div>
 
-</div>
+    <!-- Cursos -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="bi bi-mortarboard me-1"></i>
+            Cursos e qualificações
+        </div>
 
-
-<!-- Observações -->
-
-<div class="card mb-4">
-
-    <div class="card-header">
-        <i class="bi bi-chat-left-text me-1"></i>
-        Observações
+        <div class="card-body">
+            {% if funcionario.cursos %}
+                {{ funcionario.cursos|linebreaks }}
+            {% else %}
+                <span class="text-muted">
+                    Nenhum curso ou qualificação informado.
+                </span>
+            {% endif %}
+        </div>
     </div>
 
-    <div class="card-body">
+    <!-- Observações -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="bi bi-chat-left-text me-1"></i>
+            Observações
+        </div>
 
-        {% if funcionario.observacao %}
-            {{ funcionario.observacao|linebreaks }}
-        {% else %}
-            <span class="text-muted">
-                Nenhuma observação informada.
-            </span>
-        {% endif %}
-
+        <div class="card-body">
+            {% if funcionario.observacao %}
+                {{ funcionario.observacao|linebreaks }}
+            {% else %}
+                <span class="text-muted">
+                    Nenhuma observação informada.
+                </span>
+            {% endif %}
+        </div>
     </div>
 
-</div>
-
-
-<!-- Ações -->
-
-<div class="d-flex gap-2 mb-4">
-
-    <a
-        href="{% url 'cadastros:funcionario_update' funcionario.pk %}"
-        class="btn btn-sm btn-outline-primary"
-    >
-        <i class="bi bi-pencil me-1"></i>
-        Editar
-    </a>
-
-    {% if funcionario.ativo %}
-
-        <a
-            href="{% url 'cadastros:funcionario_toggle_status' funcionario.pk %}"
-            class="btn btn-sm btn-outline-warning"
-        >
-            <i class="bi bi-person-dash me-1"></i>
-            Inativar
+    <!-- Ações -->
+    <div class="d-flex flex-wrap gap-2 mb-4">
+        <a href="{% url 'cadastros:funcionario_update' funcionario.pk %}"
+           class="btn btn-sm btn-outline-primary">
+            <i class="bi bi-pencil me-1"></i>
+            Editar
         </a>
 
-    {% else %}
-
-        <a
-            href="{% url 'cadastros:funcionario_toggle_status' funcionario.pk %}"
-            class="btn btn-sm btn-outline-success"
-        >
-            <i class="bi bi-person-check me-1"></i>
-            Ativar
-        </a>
-
-    {% endif %}
+        {% if funcionario.ativo %}
+            <a href="{% url 'cadastros:funcionario_toggle_status' funcionario.pk %}"
+               class="btn btn-sm btn-outline-warning">
+                <i class="bi bi-person-dash me-1"></i>
+                Inativar
+            </a>
+        {% else %}
+            <a href="{% url 'cadastros:funcionario_toggle_status' funcionario.pk %}"
+               class="btn btn-sm btn-outline-success">
+                <i class="bi bi-person-check me-1"></i>
+                Ativar
+            </a>
+        {% endif %}
+    </div>
 
 </div>
 

@@ -66,10 +66,20 @@ def criar_modelo_funcionarios():
         "CPF",
         "E-mail",
         "Telefone",
+        "Data Admissão",
+        "Matrícula",
+        "Código Fornecedor",
         "Número CNH",
         "Validade CNH",
         "Função",
         "Empresa",
+        "CEP",
+        "Logradouro",
+        "Número",
+        "Complemento",
+        "Bairro",
+        "Cidade",
+        "UF",
         "Cursos",
         "Observações",
     ]
@@ -210,7 +220,7 @@ def criar_modelo_funcionarios():
 
         ws_funcionarios.add_data_validation(dv_empresa)
 
-        dv_empresa.add("H2:H1001")
+        dv_empresa.add("K2:K1001")
 
     if funcoes:
         ultima_funcao = len(funcoes) + 1
@@ -223,7 +233,7 @@ def criar_modelo_funcionarios():
 
         ws_funcionarios.add_data_validation(dv_funcao)
 
-        dv_funcao.add("G2:G1001")
+        dv_funcao.add("J2:J1001")
 
     total_bancos = len(Banco.choices) + 1
 
@@ -276,16 +286,26 @@ def criar_modelo_funcionarios():
     # ==========================================================
 
     larguras_funcionarios = {
-        "A": 30,
-        "B": 18,
-        "C": 30,
-        "D": 18,
-        "E": 18,
-        "F": 18,
-        "G": 25,
-        "H": 30,
-        "I": 35,
-        "J": 40,
+        "A": 30,  # Nome
+        "B": 18,  # CPF
+        "C": 30,  # E-mail
+        "D": 18,  # Telefone
+        "E": 18,  # Data Admissão
+        "F": 18,  # Matrícula
+        "G": 22,  # Código Fornecedor
+        "H": 18,  # Número CNH
+        "I": 18,  # Validade CNH
+        "J": 25,  # Função
+        "K": 30,  # Empresa
+        "L": 14,  # CEP
+        "M": 32,  # Logradouro
+        "N": 14,  # Número
+        "O": 24,  # Complemento
+        "P": 22,  # Bairro
+        "Q": 22,  # Cidade
+        "R": 8,  # UF
+        "S": 35,  # Cursos
+        "T": 40,  # Observações
     }
 
     for coluna, largura in larguras_funcionarios.items():
@@ -310,31 +330,40 @@ def criar_modelo_funcionarios():
 
     for ws in [ws_funcionarios, ws_contas]:
         ws.freeze_panes = "A2"
-        ws.auto_filter.ref = ws.dimensions
 
-    # Formatação de datas
+    # Filtros somente sobre as colunas de dados, sem incluir instruções.
+    ws_funcionarios.auto_filter.ref = "A1:T1001"
+    ws_contas.auto_filter.ref = "A1:K1001"
+
+    # Formatação de datas e campos que devem preservar zeros à esquerda
     for linha in range(2, 1002):
-        ws_funcionarios.cell(
-            row=linha,
-            column=6,
-        ).number_format = "dd/mm/yyyy"
+        ws_funcionarios.cell(row=linha, column=5).number_format = "dd/mm/yyyy"
+        ws_funcionarios.cell(row=linha, column=9).number_format = "dd/mm/yyyy"
+
+        # Trata identificadores e códigos como texto.
+        for coluna in (2, 6, 7, 12):
+            ws_funcionarios.cell(row=linha, column=coluna).number_format = "@"
 
     # ==========================================================
     # INSTRUÇÕES
     # ==========================================================
 
-    ws_funcionarios["L1"] = "INSTRUÇÕES"
-    ws_funcionarios["L1"].font = Font(bold=True)
+    ws_funcionarios["V1"] = "INSTRUÇÕES"
+    ws_funcionarios["V1"].font = Font(bold=True)
 
-    ws_funcionarios["L2"] = "Preencha uma linha para cada funcionário."
+    ws_funcionarios["V2"] = "Preencha uma linha para cada funcionário."
 
-    ws_funcionarios["L3"] = "Empresa é obrigatória."
+    ws_funcionarios["V3"] = "Empresa é obrigatória."
 
-    ws_funcionarios["L4"] = "Função pode ficar em branco."
+    ws_funcionarios["V4"] = "Função pode ficar em branco."
 
-    ws_funcionarios["L5"] = "O CPF deve possuir 11 dígitos."
+    ws_funcionarios["V5"] = "O CPF deve possuir 11 dígitos."
 
-    ws_funcionarios["L6"] = "A aba ContasBancarias é opcional."
+    ws_funcionarios["V6"] = "Matrícula, código fornecedor e endereço são opcionais."
+
+    ws_funcionarios["V7"] = "Datas aceitam DD/MM/AAAA."
+
+    ws_funcionarios["V8"] = "A aba ContasBancarias é opcional."
 
     ws_contas["M1"] = "INSTRUÇÕES"
     ws_contas["M1"].font = Font(bold=True)
@@ -346,6 +375,9 @@ def criar_modelo_funcionarios():
     ws_contas["M4"] = "Todos os campos bancários obrigatórios devem ser preenchidos."
 
     ws_contas["M5"] = "Somente uma conta por funcionário pode ser marcada como padrão."
+
+    ws_funcionarios.column_dimensions["V"].width = 55
+    ws_contas.column_dimensions["M"].width = 65
 
     # Oculta a aba de listas
     ws_listas.sheet_state = "hidden"

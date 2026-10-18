@@ -185,8 +185,43 @@ def ler_funcionarios(worksheet):
 
         funcao_nome = texto(valor_coluna(row, headers, "Função"))
 
-        # Ignora linhas totalmente vazias
-        if not nome and not cpf and not empresa_nome:
+        # Novos campos cadastrais (todos opcionais, exceto data se informada).
+        data_admissao_original = valor_coluna(row, headers, "Data Admissão")
+        matricula = texto(valor_coluna(row, headers, "Matrícula"))
+        codigo_fornecedor = texto(valor_coluna(row, headers, "Código Fornecedor"))
+        cep = texto(valor_coluna(row, headers, "CEP"))
+        logradouro = texto(valor_coluna(row, headers, "Logradouro"))
+        numero_endereco = texto(valor_coluna(row, headers, "Número"))
+        complemento = texto(valor_coluna(row, headers, "Complemento"))
+        bairro = texto(valor_coluna(row, headers, "Bairro"))
+        cidade = texto(valor_coluna(row, headers, "Cidade"))
+        uf = texto(valor_coluna(row, headers, "UF")).upper()
+
+        # Ignora linhas totalmente vazias, incluindo as novas colunas.
+        if not any(
+            [
+                nome,
+                cpf,
+                texto(valor_coluna(row, headers, "E-mail")),
+                texto(valor_coluna(row, headers, "Telefone")),
+                texto(valor_coluna(row, headers, "Número CNH")),
+                texto(valor_coluna(row, headers, "Validade CNH")),
+                funcao_nome,
+                empresa_nome,
+                texto(valor_coluna(row, headers, "Cursos")),
+                texto(valor_coluna(row, headers, "Observações")),
+                texto(data_admissao_original),
+                matricula,
+                codigo_fornecedor,
+                cep,
+                logradouro,
+                numero_endereco,
+                complemento,
+                bairro,
+                cidade,
+                uf,
+            ]
+        ):
             continue
 
         erros = []
@@ -234,7 +269,22 @@ def ler_funcionarios(worksheet):
             validade_cnh = normalizar_data(validade_cnh_original)
         except ValueError as exc:
             validade_cnh = None
-            erros.append(str(exc))
+            erros.append(f"Validade CNH: {exc}")
+
+        try:
+            data_admissao = normalizar_data(data_admissao_original)
+        except ValueError as exc:
+            data_admissao = None
+            erros.append(f"Data de admissão: {exc}")
+
+        if uf and len(uf) != 2:
+            erros.append("UF deve conter exatamente duas letras.")
+
+        data_admissao_exibicao = ""
+        if data_admissao:
+            data_admissao_exibicao = date.fromisoformat(data_admissao).strftime(
+                "%d/%m/%Y"
+            )
 
         registros.append(
             {
@@ -243,8 +293,19 @@ def ler_funcionarios(worksheet):
                 "cpf": cpf,
                 "email": texto(valor_coluna(row, headers, "E-mail")),
                 "telefone": texto(valor_coluna(row, headers, "Telefone")),
+                "data_admissao": data_admissao,
+                "data_admissao_exibicao": data_admissao_exibicao,
+                "matricula": matricula,
+                "codigo_fornecedor": codigo_fornecedor,
                 "numero_cnh": texto(valor_coluna(row, headers, "Número CNH")),
                 "validade_cnh": validade_cnh,
+                "cep": cep,
+                "logradouro": logradouro,
+                "numero_endereco": numero_endereco,
+                "complemento": complemento,
+                "bairro": bairro,
+                "cidade": cidade,
+                "uf": uf,
                 "funcao_id": funcao.pk if funcao else None,
                 "funcao_nome": funcao.nome if funcao else "",
                 "empresa_id": empresa.pk if empresa else None,
@@ -476,13 +537,28 @@ def executar_importacao(dados):
         if item["validade_cnh"]:
             validade_cnh = date.fromisoformat(item["validade_cnh"])
 
+        data_admissao = None
+
+        if item["data_admissao"]:
+            data_admissao = date.fromisoformat(item["data_admissao"])
+
         funcionario = Funcionario.objects.create(
             nome=item["nome"],
             cpf=item["cpf"],
             email=item["email"],
             telefone=item["telefone"],
+            data_admissao=data_admissao,
+            matricula=item["matricula"],
+            codigo_fornecedor=item["codigo_fornecedor"],
             numero_cnh=item["numero_cnh"],
             validade_cnh=validade_cnh,
+            cep=item["cep"],
+            logradouro=item["logradouro"],
+            numero_endereco=item["numero_endereco"],
+            complemento=item["complemento"],
+            bairro=item["bairro"],
+            cidade=item["cidade"],
+            uf=item["uf"],
             funcao=funcao,
             empresa=empresa,
             cursos=item["cursos"],
