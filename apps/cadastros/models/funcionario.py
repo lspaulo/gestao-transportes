@@ -22,6 +22,22 @@ class Funcionario(BaseModel):
     numero_cnh = models.CharField(
         max_length=30, blank=True, verbose_name="Número da CNH"
     )
+    categoria_cnh = models.CharField(
+        max_length=2,
+        blank=True,
+        verbose_name="Categoria da CNH",
+        choices=[
+            ("A", "A"),
+            ("B", "B"),
+            ("C", "C"),
+            ("D", "D"),
+            ("E", "E"),
+            ("AB", "AB"),
+            ("AC", "AC"),
+            ("AD", "AD"),
+            ("AE", "AE"),
+        ],
+    )
     validade_cnh = models.DateField(
         blank=True, null=True, verbose_name="Validade da CNH"
     )

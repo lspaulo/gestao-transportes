@@ -70,6 +70,7 @@ def criar_modelo_funcionarios():
         "Matrícula",
         "Código Fornecedor",
         "Número CNH",
+        "Categoria CNH",
         "Validade CNH",
         "Função",
         "Empresa",
@@ -142,6 +143,16 @@ def criar_modelo_funcionarios():
     ws_listas["D1"] = "Tipos de Conta"
     ws_listas["E1"] = "Tipos de Chave PIX"
     ws_listas["F1"] = "Sim/Não"
+    ws_listas["G1"] = "Categorias CNH"
+
+    categorias_cnh = ["A", "B", "C", "D", "E", "AB", "AC", "AD", "AE"]
+
+    for linha, categoria in enumerate(categorias_cnh, start=2):
+        ws_listas.cell(
+            row=linha,
+            column=7,
+            value=categoria,
+        )
 
     for cell in ws_listas[1]:
         cell.font = Font(bold=True)
@@ -220,7 +231,7 @@ def criar_modelo_funcionarios():
 
         ws_funcionarios.add_data_validation(dv_empresa)
 
-        dv_empresa.add("K2:K1001")
+        dv_empresa.add("L2:L1001")
 
     if funcoes:
         ultima_funcao = len(funcoes) + 1
@@ -233,7 +244,18 @@ def criar_modelo_funcionarios():
 
         ws_funcionarios.add_data_validation(dv_funcao)
 
-        dv_funcao.add("J2:J1001")
+        dv_funcao.add("K2:K1001")
+
+        # Lista suspensa de Categoria CNH
+        dv_categoria_cnh = DataValidation(
+            type="list",
+            formula1="=Listas!$G$2:$G$10",
+            allow_blank=True,
+        )
+
+        ws_funcionarios.add_data_validation(dv_categoria_cnh)
+
+        dv_categoria_cnh.add("I2:I1001")
 
     total_bancos = len(Banco.choices) + 1
 

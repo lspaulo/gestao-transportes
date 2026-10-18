@@ -189,6 +189,7 @@ def ler_funcionarios(worksheet):
         data_admissao_original = valor_coluna(row, headers, "Data Admissão")
         matricula = texto(valor_coluna(row, headers, "Matrícula"))
         codigo_fornecedor = texto(valor_coluna(row, headers, "Código Fornecedor"))
+        categoria_cnh = texto(valor_coluna(row, headers, "Categoria CNH")).upper()
         cep = texto(valor_coluna(row, headers, "CEP"))
         logradouro = texto(valor_coluna(row, headers, "Logradouro"))
         numero_endereco = texto(valor_coluna(row, headers, "Número"))
@@ -205,6 +206,7 @@ def ler_funcionarios(worksheet):
                 texto(valor_coluna(row, headers, "E-mail")),
                 texto(valor_coluna(row, headers, "Telefone")),
                 texto(valor_coluna(row, headers, "Número CNH")),
+                texto(valor_coluna(row, headers, "Categoria CNH")),
                 texto(valor_coluna(row, headers, "Validade CNH")),
                 funcao_nome,
                 empresa_nome,
@@ -270,6 +272,24 @@ def ler_funcionarios(worksheet):
         except ValueError as exc:
             validade_cnh = None
             erros.append(f"Validade CNH: {exc}")
+            categorias_cnh_validas = {
+                "",
+                "A",
+                "B",
+                "C",
+                "D",
+                "E",
+                "AB",
+                "AC",
+                "AD",
+                "AE",
+            }
+
+            if categoria_cnh not in categorias_cnh_validas:
+                erros.append(
+                    f"Categoria CNH '{categoria_cnh}' inválida. "
+                    "Utilize A, B, C, D, E, AB, AC, AD ou AE."
+                )
 
         try:
             data_admissao = normalizar_data(data_admissao_original)
@@ -298,6 +318,7 @@ def ler_funcionarios(worksheet):
                 "matricula": matricula,
                 "codigo_fornecedor": codigo_fornecedor,
                 "numero_cnh": texto(valor_coluna(row, headers, "Número CNH")),
+                "categoria_cnh": categoria_cnh,
                 "validade_cnh": validade_cnh,
                 "cep": cep,
                 "logradouro": logradouro,
@@ -551,6 +572,7 @@ def executar_importacao(dados):
             matricula=item["matricula"],
             codigo_fornecedor=item["codigo_fornecedor"],
             numero_cnh=item["numero_cnh"],
+            categoria_cnh=item["categoria_cnh"],
             validade_cnh=validade_cnh,
             cep=item["cep"],
             logradouro=item["logradouro"],
