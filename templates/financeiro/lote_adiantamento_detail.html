@@ -140,7 +140,7 @@
 
                 <div class="col-md-4">
                     <div class="text-muted small">CPF</div>
-                    <div>{{ adiantamento.historico_cpf_motorista|default:"Não informado" }}</div>
+                    <div>{{ adiantamento.historico_cpf_motorista|cpf_br|default:"Não informado" }}</div>
                 </div>
 
                 <div class="col-md-4">

@@ -68,11 +68,13 @@ class ContaBancariaFuncionario(BaseModel):
         max_length=10,
         choices=TipoChavePix.choices,
         default=TipoChavePix.CPF,
+        blank=True,
         verbose_name="Tipo de chave PIX",
     )
 
     chave_pix = models.CharField(
         max_length=150,
+        blank=True,
         verbose_name="Chave PIX",
     )
 

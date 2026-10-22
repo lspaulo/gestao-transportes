@@ -193,9 +193,17 @@
 
     <!-- Contas bancárias -->
     <div class="card mb-4">
-        <div class="card-header">
-            <i class="bi bi-bank me-1"></i>
-            Contas bancárias
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <span>
+                <i class="bi bi-bank me-1"></i>
+                Contas bancárias
+            </span>
+
+            <a href="{% url 'cadastros:conta_bancaria_funcionario_list' funcionario.pk %}"
+            class="btn btn-outline-primary btn-sm">
+                <i class="bi bi-gear me-1"></i>
+                Gerenciar contas
+            </a>
         </div>
 
         <div class="card-body">

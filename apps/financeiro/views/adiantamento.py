@@ -109,13 +109,32 @@ def adiantamento_list(request):
 
 
 @login_required
+def adiantamento_detail(request, pk):
+    adiantamento = get_object_or_404(
+        Adiantamento,
+        pk=pk,
+    )
+
+    return render(
+        request,
+        "financeiro/adiantamento_detail.html",
+        {
+            "adiantamento": adiantamento,
+            "titulo": f"Adiantamento {adiantamento.numero}",
+            "descricao": "Detalhes da solicitação de adiantamento.",
+            "icone": "bi-cash-stack",
+        },
+    )
+
+
+@login_required
 def adiantamento_update(
     request,
     pk,
 ):
 
     adiantamento = get_object_or_404(
-        Adiantamento,
+        Adiantamento.objects.visiveis_para(request.user),
         pk=pk,
     )
     if not adiantamento.pode_editar():

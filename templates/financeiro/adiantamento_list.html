@@ -43,6 +43,7 @@
             <th>Número</th>
             <th>Data da Solicitação</th>
             <th>Motorista</th>
+            <th>CPF</th>
             <th>Empresa</th>
             <th>Conta</th>
 
@@ -50,8 +51,6 @@
 
             <th>Status</th>
             <th>Solicitante</th>
-
-            <th width="120">Ações</th>
           </tr>
         </thead>
 
@@ -62,11 +61,20 @@
                 <input type="checkbox" class="form-check-input selecionar-adiantamento" name="adiantamentos" value="{{ adiantamento.pk }}" />
               </td>
 
-              <td>{{ adiantamento.numero }}</td>
+              <td>
+                  <a
+                      href="{% url 'financeiro:adiantamento_detail' adiantamento.pk %}"
+                      class="text-decoration-none fw-semibold"
+                  >
+                      {{ adiantamento.numero }}
+                  </a>
+              </td>
 
               <td>{{ adiantamento.data_solicitacao|date:'d/m/Y H:i' }}</td>
 
-              <td>{{ adiantamento.funcionario }}</td>
+              <td>{{ adiantamento.historico_nome_motorista|default:adiantamento.funcionario.nome }}</td>
+
+              <td>{{ adiantamento.historico_cpf_motorista|cpf_br|default:"-" }}</td>
 
               <td>{{ adiantamento.empresa }}</td>
 
@@ -93,27 +101,9 @@
 
               <td>{{ adiantamento.solicitante.get_full_name|default:adiantamento.solicitante.username }}</td>
 
-              <td>
-                <div class="btn-group">
-                  {% if adiantamento.pode_editar %}
-                    <a href="{% url 'financeiro:adiantamento_update' adiantamento.id %}" class="btn btn-sm btn-outline-primary">
-                      <i class="bi bi-pencil"></i>
-                      Editar
-                    </a>
-                  {% endif %}
-
-                  {% if adiantamento.pode_excluir %}
-                    <a href="{% url 'financeiro:adiantamento_delete' adiantamento.id %}" class="btn btn-sm btn-outline-danger">
-                      <i class="bi bi-trash"></i>
-                      Excluir
-                    </a>
-                  {% endif %}
-                </div>
-              </td>
-            </tr>
           {% empty %}
             <tr>
-              <td colspan="10" class="text-center">Nenhum adiantamento encontrado.</td>
+              <td colspan="9" class="text-center">Nenhum adiantamento encontrado.</td>
             </tr>
           {% endfor %}
         </tbody>
