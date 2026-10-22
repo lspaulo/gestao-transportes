@@ -44,8 +44,9 @@ def contas_funcionario(request, funcionario_id):
     return JsonResponse(
         {
             "funcionario": {
-                "id": funcionario.id,  # type: ignore
+                "id": funcionario.id,  # type: ignore[attr-defined]
                 "nome": funcionario.nome,
+                "cpf": funcionario.cpf or "",
             },
             "empresa": {
                 "id": funcionario.empresa.id,

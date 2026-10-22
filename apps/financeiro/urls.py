@@ -4,6 +4,7 @@ from apps.financeiro.views import (
     adiantamento_confirmar,
     adiantamento_create,
     adiantamento_delete,
+    adiantamento_detail,
     adiantamento_list,
     adiantamento_update,
     contas_funcionario,
@@ -19,6 +20,11 @@ urlpatterns = [
         "adiantamentos/",
         adiantamento_list,
         name="adiantamento_list",
+    ),
+    path(
+        "adiantamentos/<int:pk>/",
+        adiantamento_detail,
+        name="adiantamento_detail",
     ),
     path(
         "adiantamentos/confirmar/",

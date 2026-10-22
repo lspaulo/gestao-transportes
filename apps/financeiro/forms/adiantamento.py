@@ -21,6 +21,18 @@ class AdiantamentoForm(forms.ModelForm):
         ),
     )
 
+    cpf = forms.CharField(
+        label="CPF do motorista",
+        required=False,
+        disabled=True,
+        widget=forms.TextInput(
+            attrs={
+                "class": "form-control",
+                "id": "id_cpf",
+            }
+        ),
+    )
+
     class Meta:
         model = Adiantamento
 
@@ -122,8 +134,7 @@ class AdiantamentoForm(forms.ModelForm):
         return adiantamento
 
     def clean(self):
-
-        cleaned_data = super().clean()
+        cleaned_data = super().clean() or {}
 
         funcionario = cleaned_data.get("funcionario")
         conta = cleaned_data.get("conta_bancaria")

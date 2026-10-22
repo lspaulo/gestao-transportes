@@ -1,0 +1,165 @@
+
+{% extends "base.html" %}
+{% load formatacao %}
+
+{% block title %}Adiantamento - {{ adiantamento.numero }}{% endblock %}
+
+{% block content %}
+<div class="page-container">
+
+    <!-- Cabeçalho -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="mb-1">
+                <i class="bi bi-cash-stack text-success"></i>
+                Adiantamento {{ adiantamento.numero }}
+            </h1>
+            <p class="text-muted mb-0">Detalhes da solicitação de adiantamento</p>
+        </div>
+    </div>
+
+    <!-- Dados da solicitação -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="bi bi-info-circle me-1"></i>
+            Dados da solicitação
+        </div>
+
+        <div class="card-body">
+            <div class="row g-3">
+
+                <div class="col-md-4">
+                    <small class="text-muted d-block">Número</small>
+                    <strong>{{ adiantamento.numero }}</strong>
+                </div>
+
+                <div class="col-md-4">
+                    <small class="text-muted d-block">Data da solicitação</small>
+                    <strong>{{ adiantamento.data_solicitacao|date:"d/m/Y H:i" }}</strong>
+                </div>
+
+                <div class="col-md-4">
+                    <small class="text-muted d-block">Status</small>
+                    {% include "components/status_badge.html" with status=adiantamento.status descricao=adiantamento.get_status_display %}
+                </div>
+
+                <div class="col-md-4">
+                    <small class="text-muted d-block">Motorista</small>
+                    <strong>{{ adiantamento.historico_nome_motorista|default:adiantamento.funcionario.nome }}</strong>
+                </div>
+
+                <div class="col-md-4">
+                    <small class="text-muted d-block">CPF</small>
+                    <strong>{{ adiantamento.historico_cpf_motorista|cpf_br|default:"-" }}</strong>
+                </div>
+
+                <div class="col-md-4">
+                    <small class="text-muted d-block">Empresa</small>
+                    <strong>{{ adiantamento.empresa }}</strong>
+                </div>
+
+                <div class="col-md-4">
+                    <small class="text-muted d-block">Finalidade</small>
+                    <strong>{{ adiantamento.get_finalidade_display }}</strong>
+                </div>
+
+                <div class="col-md-4">
+                    <small class="text-muted d-block">Valor</small>
+                    <strong>{{ adiantamento.valor|moeda_br }}</strong>
+                </div>
+
+                <div class="col-md-4">
+                    <small class="text-muted d-block">Solicitante</small>
+                    <strong>{{ adiantamento.solicitante.get_full_name|default:adiantamento.solicitante.username }}</strong>
+                </div>
+
+                <div class="col-12">
+                    <small class="text-muted d-block">Observação</small>
+                    <strong>{{ adiantamento.observacao|default:"-"|linebreaksbr }}</strong>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Dados bancários -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="bi bi-bank me-1"></i>
+            Dados bancários
+        </div>
+
+        <div class="card-body">
+            <div class="row g-3">
+
+                <div class="col-md-4">
+                    <small class="text-muted d-block">Titular</small>
+                    <strong>{{ adiantamento.historico_titular|default:"-" }}</strong>
+                </div>
+
+                <div class="col-md-4">
+                    <small class="text-muted d-block">Banco</small>
+                    <strong>{{ adiantamento.historico_banco|default:"-" }}</strong>
+                </div>
+
+                <div class="col-md-4">
+                    <small class="text-muted d-block">Tipo de conta</small>
+                    <strong>{{ adiantamento.historico_tipo_conta|default:"-" }}</strong>
+                </div>
+
+                <div class="col-md-4">
+                    <small class="text-muted d-block">Agência</small>
+                    <strong>{{ adiantamento.historico_agencia|default:"-" }}{% if adiantamento.historico_digito_agencia %}-{{ adiantamento.historico_digito_agencia }}{% endif %}</strong>
+                </div>
+
+                <div class="col-md-4">
+                    <small class="text-muted d-block">Conta</small>
+                    <strong>{{ adiantamento.historico_numero_conta|default:"-" }}{% if adiantamento.historico_digito_conta %}-{{ adiantamento.historico_digito_conta }}{% endif %}</strong>
+                </div>
+
+                <div class="col-md-4">
+                    <small class="text-muted d-block">Tipo de chave PIX</small>
+                    <strong>{{ adiantamento.historico_tipo_chave_pix|default:"-" }}</strong>
+                </div>
+
+                <div class="col-md-12">
+                    <small class="text-muted d-block">Chave PIX</small>
+                    <strong>{{ adiantamento.historico_chave_pix|default:"-" }}</strong>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Ações -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <a href="{% url 'financeiro:adiantamento_list' %}"
+           class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left me-1"></i>
+            Voltar
+        </a>
+
+        <div class="d-flex gap-2">
+            {% if adiantamento.pode_excluir %}
+                <a href="{% url 'financeiro:adiantamento_delete' adiantamento.pk %}"
+                   class="btn btn-outline-danger">
+                    <i class="bi bi-trash me-1"></i>
+                    Excluir
+                </a>
+            {% endif %}
+
+            {% if adiantamento.pode_editar %}
+                <a href="{% url 'financeiro:adiantamento_update' adiantamento.pk %}"
+                   class="btn btn-primary">
+                    <i class="bi bi-pencil me-1"></i>
+                    Editar
+                </a>
+            {% endif %}
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}

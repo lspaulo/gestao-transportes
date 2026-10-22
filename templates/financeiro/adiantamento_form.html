@@ -15,22 +15,23 @@
         {% csrf_token %}
 
         <div class="row">
-
             <div class="col-md-6">
                 {% include "components/form_field.html" with field=form.funcionario %}
             </div>
 
             <div class="col-md-6">
+                {% include "components/form_field.html" with field=form.cpf %}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
                 {% include "components/form_field.html" with field=form.empresa %}
             </div>
-
-        </div>
-        <div class="row">
 
             <div class="col-md-6">
                 {% include "components/form_field.html" with field=form.conta_bancaria %}
             </div>
-
         </div>
 
         <div class="row">

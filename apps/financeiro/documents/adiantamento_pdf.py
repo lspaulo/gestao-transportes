@@ -17,6 +17,8 @@ from reportlab.platypus import (
     TableStyle,
 )
 
+from apps.core.templatetags.formatacao import cpf_br
+
 
 class AdiantamentoPdf:
     def gerar(
@@ -304,7 +306,7 @@ class AdiantamentoPdf:
                         self._estilo_tabela(),
                     ),
                     Paragraph(
-                        adiantamento.historico_cpf_motorista or "",
+                        cpf_br(adiantamento.historico_cpf_motorista),
                         self._estilo_tabela(),
                     ),
                     Paragraph(

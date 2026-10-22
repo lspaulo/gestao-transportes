@@ -83,24 +83,17 @@
         </div>
 
         <!-- 3. Habilitação -->
-        <div class="card mb-4">
-            <div class="card-header">
-                <h5 class="mb-0">
-                    <i class="bi bi-card-text me-2"></i>
-                    Habilitação
-                </h5>
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                {% include "components/form_field.html" with field=form.numero_cnh %}
             </div>
 
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        {% include "components/form_field.html" with field=form.numero_cnh %}
-                    </div>
+            <div class="col-md-4 mb-3">
+                {% include "components/form_field.html" with field=form.categoria_cnh %}
+            </div>
 
-                    <div class="col-md-6 mb-3">
-                        {% include "components/form_field.html" with field=form.validade_cnh %}
-                    </div>
-                </div>
+            <div class="col-md-4 mb-3">
+                {% include "components/form_field.html" with field=form.validade_cnh %}
             </div>
         </div>
 
