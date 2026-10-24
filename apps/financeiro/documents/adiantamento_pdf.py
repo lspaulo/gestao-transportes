@@ -252,6 +252,65 @@ class AdiantamentoPdf:
             doc,
         )
 
+    def _apelido_banco(self, banco):
+        apelidos = {
+            "001": "BB",
+            "003": "AMAZÔNIA",
+            "004": "BNB",
+            "021": "BANESTES",
+            "037": "BANPARÁ",
+            "041": "BANRISUL",
+            "047": "BANESE",
+            "070": "BRB",
+            "033": "SANTANDER",
+            "104": "CAIXA",
+            "121": "AGIBANK",
+            "237": "BRADESCO",
+            "260": "NUBANK",
+            "323": "MERCADO PAGO",
+            "290": "PAGBANK",
+            "336": "C6 BANK",
+            "341": "ITAÚ",
+            "413": "BV",
+            "422": "SAFRA",
+            "536": "NEON",
+            "318": "BMG",
+            "637": "SOFISA",
+            "623": "PAN",
+            "707": "DAYCOVAL",
+            "218": "BS2",
+            "212": "ORIGINAL",
+            "208": "BTG",
+            "077": "INTER",
+            "748": "SICREDI",
+            "756": "SICOOB",
+        }
+
+        banco = (banco or "").strip().upper()
+
+        if not banco:
+            return ""
+
+        codigo = banco.split(" - ", 1)[0].strip()
+
+        return apelidos.get(codigo, banco).upper()
+
+    def _apelido_tipo_conta(self, tipo_conta):
+        apelidos = {
+            "Conta corrente": "CC",
+            "Conta poupança": "CP",
+            "Conta de pagamento": "CPG",
+            "Conta digital": "CD",
+            "Conta salário": "CS",
+            "corrente": "CC",
+            "poupanca": "CP",
+            "pagamento": "CPG",
+            "digital": "CD",
+            "salario": "CS",
+        }
+
+        return apelidos.get(tipo_conta, tipo_conta or "")
+
     def _tabela(
         self,
         elementos,
@@ -303,14 +362,14 @@ class AdiantamentoPdf:
                 [
                     Paragraph(
                         adiantamento.historico_nome_motorista or "",
-                        self._estilo_tabela(),
+                        self._estilo_tabela_esquerda(),
                     ),
                     Paragraph(
                         cpf_br(adiantamento.historico_cpf_motorista),
                         self._estilo_tabela(),
                     ),
                     Paragraph(
-                        adiantamento.historico_banco or "",
+                        self._apelido_banco(adiantamento.historico_banco),
                         self._estilo_tabela(),
                     ),
                     Paragraph(
@@ -322,7 +381,7 @@ class AdiantamentoPdf:
                         self._estilo_tabela(),
                     ),
                     Paragraph(
-                        adiantamento.historico_tipo_conta or "",
+                        self._apelido_tipo_conta(adiantamento.historico_tipo_conta),
                         self._estilo_tabela(),
                     ),
                     Paragraph(
@@ -339,13 +398,13 @@ class AdiantamentoPdf:
         tabela = Table(
             dados,
             colWidths=[
-                6.0 * cm,  # Motorista
+                7.0 * cm,  # Motorista
                 3 * cm,  # CPF
-                3 * cm,  # Banco
-                2.0 * cm,  # Agência
-                2.5 * cm,  # Conta
-                2.5 * cm,  # Tipo
-                4 * cm,  # PIX
+                1.7 * cm,  # Banco
+                2 * cm,  # Agência
+                3 * cm,  # Conta
+                1.2 * cm,  # Tipo
+                6 * cm,  # PIX
                 3.0 * cm,  # Valor
             ],
             repeatRows=1,
@@ -356,59 +415,27 @@ class AdiantamentoPdf:
         tabela.setStyle(
             TableStyle(
                 [
-                    (
-                        "BACKGROUND",
-                        (0, 0),
-                        (-1, 0),
-                        colors.HexColor("#2F7D44"),
-                    ),
-                    (
-                        "TEXTCOLOR",
-                        (0, 0),
-                        (-1, 0),
-                        colors.white,
-                    ),
-                    (
-                        "FONTNAME",
-                        (0, 0),
-                        (-1, 0),
-                        "Helvetica-Bold",
-                    ),
-                    (
-                        "GRID",
-                        (0, 0),
-                        (-1, -1),
-                        0.4,
-                        colors.HexColor("#CCCCCC"),
-                    ),
-                    (
-                        "VALIGN",
-                        (0, 0),
-                        (-1, -1),
-                        "MIDDLE",
-                    ),
-                    (
-                        "BOTTOMPADDING",
-                        (0, 0),
-                        (-1, 0),
-                        7,
-                    ),
-                    (
-                        "TOPPADDING",
-                        (0, 0),
-                        (-1, 0),
-                        7,
-                    ),
-                    (
-                        "ALIGN",
-                        (7, 1),
-                        (7, -1),
-                        "RIGHT",
-                    ),
+                    ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#2F7D44")),
+                    ("TEXTCOLOR", (0, 0), (-1, 0), colors.white),
+                    ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold"),
+                    ("GRID", (0, 0), (-1, -1), 0.6, colors.HexColor("#A6A6A6")),
+                    ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+                    # Cabeçalho centralizado
+                    ("ALIGN", (0, 0), (-1, 0), "CENTER"),
+                    # Conteúdo centralizado por padrão
+                    ("ALIGN", (1, 1), (-1, -1), "CENTER"),
+                    # Nome do motorista alinhado à esquerda
+                    ("ALIGN", (0, 1), (0, -1), "LEFT"),
+                    # Valor alinhado à direita
+                    ("ALIGN", (7, 1), (7, -1), "RIGHT"),
+                    # Espaçamento vertical
+                    ("TOPPADDING", (0, 0), (-1, 0), 7),
+                    ("BOTTOMPADDING", (0, 0), (-1, 0), 7),
+                    ("TOPPADDING", (0, 1), (-1, -1), 6),
+                    ("BOTTOMPADDING", (0, 1), (-1, -1), 6),
                 ]
             )
         )
-
         elementos.append(tabela)
 
         elementos.append(
@@ -632,15 +659,25 @@ class AdiantamentoPdf:
         return ParagraphStyle(
             "Tabela",
             fontName="Helvetica",
-            fontSize=8,
-            leading=9,
+            fontSize=10,
+            leading=11,
+            alignment=1,  # Centralizado
         )
 
     def _estilo_tabela_direita(self):
         return ParagraphStyle(
             "TabelaDireita",
             fontName="Helvetica",
-            fontSize=8,
-            leading=9,
-            alignment=2,
+            fontSize=10,
+            leading=11,
+            alignment=2,  # Direita
+        )
+
+    def _estilo_tabela_esquerda(self):
+        return ParagraphStyle(
+            "TabelaEsquerda",
+            fontName="Helvetica",
+            fontSize=10,
+            leading=11,
+            alignment=0,  # Esquerda
         )
