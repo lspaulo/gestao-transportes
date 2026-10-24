@@ -1,0 +1,19 @@
+<nav class="nav nav-tabs mb-4" aria-label="Navegação de adiantamentos">
+    <a
+        href="{% url 'financeiro:adiantamento_list' %}"
+        class="nav-link {% if request.resolver_match.url_name == 'adiantamento_list' %}active{% endif %}"
+        {% if request.resolver_match.url_name == 'adiantamento_list' %}aria-current="page"{% endif %}
+    >
+        <i class="bi bi-cash-stack me-1"></i>
+        Adiantamentos
+    </a>
+
+    <a
+        href="{% url 'financeiro:lote_adiantamento_list' %}"
+        class="nav-link {% if request.resolver_match.url_name == 'lote_adiantamento_list' %}active{% endif %}"
+        {% if request.resolver_match.url_name == 'lote_adiantamento_list' %}aria-current="page"{% endif %}
+    >
+        <i class="bi bi-file-earmark-text me-1"></i>
+        Solicitações de Adiantamentos
+    </a>
+</nav>
