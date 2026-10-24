@@ -32,8 +32,8 @@ class AdiantamentoPdf:
         doc = SimpleDocTemplate(
             buffer,
             pagesize=landscape(A4),
-            rightMargin=1.2 * cm,
-            leftMargin=1.2 * cm,
+            rightMargin=0.7 * cm,
+            leftMargin=0.7 * cm,
             topMargin=2.6 * cm,
             bottomMargin=1.5 * cm,
         )
@@ -400,9 +400,9 @@ class AdiantamentoPdf:
             colWidths=[
                 7.0 * cm,  # Motorista
                 3 * cm,  # CPF
-                1.7 * cm,  # Banco
+                2.3 * cm,  # Banco
                 2 * cm,  # Agência
-                3 * cm,  # Conta
+                3.2 * cm,  # Conta
                 1.2 * cm,  # Tipo
                 6 * cm,  # PIX
                 3.0 * cm,  # Valor
